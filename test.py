@@ -23,8 +23,9 @@ def Launcher():
     a.tmp()["testdebuglist"] = [1, 2, {"1":1, "2":2}] 
     a.tmp()['x'] = [x]
     print(a.tmp().keys())
-    a.b('debug',a.goto,f.debug)
+    f.debug()
 
 
 a.init()
+a.cfg()['debug'] = True
 a.goto(Launcher)

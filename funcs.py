@@ -1,8 +1,8 @@
 import erajs.api as a
 
-def debug():
+def DebugPage():
     #用于加入debug按钮，可以在此查看和编辑后台数据
-    def DebugMode(target):
+    def CheckThedata(target):
         def ExpandorShowdata(target, targetname):
 
             def SeeAndChangeIntOrChar(target, targetname, type):
@@ -66,9 +66,13 @@ def debug():
 
     a.page()
     a.mode()
-    a.b('tmp临时数据', a.goto, DebugMode, a.tmp())
-    a.b('dat静态数据', a.goto, DebugMode, a.dat())
-    a.b('sav存档数据', a.goto, DebugMode, a.sav())
-    a.b('cfg配置数据', a.goto, DebugMode, a.cfg())
+    a.b('tmp临时数据', a.goto, CheckThedata, a.tmp())
+    a.b('dat静态数据', a.goto, CheckThedata, a.dat())
+    a.b('sav存档数据', a.goto, CheckThedata, a.sav())
+    a.b('cfg配置数据', a.goto, CheckThedata, a.cfg())
     a.t()
     a.b('back',a.back)
+
+def debug():
+    if (a.cfg()['debug'] == True):
+        a.b('debug', a.goto, DebugPage)
