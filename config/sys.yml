@@ -1,0 +1,12 @@
+mods:
+- enabled: false
+  id: hahah
+  path: mods\EraTestModule
+  version: 0.1.0
+- enabled: true
+  id: tutorial
+  path: mods\ErajsTutorial
+  version: 0.1.0
+resolution:
+- 800
+- 600
