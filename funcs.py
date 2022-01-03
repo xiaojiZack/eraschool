@@ -1,7 +1,7 @@
 import erajs.api as a
 
 def DebugPage():
-    #用于加入debug按钮，可以在此查看和编辑后台数据
+#用于加入debug按钮，可以在此查看和编辑后台数据
     def CheckThedata(target):
         def ExpandorShowdata(target, targetname):
 

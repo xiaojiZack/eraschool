@@ -25,6 +25,8 @@ def Launcher():
     print(a.tmp().keys())
     f.debug()
 
+    a.img("test",inline=True,style=[{'width': '50px'}, {}])
+
 
 a.init()
 a.cfg()['debug'] = True
