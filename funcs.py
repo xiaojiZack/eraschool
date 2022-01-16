@@ -86,3 +86,15 @@ def datatoinitclass(data, property):
         return None
 
 dtc = datatoinitclass
+
+def classtodict(item):
+    #字典化
+    data = {}
+    allowedtype = ['int','list','dict','bool','str','set','tuple','complex','double']
+    if (type(item).__name__ in allowedtype):
+        return item
+    else:
+        for i in item.__dict__:
+            arr = item.__dict__[i]
+            data[str(i)] = classtodict(arr)
+        return data

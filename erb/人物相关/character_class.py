@@ -41,10 +41,7 @@ class CharacterClass:
             f.btc(data,"StudentStute"))
         self.Quaility = Quaility(f.btc(data,"Quaility"))
     def ToDict(self):
-        data = {}
-        dictlist = ["BasicProperty","BodyProperty","SexExp",
-        "Memory","SexSkill","Mark","StudentStute","Quaility"]
-
+        return f.classtodict(self)
 
 class BasicProperty:
 
@@ -251,10 +248,10 @@ class stomach:
         self.contentliquid = f.dtc(data,"contentliquid")
         self.transform = f.dtc(data,"transform")       
 class mouth:
-    def __init__(self):
+    def __init__(self,data):
         self.transform = f.dtc(data,"transform")
 class urethe:
-    def __init__(self):
+    def __init__(self,data):
         self.volume = f.dtc(data,"volume")
         self.contentliquid = f.dtc(data,"contentliquid")
         self.contentobject = f.dtc(data,"contentobject")
