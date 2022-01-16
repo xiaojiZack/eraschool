@@ -76,3 +76,13 @@ def DebugPage():
 def debug():
     if (a.cfg()['debug'] == True):
         a.b('debug', a.goto, DebugPage)
+
+def datatoinitclass(data, property):
+    if property in data:
+        return data[property]
+    elif "{}".format(property) in data:
+        return data["{}".format(property)]
+    else:
+        return None
+
+dtc = datatoinitclass

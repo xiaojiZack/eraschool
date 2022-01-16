@@ -1,33 +1,26 @@
-import erajs.api as a
-import funcs as f
 
-class test1:
-    num = 1
-    list = [1]
-    def delect(self):
-        del self
-
-class test2:
-    num = 2
-    list = [1]
-    def delect(self):
-        del self
-
-
-def Launcher():
-    a.page()
-    blue_pic = {"1":test1, "2":test2}
-    x = blue_pic["1"]()
-    a.t(x.num)
-    a.tmp()['testdebug'] = 2
-    a.tmp()["testdebuglist"] = [1, 2, {"1":1, "2":2}] 
-    a.tmp()['x'] = [x]
-    print(a.tmp().keys())
-    f.debug()
-
-    a.img("test",inline=True,style=[{'width': '50px'}, {}])
+# -*- coding: utf-8 -*-
+class A():
+    a = 0
+    name = None
+    b = 1
+    def __init__(self,name):
+        self.a = 2
+        self.b = 3
+        self.name = name
+    def test(self):
+        print ('a normal func.')
+class B(A):
+    def test_B(self):
+        print ('func named test_B')
 
 
-a.init()
-a.cfg()['debug'] = True
-a.goto(Launcher)
+class test:
+    name = ['A','B']
+    def __init__(self):
+        for i in self.name:
+            exec("self.__dict__[{}] = {}(\"{}\")".format(i,i,"jack"))
+            pass
+
+t = test()
+pass
