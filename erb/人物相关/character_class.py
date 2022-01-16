@@ -1,5 +1,6 @@
 import erajs.api as a
 import funcs as f
+
 '''
 # class A():
 #     a = 0
@@ -57,8 +58,6 @@ class BasicProperty:
         self.EnergyPower = self.MAXEnergyPower
         self.MAXMindPower = f.dtc(data,"MaxMindPower")
         self.MindPower = self.MAXMindPower
-    def dict(self):
-        return self.__dict__
     
 class BodyProperty:#身体实体
 
