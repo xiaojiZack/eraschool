@@ -33,14 +33,15 @@ class CharacterClass:
     def __init__(self,data):
         self.BasicProperty = BasicProperty(
             f.dtc(data,"BasicProperty"))
-        self.BodyProperty = BodyProperty(f.dtc(data,"BodyProperty"))
+        self.BodyProperty = BodyProperty(f.dtc(data,"BodyProperty"),
+            self.BasicProperty.gender)
         self.SexExp = SexExp(f.dtc(data,"SexExp"))
         self.Memory = Memory(f.dtc(data,"Memory"))
-        self.SexSkill = SexSkill(f.btc(data,"SexSkill"))
-        self.Mark = Mark(f.btc(data,"Mark"))
+        self.SexSkill = SexSkill(f.dtc(data,"SexSkill"))
+        self.Mark = Mark(f.dtc(data,"Mark"))
         self.StudentStute = StudentStute(
-            f.btc(data,"StudentStute"))
-        self.Quaility = Quaility(f.btc(data,"Quaility"))
+            f.dtc(data,"StudentStute"))
+        self.Quaility = Quaility(f.dtc(data,"Quaility"))
     def ToDict(self):
         return f.classtodict(self)
 
@@ -61,7 +62,7 @@ class BasicProperty:
     
 class BodyProperty:#身体实体
 
-    def __init__(self,data):
+    def __init__(self,data,gender):
         self.BWH = f.dtc(data,"BWH")
         self.weight = f.dtc(data,"weight")
         self.height = f.dtc(data,"height")
@@ -69,12 +70,12 @@ class BodyProperty:#身体实体
         self.stomach = stomach(f.dtc(data,"stomach"))
         self.urethe = urethe(f.dtc(data,"urethe"))
         self.mouth = mouth(f.dtc(data,"mouth"))
-        if data["gender"] != "male":
+        if gender != "male":
             self.womb = womb(f.dtc(data,"womb"))
             self.vagina = vagina(f.dtc(data,"vagina"))
             self.clit = clit(f.dtc(data,"clit"))
             self.breast = breast(f.dtc(data,"breast"))
-        if data["gender"] != "female":
+        if gender != "female":
             self.penis = penis(f.dtc(data,"penis"))
             
 class SexExp:#性经验
@@ -204,10 +205,10 @@ class womb:
         self.volume = f.dtc(data,"volume")
         self.contentliquid = f.dtc(data,"contentliquid")
         self.contentobject = f.dtc(data,"contentobject")
-        self.MenstrualCycle = f.dtc(data,"MenstrualCycle")#生理期
+        self.ovulation_date = f.dtc(data,"ovulation_date")#排卵日
         self.PregnancyFlag = f.dtc(data,"PregnancyFlag")
         self.transform = f.dtc(data,"transform")
-        self.Pregnancy = f.dtc(data,"Pergnancy")       
+        self.Pregnancy = f.dtc(data,"Pergnancy")  
 class vagina:
     def __init__(self,data):
         self.volume = f.dtc(data,"volume")

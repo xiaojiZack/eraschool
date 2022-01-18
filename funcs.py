@@ -1,4 +1,5 @@
 import erajs.api as a
+import erb.人物相关.character_class as c
 
 def DebugPage():
 #用于加入debug按钮，可以在此查看和编辑后台数据
@@ -42,7 +43,7 @@ def DebugPage():
                     a.b("{}|{}".format(
                             targetname,str(type(subtarget))),
                             a.goto,ExpandorShowdata,subtarget, path)
-                else:a.t(str(subtarget))
+                else:a.t(str(subtarget)+str(type(subtarget)))
                 a.t()
 
             Addpath()
@@ -77,7 +78,9 @@ def debug():
     if (a.cfg()['debug'] == True):
         a.b('debug', a.goto, DebugPage)
 
-def datatoinitclass(data, property):
+def disktoinitclass(data, property):
+    if data == None:
+        return None
     if property in data:
         return data[property]
     elif "{}".format(property) in data:
@@ -85,12 +88,12 @@ def datatoinitclass(data, property):
     else:
         return None
 
-dtc = datatoinitclass
+dtc = disktoinitclass
 
 def classtodict(item):
     #字典化
     data = {}
-    allowedtype = ['int','list','dict','bool','str','set','tuple','complex','double']
+    allowedtype = ['int','list','dict','bool','str','set','tuple','float','double','NoneType']
     if (type(item).__name__ in allowedtype):
         return item
     else:
@@ -98,3 +101,36 @@ def classtodict(item):
             arr = item.__dict__[i]
             data[str(i)] = classtodict(arr)
         return data
+
+ctd = classtodict
+
+def test_character():
+    def test_load():
+        def load():
+            a.sav()['character'] = {}
+            a.page()
+            a.widget_load()
+        a.page()
+        a.button('读档',a.goto,load)
+        
+        a.b("check",a.goto,DebugPage)
+
+    data = {'BasicProperty':{
+                'name':['test', 2, {"x":1}],
+                'gender':'female',
+                'race':'human'
+                },
+            }
+    
+    a.page()
+    test_chara = c.CharacterClass(data)
+    testdict = test_chara.ToDict()
+    new_chara = c.CharacterClass(testdict)
+    pass
+    a.t(testdict)
+    a.sav()['character']={}
+    a.sav()['character']['testdict'] = testdict
+    a.widget_save()
+    a.button('读档',a.goto,test_load)
+    a.b("check",a.goto,DebugPage)
+
