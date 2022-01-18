@@ -28,7 +28,9 @@ def game_init():
         'lilim_liquid':0, 'life_energy':0,
     }
 
-    save['achievement'] = {}
+    save['achievement'] = {
+        "achievement_point":0,
+    }
     save['item'] = {}
     save['building'] = {}
     save['tech'] = {}

@@ -2,7 +2,7 @@ import erajs.api as a
 import funcs as f
 
 class testclass():
-    def __init__(self) -> None:
+    def __init__(self):
         self.i = 1
 
 def test1():
@@ -31,7 +31,10 @@ def test1():
     a.t()
     a.t(a.sav()['testlist'][0])
     a.b('+1', addlist)
-        
+
+def inputtest(i, c):
+    c[0] = i
+    a.t(c[0])
 
 a.init()
 a.sav()['testclass'] = testclass()
@@ -39,6 +42,8 @@ a.sav()['testdata'] = 1
 a.sav()['testlist'] = [1]
 a.button('test', a.goto,test1)
 x = None
-a.input(x)
+list1 = a.sav()['testlist'].copy()
+a.input(inputtest, '', list1)
+
 
 
