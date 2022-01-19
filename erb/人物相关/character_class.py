@@ -30,11 +30,12 @@ import funcs as f
 
 def new_character_dict():
     new_character = {'BasicProperty': {
-        'CharacterId': 0, 'name': '', 'race': '', 'gender': 'futa', 
+        'CharacterId': 0, 'name': '', 'age': '青年', 'race': '', 'gender': 'futa', 
         'koujo': '', 'MAXPhysicalPower': 0, 'PhysicalPower': 0, 'MAXEnergyPower': 0, 
         'EnergyPower': 0, 'MAXMindPower': 0, 'MindPower': 0}, 
                      'BodyProperty': {
                          'BWH': [], 'weight': 0, 'height': 0, 
+                         'real_length':0, 'real_weight':0,
                          'ass': {'transform': [], 'contentobject': {}, 'size': '', 'buttsize': ''}, 
                          'stomach': {'volume': 0, 'contentliquid': {}, 'transform': []}, 
                          'urethe': {'volume': 0, 'contentliquid': {}, 'contentobject': {}, 'transform': [], 'size': ''}, 
@@ -45,6 +46,7 @@ def new_character_dict():
                          'breast': {'volume': 0, 'contentliquid': {}, 'producerate': 0, 'transform': [], 'size': '', 'ejectrate': 0}, 
                          'penis': {'volume': 0, 'contentliquid': {}, 'producerate': 0, 'transform': [], 'length': 0, 'diameter': 0, 'ejectrate': 0}}, 
                      'SexExp': {'c': 0, 'v': 0, 'b': 0, 'a': 0, 'orgasm': 0, 'semen': 0, 
+                                'V_expand':0,'A_expand':0,
                                 'ejectmilk': 0, 'ejectsemen': 0, 'pee': 0, 'excrete': 0, 'masturbation': 0, 
                                 'lesbian': 0, 'gay': 0, 'expose': 0, 'serve': 0, 'love': 0, 'belowjob': 0, 
                                 'cuminv': 0, 'cumina': 0, 'drinksemen': 0, 'kiss': 0, 'pain': 0, 'bounded': 0, 
@@ -59,7 +61,8 @@ def new_character_dict():
                      'Mark': {'pain': 0, 'happy': 0, 'surrender': 0, 'drug': 0, 'shame': 0, 'fear': 0, 'unhappy': 0, 
                               'assimile': 0}, 
                      'StudentStute': {'classgroup': '', 'score': {}, 'club': ''}, 
-                     'Quaility': {'personality': [], 'body_trait': [], 'speciality': [], 'leaning': [], 'others': []}}
+                     'Quaility': {'personality': [], 'body_trait': [], 'speciality': [], 'leaning': [], 'others': []}
+                     }
     return new_character
 
 class CharacterClass:
