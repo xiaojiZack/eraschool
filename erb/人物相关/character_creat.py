@@ -1,92 +1,71 @@
 from statistics import quantiles
 import sys
-sys.path.append("C:\\Users\\Zack\\Desktop\\develop\\eraschool\\src")
+
+sys.path.append('C:\\Users\\Zack\\Desktop\\develop\\eraschool\\src')
 import erajs.api as a
 import funcs as f
 import character_class as cc
 import random
 
-def character_creat(gender):
-    #创建新角色，首先需要输入默认性别
-    #可以自定义的部分
-    data = {"BasicProperty":{
-        "CharacterId":0,
-        "gender":gender,
-        }}
-    creat_leading_character(cc.new_character_dict())
-
-
-
-
-def creat_leading_character(empty_character):
+def creat_leading_character():
     #创建主角
-    ec = empty_character
-    ec['BasicProperty']["MAXPhysicalPower"] = 2000
-    ec['BasicProperty']['MAXEnergyPower'] = 1200
-    ec['BasicProperty']["PhysicalPower"] = ec['BasicProperty']["MAXPhysicalPower"]
-    ec['BasicProperty']['EnergyPower'] = ec['BasicProperty']['MAXEnergyPower']
-    ec['BasicProperty']['race'] = 'human'
-    talent_point = a.sav()['achievement']['achievement_point']+1
-    a.tmp()['talent_point'] = talent_point
-    
-    def BasicProperty():
+    def Basic():
         #口上设定部分未完成
         a.page()
         a.mode('line', 2)
         
-        #BasicProperty
+        #基本信息
         def change_name(name):
-            ec['BasicProperty']['name'] = name
+            ec['基本信息']['名字'] = name
         a.t('名字')
-        a.input(change_name, ec['BasicProperty']['name'])
+        a.input(change_name, ec['基本信息']['名字'])
         a.t()
 
         def change_gender(gender):
-            l = ['male','female']
-            ec['BasicProperty']['gender'] = l[gender['index']-1]
+            ec['基本信息']['性别'] = gender['value']
         a.t('性别')
         s = 1
-        if ec['BasicProperty']['gender'] == "male": s =1
+        if ec['基本信息']['性别'] == '男性': s =1
         else: s =2
-        a.dropdown(['男','女'], change_gender, s)
+        a.dropdown(['男性','女性'], change_gender, s-1)
         a.t()
 
         a.t('点数:{}'.format(a.tmp()['talent_point']))
         a.t()
         a.mode('line',2)
         a.t('最大体力:')
-        a.t(ec['BasicProperty']["MAXPhysicalPower"])
+        a.t(ec['基本信息']['最大体力值'])
         def decrease():
-            ec['BasicProperty']["MAXPhysicalPower"] -= 250
+            ec['基本信息']['最大体力值'] -= 250
             a.tmp()['talent_point'] +=1
             a.repeat()
         def increase():
-            ec['BasicProperty']["MAXPhysicalPower"] += 250
+            ec['基本信息']['最大体力值'] += 250
             a.tmp()['talent_point'] -=1
             a.repeat()
-        if ec['BasicProperty']["MAXPhysicalPower"]>1500:
+        if ec['基本信息']['最大体力值']>1500:
             a.b('-', decrease)
-        if ec['BasicProperty']["MAXPhysicalPower"]<2500 and a.tmp()['talent_point']>0:
+        if ec['基本信息']['最大体力值']<2500 and a.tmp()['talent_point']>0:
             a.b('+', increase)
         a.t()
         
         a.t('最大气力:')
-        a.t(ec['BasicProperty']["MAXEnergyPower"])
+        a.t(ec['基本信息']['最大气力值'])
         def decrease():
-            ec['BasicProperty']["MAXEnergyPower"] -= 100
+            ec['基本信息']['最大气力值'] -= 100
             a.tmp()['talent_point'] +=1
             a.repeat()
         def increase():
-            ec['BasicProperty']["MAXEnergyPower"] += 100
+            ec['基本信息']['最大气力值'] += 100
             a.tmp()['talent_point'] -=1
             a.repeat()
-        if ec['BasicProperty']["MAXEnergyPower"]>800:
+        if ec['基本信息']['最大气力值']>800:
             a.b('-', decrease)
-        if ec['BasicProperty']["MAXEnergyPower"]<1500 and a.tmp()['talent_point']>0:
+        if ec['基本信息']['最大气力值']<1500 and a.tmp()['talent_point']>0:
             a.b('+', increase)
         a.t()
-        ec['BasicProperty']["PhysicalPower"] = ec['BasicProperty']["MAXPhysicalPower"]
-        ec['BasicProperty']['EnergyPower'] = ec['BasicProperty']['MAXEnergyPower']
+        ec['基本信息']['体力值'] = ec['基本信息']['最大体力值']
+        ec['基本信息']['气力值'] = ec['基本信息']['最大气力值']
         
         a.b('下一步',a.goto, body, ec)
 
@@ -96,136 +75,134 @@ def creat_leading_character(empty_character):
         a.b('返回', a.back)
         a.t()
         def length(i):
-            if ('高大' in c['Quaility']['body_trait']):
-                c['Quaility']['body_trait'].remove('高大')
-            if ('小只' in c['Quaility']['body_trait']):
-                c['Quaility']['body_trait'].remove('小只')
-            if i['index'] == 1:
+            if ('高大' in c['属性']['体质']):
+                c['属性']['体质'].remove('高大')
+            if ('小只' in c['属性']['体质']):
+                c['属性']['体质'].remove('小只')
+            if i['index'] == 0:
                 pass
             else:
-                c['Quaility']['body_trait'].append(i['value'])
+                c['属性']['体质'].append(i['value'])
         a.t('体型:')
-        a.radio(['普通','高大','小只'], length, 1)
+        a.radio(['普通','高大','小只'], length, 0)
         a.t()
 
-        def age(i): c['BasicProperty']['age'] = i['value']
+        def age(i): c['基本信息']['外表年龄'] = i['value']
         a.t('外表年龄:')
-        a.radio(['儿童','少年','青年','大人'], age, 3)
+        a.radio(['儿童','少年','青年','大人'], age, 2)
         a.t()
         
-        if (c['BasicProperty']['gender'] == "male"):
+        if (c['基本信息']['性别'] == '男性'):
             def dick_length(i):
-                if ('小根' in c['Quaility']['body_trait']):
-                    c['Quaility']['body_trait'].remove('小根')
-                if ('巨根' in c['Quaility']['body_trait']):
-                    c['Quaility']['body_trait'].remove('巨根')
-                if ('普通根' in c['Quaility']['body_trait']):
-                    c['Quaility']['body_trait'].remove('普通根')
-                c['Quaility']['body_trait'].append(i['value'])
+                if ('小根' in c['属性']['体质']):
+                    c['属性']['体质'].remove('小根')
+                if ('巨根' in c['属性']['体质']):
+                    c['属性']['体质'].remove('巨根')
+                if ('普通根' in c['属性']['体质']):
+                    c['属性']['体质'].remove('普通根')
+                c['属性']['体质'].append(i['value'])
             a.t('阴茎尺寸:')
-            a.radio(['普通根','小根','巨根'], dick_length, 1)
+            a.radio(['普通根','小根','巨根'], dick_length, 0)
             a.t()
             def endure(i):
-                if ('早泄' in c['Quaility']['body_trait']):
-                    c['Quaility']['body_trait'].remove('早泄')
-                if ('迟泄' in c['Quaility']['body_trait']):
-                    c['Quaility']['body_trait'].remove('迟泄')
-                if i['index'] == 1:
+                if ('早泄' in c['属性']['体质']):
+                    c['属性']['体质'].remove('早泄')
+                if ('迟泄' in c['属性']['体质']):
+                    c['属性']['体质'].remove('迟泄')
+                if i['index'] == 0:
                     pass
                 else:
-                    c['Quaility']['body_trait'].append(i['value'])
+                    c['属性']['体质'].append(i['value'])
             a.t('忍耐程度')
-            a.radio(['普通','早泄','迟泄'], endure, 1)
+            a.radio(['普通','早泄','迟泄'], endure, 0)
             a.t()
             def v_insert(i):
                 l = [0, 5, 20]
-                c['SexExp']['vinsert'] = l[i['index']]
+                c['经验']['V插入经验'] = l[i['index']]
             a.t('V插入经验:')
-            a.radio(['童贞','很少','很多'], v_insert, 1)
+            a.radio(['童贞','很少','很多'], v_insert, 0)
             a.t()
             def a_insert(i):
                 l = [0, 5, 20]
-                c['SexExp']['ainsert'] = l[i['index']]
+                c['经验']['A插入经验'] = l[i['index']]
             a.t('A插入经验:')
-            a.radio(['童贞','很少','很多'],a_insert,1)
+            a.radio(['童贞','很少','很多'],a_insert,0)
             a.t()
             def A(i):
                 l = [0, 5, 20]
-                c['SexExp']['a'] = l[i['index']]
+                c['经验']['A经验'] = l[i['index']]
             a.t('A性交经验')
-            a.radio(['无','很少','很多'], A, 1)
+            a.radio(['无','很少','很多'], A, 0)
             a.t()
-        if (c['BasicProperty']['gender'] == "female"):
+        if (c['基本信息']['性别'] == '女性'):
             def breast(i):
-                if ('贫乳' in c['Quaility']['body_trait']):
-                    c['Quaility']['body_trait'].remove('贫乳')
-                if ('美乳' in c['Quaility']['body_trait']):
-                    c['Quaility']['body_trait'].remove('美乳')
-                if ('巨乳' in c['Quaility']['body_trait']):
-                    c['Quaility']['body_trait'].remove('巨乳')
-                c['Quaility']['body_trait'].append(i['value'])
+                if ('贫乳' in c['属性']['体质']):
+                    c['属性']['体质'].remove('贫乳')
+                if ('美乳' in c['属性']['体质']):
+                    c['属性']['体质'].remove('美乳')
+                if ('巨乳' in c['属性']['体质']):
+                    c['属性']['体质'].remove('巨乳')
+                c['属性']['体质'].append(i['value'])
             a.t('乳房尺寸:')
-            a.radio(['贫乳','美乳','巨乳'], breast, 2)
+            a.radio(['贫乳','美乳','巨乳'], breast, 1)
             a.t()
             def V(i):
                 l = [0, 5, 20]
-                c['SexExp']['v'] = l[i['index']]
+                c['经验']['V经验'] = l[i['index']]
             a.t('V性交经验')
-            a.radio(['处女','很少','很多'],V,1)
+            a.radio(['处女','很少','很多'],V,0)
             a.t()
             def A(i):
                 l = [0, 5, 20]
-                c['SexExp']['v'] = l[i['index']]
+                c['经验']['A经验'] = l[i['index']]
             a.t('A性交经验')
-            a.radio(['A处女','很少','很多'],A,1)
+            a.radio(['A处女','很少','很多'],A,0)
             a.t()
             def wet(i):
-                if ('易湿' in c['Quaility']['body_trait']):
-                    c['Quaility']['body_trait'].remove('易湿')
-                if ('不易湿' in c['Quaility']['body_trait']):
-                    c['Quaility']['body_trait'].remove('不易湿')
-                c['Quaility']['body_trait'].append(i['value'])
+                if ('易湿' in c['属性']['体质']):
+                    c['属性']['体质'].remove('易湿')
+                if ('不易湿' in c['属性']['体质']):
+                    c['属性']['体质'].remove('不易湿')
+                c['属性']['体质'].append(i['value'])
             a.t('湿的程度')
-            a.radio(['普通','易湿','不易湿'], wet, 1)
+            a.radio(['普通','易湿','不易湿'], wet, 0)
             a.t()
         
-        def updata():
-            if (c['SexExp']['v'] != 0 and '处女'in c['Quaility']['body_trait']):
-                c['Quaility']['body_trait'].remove('处女')
-            elif(c['SexExp']['v'] == 0 and not('处女'in c['Quaility']['body_trait'])):
-                c['Quaility']['body_trait'].append('处女')
-            if (c['SexExp']['a'] != 0 and 'A处女'in c['Quaility']['body_trait']):
-                c['Quaility']['body_trait'].remove('处女')
-            elif(c['SexExp']['a'] == 0 and not('A处女'in c['Quaility']['body_trait'])):
-                c['Quaility']['body_trait'].append('A处女')
-            if (c['SexExp']['vinsert'] != 0 or c['SexExp']['ainsert'] != 0
-                and '童贞'in c['Quaility']['body_trait']):
-                c['Quaility']['body_trait'].remove('童贞')
-            elif(c['SexExp']['vinsert'] == 0 and c['SexExp']['ainsert'] == 0 
-                and not('童贞'in c['Quaility']['body_trait'])):
-                c['Quaility']['body_trait'].append('童贞')
-            a.goto(character_show,c)
+        def updata(c):
+            if ((c['经验']['V经验'] != 0  or c['基本信息']['性别'] == '男性') and '处女'in c['属性']['体质']):
+                c['属性']['体质'].remove('处女')
+            elif((c['经验']['V经验'] == 0 and c['基本信息']['性别'] != '男性') and not('处女'in c['属性']['体质'])):
+                c['属性']['体质'].append('处女')
+            if (c['经验']['A经验'] != 0 and 'A处女'in c['属性']['体质']):
+                c['属性']['体质'].remove('A处女')
+            elif(c['经验']['A经验'] == 0 and not('A处女'in c['属性']['体质'])):
+                c['属性']['体质'].append('A处女')
+            if ((c['经验']['V插入经验'] != 0 or c['经验']['A插入经验'] != 0
+                 or c['基本信息']['性别'] == '女性') and '童贞'in c['属性']['体质']):
+                c['属性']['体质'].remove('童贞')
+            elif((c['经验']['V插入经验'] == 0 and c['经验']['A插入经验'] == 0 
+                 and c['基本信息']['性别'] != '女性') and not('童贞'in c['属性']['体质'])):
+                c['属性']['体质'].append('童贞')
+            body_type_creat(c)
+            a.goto(talent_pick,c)
 
-        a.b('下一步',a.goto,updata)
-    
-    def character_show(c):
-        a.page()
-        a.mode()
-        a.b('返回',a.back)
-        a.t()
-
+        a.b('下一步',updata,c)
     
     def talent_pick(c):
         def add(i):
             if (i != '扶持政策' and i != '快速回复'):
-                c["Quaility"]['speciality'].append(i)
+                c['属性']['技能'].append(i)
             elif(i == '扶持政策'):
                 a.sav()['resource']['money'] += 20000
             elif(i == '快速回复'):
-                c["Quaility"]['body_trait'].append(i)
+                c['属性']['体质'].append(i)
+            a.goto(leading_character_show, c)
         a.page()
         a.mode()
+        a.b('返回',a.back)
+        a.divider()
         a.t('选择特典')
+        a.t()
         l = ['好为人师','爱抚知识','扩张知识','SM才能','快速回复','魅惑', '扶持政策']
         for i in l:
             a.b(i, add, i)
@@ -245,18 +222,29 @@ def creat_leading_character(empty_character):
         a.t('魅惑:使有关命令更容易执行')
         a.t()
         a.t('扶持政策:初始获得20,000启动资金')
-        
+
+    ec = cc.new_character_dict()
+    ec['基本信息']['最大体力值'] = 2000
+    ec['基本信息']['最大气力值'] = 1200
+    ec['基本信息']['体力值'] = ec['基本信息']['最大体力值']
+    ec['基本信息']['气力值'] = ec['基本信息']['最大气力值']
+    ec['基本信息']['种族'] = '人类'
+    #talent_point = a.sav()['achievement']['achievement_point']+1
+    talent_point = 10
+    a.tmp()['talent_point'] = talent_point
+    a.goto(Basic)
+  
 def body_type_creat(c):
-    gender = c['BasicProperty']['gender']
-    age = c['BasicProperty']['age']
+    gender = c['基本信息']['性别']
+    age = c['基本信息']['外表年龄']
     length = '普通'
-    if ('高大' in c['Quaility']['body_trait']):
+    if ('高大' in c['属性']['体质']):
         length = '高大'
-    if ('小只' in c['Quaility']['body_trait']):
+    if ('小只' in c['属性']['体质']):
         length = '小只'
-    if (gender == 'male'): 
+    if (gender == '男性'): 
         l = random.randint(165,185)
-        w = random.randint(60,75)
+        w = random.randint(55,70)
         if (age == '少年'):
             l -= 30
             w -= 10
@@ -269,10 +257,9 @@ def body_type_creat(c):
         elif (length == '小只'):
             l -= 20
             w -= 15
-        c['BodyProperty']['real_length'] = l
-        c['BodyProperty']['real_weight'] = w
-    if (gender == 'female'):
-        c['BasicProperty']['real_length'] 
+        c['身体信息']['具体身高'] = l
+        c['身体信息']['具体体重'] = w    
+    if (gender == '女性'):
         l = random.randint(155,175)
         w = random.randint(50,65)
         if (age == '少年'):
@@ -287,6 +274,93 @@ def body_type_creat(c):
         elif (length == '小只'):
             l -= 20
             w -= 15
-        c['BodyProperty']['real_length'] = l
-        c['BodyProperty']['real_weight'] = w
+        c['身体信息']['具体身高'] = l
+        c['身体信息']['具体体重'] = w
     
+    if (gender != '男性'):
+        B = 80 
+        H = 65
+        W = 80
+        s = 'C'
+        if '贫乳' in c['属性']['体质']:
+            B -= random.randint(5,10)
+            l = ['A经验', 'B']
+            s = l[random.randint(0,1)]
+        if '巨乳' in c['属性']['体质']:
+            B += random.randint(5,10)
+            s = 'D'
+        if '超乳' in c['属性']['体质']:
+            B += random.randint(10,15)
+            s = 'E'
+        if '魔乳' in c['属性']['体质']:
+            B += random.randint(15,20)
+            s = 'f'
+        c['身体信息']['三围']['B'] = str(B)+'cm'+'({}杯罩)'.format(s)
+        if '小尻' in c['属性']['体质']:
+            W -= random.randint(5,10)
+        if '桃尻' in c['属性']['体质']:
+            W += random.randint(5,10)
+        if '巨尻' in c['属性']['体质']:
+            W += random.randint(10,15)
+        l = c['身体信息']['具体身高']
+        ratio = float(l)/float(170)
+        B = B*ratio
+        H = H*ratio
+        W = W*ratio
+        c['身体信息']['三围']['B'] = str(int(B))+'cm'+'({}杯罩)'.format(s)
+        c['身体信息']['三围']['H'] = str(int(H))+'cm'
+        c['身体信息']['三围']['W'] = str(int(W))+'cm'
+    
+def leading_character_show(c):
+    def addcharacter(c):
+        a.sav()['character_list']['主角'] = c
+    a.page()
+    a.mode()
+    a.divider('基本信息')
+    a.mode('grid',4)
+    a.t('姓名:')
+    a.t(c['基本信息']['名字'])
+    a.t()
+    a.t('{}'.format(c['基本信息']['性别']))
+    a.t()
+    a.t(' 种族:{}'.format(c['基本信息']['种族']))
+    a.t()
+    a.t(' 外表年龄:{}'.format(c['基本信息']['外表年龄']))
+    a.t()
+    a.t('最大体力值:{}'.format(c['基本信息']['最大体力值']))
+    a.t()
+    a.t(' 最大气力值:{}'.format(c['基本信息']['最大气力值']))
+    a.divider('身材尺寸')
+    a.mode('grid', 5)
+    body = c['身体信息']
+    a.t('身高:{}cm'.format(body['具体身高']))
+    a.t()
+    a.t('体重:{}kg'.format(body['具体体重']))
+    if c['基本信息']['性别'] == '女性':
+        a.t()
+        a.t('胸部:'+body['三围']['B'])
+        a.t()
+        a.t('腰部:'+body['三围']['H'])
+        a.t()
+        a.t('臀部:'+body['三围']['W'])
+    a.divider('属性')
+    a.mode('grid',1)
+    q = c['属性']
+    for i in q:
+        if (len(q[i]) != 0):
+            a.t('{}:'.format(i))
+            for j in q[i]:
+                a.t('[{}]'.format(j))
+            a.t()
+    a.divider('经验')
+    q = c['经验']
+    a.mode('grid', 6)
+    for i in q:
+        if q[i] != 0:
+            a.t('{}:{}'.format(i, q[i]))
+            a.t()
+    a.mode()
+    a.divider()
+    a.b('决定', addcharacter, c)
+        
+
