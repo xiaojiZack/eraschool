@@ -1,10 +1,13 @@
-from statistics import quantiles
-import sys
+from pickle import TRUE
+from tkinter import N
 
-sys.path.append('C:\\Users\\Zack\\Desktop\\develop\\eraschool\\src')
+from scipy import rand
+
 import erajs.api as a
-import funcs as f
-import character_class as cc
+from ..系统相关.页面.main_page import main_page
+from ..人物相关.quaility_list import random_list
+from ..人物相关.random_name import random_name
+from erb.人物相关.character_class import new_character_dict
 import random
 
 def creat_leading_character():
@@ -223,7 +226,7 @@ def creat_leading_character():
         a.t()
         a.t('扶持政策:初始获得20,000启动资金')
 
-    ec = cc.new_character_dict()
+    ec = new_character_dict()
     ec['基本信息']['最大体力值'] = 2000
     ec['基本信息']['最大气力值'] = 1200
     ec['基本信息']['体力值'] = ec['基本信息']['最大体力值']
@@ -242,6 +245,10 @@ def body_type_creat(c):
         length = '高大'
     if ('小只' in c['属性']['体质']):
         length = '小只'
+    if ('小孩体型' in c['属性']['体质']):
+        length = '小孩体型'
+    if ('幼儿体型' in c['属性']['体质']):
+        length = '幼儿体型'
     if (gender == '男性'): 
         l = random.randint(165,185)
         w = random.randint(55,70)
@@ -255,13 +262,19 @@ def body_type_creat(c):
             l += 20
             w += 10
         elif (length == '小只'):
-            l -= 20
-            w -= 15
+            l -= 10
+            w -= 10
+        elif (length == '小孩体型'):
+            l = random.randint(80,130)
+            w = random.randint(30,40)
+        elif (length == '幼儿体型'):
+            l = random.randint(30,80)
+            w = random.randint(15,30)
         c['身体信息']['具体身高'] = l
         c['身体信息']['具体体重'] = w    
     if (gender == '女性'):
-        l = random.randint(155,175)
-        w = random.randint(50,65)
+        l = random.randint(155,170)
+        w = random.randint(50,60)
         if (age == '少年'):
             l -= 30
             w -= 10
@@ -274,6 +287,12 @@ def body_type_creat(c):
         elif (length == '小只'):
             l -= 20
             w -= 15
+        elif (length == '小孩体型'):
+            l = random.randint(70,110)
+            w = random.randint(25,30)
+        elif (length == '幼儿体型'):
+            l = random.randint(30,70)
+            w = random.randint(15,25)
         c['身体信息']['具体身高'] = l
         c['身体信息']['具体体重'] = w
     
@@ -283,8 +302,8 @@ def body_type_creat(c):
         W = 80
         s = 'C'
         if '贫乳' in c['属性']['体质']:
-            B -= random.randint(5,10)
-            l = ['A经验', 'B']
+            B -= random.randint(8,12)
+            l = ['A', 'B']
             s = l[random.randint(0,1)]
         if '巨乳' in c['属性']['体质']:
             B += random.randint(5,10)
@@ -314,6 +333,8 @@ def body_type_creat(c):
 def leading_character_show(c):
     def addcharacter(c):
         a.sav()['character_list']['主角'] = c
+        a.clear()
+        a.goto(main_page)
     a.page()
     a.mode()
     a.divider('基本信息')
@@ -364,3 +385,79 @@ def leading_character_show(c):
     a.b('决定', addcharacter, c)
         
 
+def creat_normal_character(character):
+    c = character
+    #随机属性
+    for i in c['属性']:
+        for k in random_list[i]:
+            f = True
+            if (c['基本信息']['性别'] == '男性'):
+                if i=='体质' and k in [1,3,4,7,9,14,17,22,26]:
+                    continue;
+            if (c['基本信息']['性别'] == '女性'):
+                if i =='体质' and k in [11,13,21]:
+                    continue;
+            for j in c['属性'][i]:
+                if not(check_conflict(random_list[i][k],j)):
+                    f = False
+            if (f):
+                get = quaility_random(random_list[i][k])
+                if get != None:
+                    c['属性'][i].append(get)
+    
+    #体力值
+    pp = random.randint(1000,2000)
+    #气力值
+    ep = random.randint(1500,2500)
+    #理智值
+    mp = random.randint(1500,2500)
+
+    c['基本信息']['最大体力值'] = pp
+    c['基本信息']['最大气力值'] = ep
+    c['基本信息']['最大理智值'] = mp
+    c['基本信息']['体力值'] = c['基本信息']['最大体力值']
+    c['基本信息']['气力值'] = c['基本信息']['最大气力值']
+    c['基本信息']['理智值'] = c['基本信息']['最大理智值']
+    c['基本信息']['CharacterId'] = a.sav()['character_list']['character_number']
+    if c['基本信息']['名字'] == '主人公':
+        if c['基本信息']['性别'] != '男性':
+            s = random.randint(0,len(random_name['女性'])-1)
+            c['基本信息']['名字'] = random_name['女性'][s]
+    
+    body_type_creat(c)
+    updata_exp(c)
+
+    return c
+
+def quaility_random(d):
+    sum = 0
+    for i in d:
+        sum += d[i]
+    empty = 100 - sum
+    select = random.randint(1,100)
+    select -= empty
+    if (select<0): return None
+    else:
+        for i in d:
+            if select<d[i]:
+                return i
+                break
+            select -= d[i]
+
+def check_conflict(d,q):
+    #输出冲突列表d.待测项目q
+    for i in d:
+        if i==q:
+            return False
+    return True
+
+def updata_exp(c):
+    if (not('处女' in c['属性']['体质']) and c['基本信息']['性别'] != '男性'):
+        c['经验']['v经验'] = random.randint(1,10)
+        c['经验']['腔射经验'] = random.randint(0,1)
+    if not('A处女' in c['属性']['体质']):
+        c['经验']['A经验'] = random.randint(1,10)
+        c['经验']['肛射经验'] = random.randint(0,1)
+    if (not('童贞' in c['属性']['体质']) and c['基本信息']['性别'] != '女性'):
+        c['经验']['V插入经验'] = random.randint(1,10)
+        c['经验']['射精经验'] = 1

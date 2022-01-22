@@ -1,5 +1,6 @@
-import erajs.api as a
-import funcs as f
+from  ....erajs import api as a
+from .... import funcs as f
+from ...人物相关.character_creat import creat_leading_character
 import main_page
 
 def game_start():
@@ -14,18 +15,19 @@ def game_init():
     save = a.sav()
     save = {}
 
-    save['time'] = {
-        'year':1, 'season':1,
-        'week':1, 'day':1,
-        'total_day':1
+    save['日期'] = {
+        '年':1, '季':1,
+        '旬':1, '周':1,
+        '总日数':1
     }
     save['character_list'] = {
-        "character_number":0
+        "character_number":0,
+        '学生':{}
     }
 
-    save['resource'] = {
-        'money':0,  'semen':0,
-        'lilim_liquid':0, 'life_energy':0,
+    save['资源'] = {
+        '金钱':5000,  'jy':0,
+        '魅魔水滴':0, '生质':0,
     }
 
     save['achievement'] = {
@@ -35,4 +37,4 @@ def game_init():
     save['building'] = {}
     save['tech'] = {}
 
-    a.goto()
+    a.goto(creat_leading_character)
