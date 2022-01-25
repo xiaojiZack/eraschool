@@ -104,6 +104,7 @@ def creat_leading_character():
                 if ('普通根' in c['属性']['体质']):
                     c['属性']['体质'].remove('普通根')
                 c['属性']['体质'].append(i['value'])
+                c['身体信息']['阴茎']['尺寸'] = i['value']
             a.t('阴茎尺寸:')
             a.radio(['普通根','小根','巨根'], dick_length, 0)
             a.t()

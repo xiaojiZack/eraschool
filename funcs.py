@@ -134,3 +134,13 @@ def test_character():
     a.button('读档',a.goto,test_load)
     a.b("check",a.goto,DebugPage)
 
+def colorful_progress(now, max, style = None):
+    if (now > max*0.5):
+        color = '#0f0'
+    elif(now>max*0.2):
+        color = '#0ff'
+    else:
+        color = '#f00'
+    style.append({'color':color})
+    style.append({'background-color': color})
+    a.progress(now, max, style)

@@ -5,7 +5,7 @@ import funcs as f
 def date_count():
     #负责日期变化进位
     #一年=4季=4*2上下季=4*2*7周
-    time = a.sav()['time']
+    time = a.sav()['日期']
     time['周'] = time['周']+1
     if (time['周'] > 7):
         time['周'] = 1
