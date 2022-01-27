@@ -1,7 +1,9 @@
 import erajs.api as a
+from erajs.mw import divider
 import funcs as f
 from ...人物相关.pregnancy import check_menstrual_period
-from ...调教相关.memory import memory_progress
+from ...调教相关.memory_progress import memory_progress
+from ...调教相关.命令.com1_50 import c1
 def train_page():
     memory_list = [
             '快C', '快V', '快B', '快A', '快M', '快P', '快W',
@@ -21,15 +23,15 @@ def train_page():
     #地点 todo
     #氛围
     data = a.tmp()['调教数据']
-    a.divider()
-    a.mode('grid',3)
     for c in data['参与者']:
-        a.t(c['基本信息']['名字'])
-        if c['基本信息']['性别'] == '男性':
+        a.divider()
+        a.mode('grid',4)
+        a.t(c['名字'])
+        if c['性别'] == '男性':
             a.t('♂')
             a.t('[{}]'.format(c['身体信息']['阴茎']['尺寸']))
             a.t()
-        elif c['基本信息']['性别'] == '女性':
+        elif c['性别'] == '女性':
             a.t('♀')
             t = check_menstrual_period(c['身体信息']['子宫']['危险日'])
             style = {}
@@ -52,34 +54,47 @@ def train_page():
                 style = {'color':'#7FFF00'}
             a.t('[{}]'.format(t), style = style)
             a.t()
-        a.t()
-        a.t()
         a.t('体力:')
-        f.colorful_progress(c['基本信息']['体力值'],c['基本信息']['最大体力值'], [{'width': '100px'}, {}])
-        a.t('({}/{})'.format(c['基本信息']['体力值'],c['基本信息']['最大体力值']))
+        f.colorful_progress(c['体力值'],c['最大体力值'], [{'width': '100px'}, {}])
+        a.t('({}/{})'.format(c['体力值'],c['最大体力值']))
         a.t()
         a.t('气力:')
-        f.colorful_progress(c['基本信息']['气力值'],c['基本信息']['最大气力值'], [{'width': '100px'}, {}])
-        a.t('({}/{})'.format(c['基本信息']['气力值'],c['基本信息']['最大气力值']))
+        f.colorful_progress(c['气力值'],c['最大气力值'], [{'width': '100px'}, {}])
+        a.t('({}/{})'.format(c['气力值'],c['最大气力值']))
         a.t()
         a.t('理智:')
-        f.colorful_progress(c['基本信息']['理智值'],c['基本信息']['最大理智值'], [{'width': '100px'}, {}])
-        a.t('({}/{})'.format(c['基本信息']['理智值'],c['基本信息']['最大理智值']))
+        f.colorful_progress(c['理智值'],c['最大理智值'], [{'width': '100px'}, {}])
+        a.t('({}/{})'.format(c['理智值'],c['最大理智值']))
+        if (c['CharacterId']!=0):
+            a.t()
+            a.t('好感度:{}'.format(c['好感度']))
+            a.t()
+            a.t('侍奉快乐:{}'.format(c['侍奉快乐']))
+            a.t()
+            a.t('体位:')
         a.divider()
-        a.mode('grid',4)
-        if (c['基本信息']['CharacterId']==0):
+        a.mode()
+        #装具、插入、药剂
+        a.t('状态:')
+        a.divider()
+        a.mode('grid',5)
+        if (c['CharacterId']!=0):
             for i in memory_list:
                 memory_progress(c['调教记忆'][i], i)
                 a.t()
-        if (c['基本信息']['性别'] != '女性'):
+        if (c['性别'] != '女性'):
             a.t('精巢存量:')
-            a.progress(c['身体信息']['阴茎']['内容总量'],c['身体信息']['阴茎']['容量'])
-            a.t('({}/{})'.format(c['身体信息']['阴茎']['内容总量'], c['身体信息']['阴茎']['容量']))
+            a.progress(c['身体信息']['阴茎']['内容总量'],c['身体信息']['阴茎']['容量'],style=[{'width':'100px'}])
+            a.t('({}ml)'.format(c['身体信息']['阴茎']['内容总量']))
             a.t()
-        if (c['基本信息']['性别'] != '男性'):
+            if (c['CharacterId']==0):
+                a.t('射精:')
+                a.progress(c['其他参数']['射精数值'],c['其他参数']['射精极限'],style=[{'width':'200px'}])
+                a.t('{}/{}'.format(c['其他参数']['射精数值'],c['其他参数']['射精极限']))
+                a.t()
+        if (c['性别'] != '男性'):
             a.t('母乳存量:')
-            a.progress(c['身体信息']['乳房']['内容总量'],c['身体信息']['乳房']['容量'])
-            a.t('({}/{})'.format(c['身体信息']['乳房']['内容总量'],c['身体信息']['乳房']['容量']))
+            a.progress(c['身体信息']['乳房']['内容总量'],c['身体信息']['乳房']['容量'], style=[{'width':'50px'}])
             a.t()
             a.t('胎内精液量:')
             if (c['身体信息']['子宫']['内容总量']<c['身体信息']['子宫']['容量']):
@@ -87,23 +102,23 @@ def train_page():
             elif (c['身体信息']['子宫']['内容总量']<c['身体信息']['子宫']['容量']*2):
                 a.t('[满满的♥]',style={'color':'#FFC1C1'})
             else:
-                a.t('[♥子宫膨胀♥]',style={'color':'#FFC1C1'})
-            a.t('({}/{})'.format(c['身体信息']['子宫']['内容总量'],c['身体信息']['子宫']['容量']))
+                a.t('[西瓜肚♥]',style={'color':'#FFC1C1'})
+            a.t('({}ml)'.format(c['身体信息']['子宫']['内容总量']))
             a.t()
-        if (c['基本信息']['CharacterId']!=0):
+        if (c['CharacterId']!=0):
             a.t('排泄欲:')
             if (c['身体信息']['肠胃']['内容总量']<c['身体信息']['肠胃']['容量']):
                 a.progress(c['身体信息']['肠胃']['内容总量'],c['身体信息']['肠胃']['容量'])
             elif (c['身体信息']['肠胃']['内容总量']<c['身体信息']['肠胃']['容量']*2):
                 a.t('[满满的♥]',style={'color':'#FFC1C1'})
             else:
-                a.t('[♥西瓜肚♥]',style={'color':'#FFC1C1'})
-            a.t('({}/{})'.format(c['身体信息']['肠胃']['内容总量'],c['身体信息']['肠胃']['容量']))
+                a.t('[西瓜肚♥]',style={'color':'#FFC1C1'})
+            #a.t('({}/{})'.format(c['身体信息']['肠胃']['内容总量'],c['身体信息']['肠胃']['容量']))
             a.t()
         a.t('尿意')
-        a.progress(c['其他参数']['尿意'], 10000)
+        a.progress(c['其他参数']['尿意'], 10000, style=[{'width':'50px'}])
         a.t()
-        if (c['基本信息']['CharacterId']!=0):
+        if (c['CharacterId']!=0):
             a.t('性欲')
             if (c['其他参数']['性欲']>c['其他参数']['本次绝顶次数']):
                 a.progress(c['其他参数']['本次绝顶次数'],c['其他参数']['性欲'],style=[
@@ -111,7 +126,8 @@ def train_page():
             elif (2*c['其他参数']['性欲']>c['其他参数']['本次绝顶次数']):
                 a.t('[满足♥]',style={'color':'#EEEE00'})
             else:
-                a.t('[♥大满足♥]',style={'color':'#FFC1C1'})
+                if (c['其他参数']['性欲']>0):
+                    a.t('[♥大满足♥]',style={'color':'#FFC1C1'})
             a.t('({}/{})'.format(c['其他参数']['本次绝顶次数'],c['其他参数']['性欲']))
             a.t()
             a.t('精液欲')
@@ -121,10 +137,10 @@ def train_page():
             elif (2*c['其他参数']['精液欲']>c['其他参数']['本次精液次数']):
                 a.t('[满足♥]',style={'color':'#EEEE00'})
             else:
-                a.t('[♥大满足♥]',style={'color':'#FFC1C1'})
+                if (c['其他参数']['精液欲']>0):
+                    a.t('[♥大满足♥]',style={'color':'#FFC1C1'})
             a.t('({}/{})'.format(c['其他参数']['本次精液次数'],c['其他参数']['精液欲']))
-        a.divider()
     #指令部分
     a.mode('grid',5)
-    
+    c1()
 

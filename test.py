@@ -11,9 +11,13 @@ a.sav()['日期'] = {
         '旬':1, '周':1,
         '总日数':1
     }
+a.sav()['character_number'] = 0
 a.tmp()['调教数据']={}
 a.tmp()['调教数据']['参与者'] = []
 a.tmp()['调教数据']['参与者'].append(new_character_dict())
-a.tmp()['调教数据']['参与者'][0]['基本信息']['性别']='女性'
+a.tmp()['调教数据']['参与者'][0]['性别']='男性'
+a.sav()['character_number'] = 1
+a.tmp()['调教数据']['参与者'].append(new_character_dict())
+a.tmp()['调教数据']['参与者'][1]['性别']='女性'
 
 train_page()

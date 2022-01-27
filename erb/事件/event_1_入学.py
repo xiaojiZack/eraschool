@@ -9,8 +9,8 @@ def event():
     a.t('本次入学1人')
     a.t()
     c = new_character_dict()
-    c['基本信息']['性别'] = '女性'
+    c['性别'] = '女性'
     c = creat_normal_character(c)
-    a.sav()['character_list']['学生'][c['基本信息']['CharacterId']] = c
+    a.sav()['character_list']['学生'][c['CharacterId']] = c
     a.sav()['character_list']['character_number'] +=1
     a.goto(check_character)
