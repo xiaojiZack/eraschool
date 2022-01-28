@@ -1,4 +1,5 @@
 import imp
+from pickle import TRUE
 import erajs.api as a
 from ..com_check import obey_check
 from ...人物相关.character_class import search_quaility as sq
@@ -14,7 +15,7 @@ def com1(active,passive):
     com_trait = ['B','C']
     p = passive['待处理记忆']
     pe = passive['待处理经验']
-    if obey_check(5,active,passive,com_trait):
+    if obey_check(0,active,passive,com_trait):
         #此处可能需要处理替换的问题
         active['标志']['手占用'] = 1
         p['快C'] += 10 * (1+active['开发']['指技']*1)
@@ -25,10 +26,10 @@ def com1(active,passive):
         p['反感'] += 10
         pe['C经验'] += 1
         pe['B经验'] += 1
-        a.t('{}的手在{}身上轻柔抚摸'.format(aname,pname))
+        a.t('{}的手在{}身上轻柔抚摸'.format(aname,pname),True)
         a.t()
     else:
-        a.t('{1}试图抚摸{2},但被{2}躲开了'.format(aname,pname))
+        a.t('{}试图抚摸{},但被{}躲开了'.format(aname,pname,pname),True)
         p['反感'] += 50
     
     if active['CharacterId'] != 0:

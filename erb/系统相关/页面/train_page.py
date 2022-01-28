@@ -1,9 +1,48 @@
 import erajs.api as a
-from erajs.mw import divider
+from erajs.mw import divider, repeat
 import funcs as f
 from ...人物相关.pregnancy import check_menstrual_period
 from ...调教相关.memory_progress import memory_progress
 from ...调教相关.命令.com1_50 import c1
+
+def role(id):
+    data = a.tmp()['调教数据']
+    def change_active():
+        def change(id):
+            data['调教者'] = id
+            repeat()
+        
+        data = a.tmp()['调教数据']
+        a.page()
+        a.mode()
+        a.t('要切换谁为调教者?')
+        for i in data['参与者']:
+            if i['标志']['助手'] and i['CharacterId'] == data['被调教']:
+                pass
+            elif i['标志']['助手'] or i['CharacterId'] == 0:
+                a.b(i['名字'],change,i['CharacterId'])
+                a.t()
+    def change_passive():
+        def change(id):
+            data['被调教'] = id
+            repeat()
+        
+        data = a.tmp()['调教数据']
+        a.page()
+        a.mode()
+        a.t('要切换谁为被调教的家伙?')
+        for i in data['参与者']:
+            if i['CharacterId'] != data['调教者']:
+                a.b(i['名字'],change,i['CharacterId'])
+                a.t()
+
+    if data['调教者']==id:
+        a.b('[调教者]',change_active)
+    elif data['被调教'] == id:
+        a.b('[被调教]',change_passive)
+    else:
+        a.b('[放置]',False)
+
 def train_page():
     memory_list = [
             '快C', '快V', '快B', '快A', '快M', '快P', '快W',
@@ -62,9 +101,11 @@ def train_page():
         f.colorful_progress(c['气力值'],c['最大气力值'], [{'width': '100px'}, {}])
         a.t('({}/{})'.format(c['气力值'],c['最大气力值']))
         a.t()
-        a.t('理智:')
-        f.colorful_progress(c['理智值'],c['最大理智值'], [{'width': '100px'}, {}])
-        a.t('({}/{})'.format(c['理智值'],c['最大理智值']))
+        if (c['CharacterId']!=0):
+            a.t('理智:')
+            f.colorful_progress(c['理智值'],c['最大理智值'], [{'width': '100px'}, {}])
+            a.t('({}/{})'.format(c['理智值'],c['最大理智值']))
+            a.t()
         if (c['CharacterId']!=0):
             a.t()
             a.t('好感度:{}'.format(c['好感度']))
@@ -72,16 +113,19 @@ def train_page():
             a.t('侍奉快乐:{}'.format(c['侍奉快乐']))
             a.t()
             a.t('体位:')
+        
         a.divider()
         a.mode()
         #装具、插入、药剂
         a.t('状态:')
+        role(c['CharacterId'])
         a.divider()
         a.mode('grid',5)
-        if (c['CharacterId']!=0):
-            for i in memory_list:
-                memory_progress(c['调教记忆'][i], i)
-                a.t()
+        if a.tmp()['显示记忆']:
+            if (c['CharacterId']!=0):
+                for i in memory_list:
+                    memory_progress(c['调教记忆'][i], i)
+                    a.t()
         if (c['性别'] != '女性'):
             a.t('精巢存量:')
             a.progress(c['身体信息']['阴茎']['内容总量'],c['身体信息']['阴茎']['容量'],style=[{'width':'100px'}])
@@ -141,6 +185,31 @@ def train_page():
                     a.t('[♥大满足♥]',style={'color':'#FFC1C1'})
             a.t('({}/{})'.format(c['其他参数']['本次精液次数'],c['其他参数']['精液欲']))
     #指令部分
+    active = {}
+    passive = {}
+    for c in data['参与者']:
+        if c['CharacterId'] == data['调教者']:
+            active = c
+        if c['CharacterId'] == data['被调教']:
+            passive = c
+    a.divider()
     a.mode('grid',5)
-    c1()
+    c1(active,passive)
 
+    a.divider()
+    a.b('指令过滤')
+    a.t()
+    a.b('持续进行')
+    a.t()
+    show_hide_memory()
+    a.t()
+    a.b('调教终了')
+
+def show_hide_memory():
+    def change():
+        a.tmp()['显示记忆'] = not a.tmp()['显示记忆']
+        repeat()
+    if not a.tmp()['显示记忆']:
+        a.b('显示记忆',change)
+    else:
+        a.b('隐藏记忆',change)

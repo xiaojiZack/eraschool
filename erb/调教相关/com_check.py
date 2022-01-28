@@ -164,15 +164,15 @@ def obey_check(difficulty,active,passive,com_trait):
     for i in al:
         text = text + '{}({})+'.format(i,al[i])
         count = count +pl[i] 
-    text = '...={}'.format(count)
+    text = text+'...={}'.format(count)
     if count > difficulty:
-        text = '>{}(难度) 成功'.format(difficulty)
-        a.t(text,style = {'color':'#0f0'})
+        text = text+'>{}(难度) 成功'.format(difficulty)
+        a.t(text,True,style = {'color':'#0f0'})
         a.t()
         return True
     elif count <= difficulty:
-        text = '<={}(难度) 失败'.format(difficulty)
-        a.t(text,style = {'color':'#f00'})
+        text = text+'<={}(难度) 失败'.format(difficulty)
+        a.t(text,True,style = {'color':'#f00'})
         a.t()
         return False
     

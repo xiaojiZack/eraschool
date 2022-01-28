@@ -84,23 +84,23 @@ def new_character_dict():
                                 '被摄经验': 0, '卖春经验': 0, '艳舞经验': 0, '触手经验': 0, '兽奸经验': 0, '助手经验': 0
                                 }, 
                      '衣物':[],
-                     '标志':{},
+                     '标志':{'助手':False},
                      }
     return new_character
 
 def search_quaility(c,target):
-    for i in c['屬性']:
-        for j in c['屬性'][i]:
+    for i in c['属性']:
+        for j in c['属性'][i]:
             if j == target:
                 return True
     return False
 
 def remove_quaility(c,target):
     if search_quaility(c,target):
-        for i in c['屬性']:
-            for j in c['屬性'][i]:
+        for i in c['属性']:
+            for j in c['属性'][i]:
                 if j == target:
-                    c['屬性'][i].remove(target)
+                    c['属性'][i].remove(target)
                     return True
     else:
         return False

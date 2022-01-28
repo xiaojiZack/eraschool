@@ -6,8 +6,9 @@ def memory_progress(data, name):
     level =0
     temp = data
     while (temp >0 and level <10):
-        if (temp - level_count(level) >0):
+        if (temp - level_count[level] >0):
             level = level +1
+        temp = temp - level_count[level]
     if (level < 3):
         style = {'color':'#fff'}
     elif (level <6):

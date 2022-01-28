@@ -3,7 +3,7 @@ from ..人物相关.character_class import search_quaility as sq
 
 def memory_cal(c):
     memory_list = c['调教记忆']
-    m = c['待处理经验']
+    m = c['待处理记忆']
     ml = {
         '快C':0, '快V':0, '快B':0, '快A':0, '快M':0, '快P':0, '快W':0,
         '习得':0, '恭顺':0, '欲情':0, '屈服':0, 
@@ -119,12 +119,15 @@ def memory_cal(c):
     a.divider()
     a.t('{}:'.format(c['名字']))
     a.t()
+    ml['反感'] = 0
     for i in ml:
-        a.t('{}:{} + {} = '.format(i, memory_list[i],m[i]))
-        memory_list[i] = memory_list[i] + m[i]
-        a.t('{}'.format(memory_list[i]))
-        a.t()
-        m[i] = 0
+        if m[i] != 0:
+            a.t('{}:{} + {} = '.format(i, memory_list[i],m[i]))
+            memory_list[i] = memory_list[i] + m[i]
+            a.t('{}'.format(memory_list[i]))
+            a.t()
+            m[i] = 0
     c['调教记忆'] = memory_list
     c['待处理经验'] = m
+    a.t('',True)
     return c
