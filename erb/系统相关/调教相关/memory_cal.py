@@ -1,6 +1,6 @@
 import erajs.api as a
 from ..人物相关.character_class import search_quaility as sq
-
+from .刻印获取 import mark_get
 def memory_cal(c):
     memory_list = c['调教记忆']
     m = c['待处理记忆']
@@ -116,6 +116,9 @@ def memory_cal(c):
     if (not sq(c,'肠液分泌体质')):
         m['A润'] = 0
     
+    #获取刻印
+    mark_get(c,m)
+
     a.divider()
     a.t('{}:'.format(c['名字']))
     a.t()

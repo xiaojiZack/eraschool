@@ -1,5 +1,5 @@
 import erajs.api as a
-import erb.人物相关.character_class as c
+import erb.系统相关.人物相关.character_class as c
 
 def DebugPage():
 #用于加入debug按钮，可以在此查看和编辑后台数据

@@ -1,16 +1,15 @@
 import erajs.api as a
-from erajs.mw import divider, repeat
 import funcs as f
-from ...人物相关.pregnancy import check_menstrual_period
-from ...调教相关.memory_progress import memory_progress
-from ...调教相关.命令.com1_50 import c1
+from ..人物相关.pregnancy import check_menstrual_period
+from ..调教相关.memory_progress import memory_progress
+from ..调教相关.命令.com1_50 import c1
 
 def role(id):
     data = a.tmp()['调教数据']
     def change_active():
         def change(id):
             data['调教者'] = id
-            repeat()
+            a.repeat()
         
         data = a.tmp()['调教数据']
         a.page()
@@ -25,7 +24,7 @@ def role(id):
     def change_passive():
         def change(id):
             data['被调教'] = id
-            repeat()
+            a.repeat()
         
         data = a.tmp()['调教数据']
         a.page()
@@ -203,13 +202,17 @@ def train_page():
     a.t()
     show_hide_memory()
     a.t()
-    a.b('调教终了')
+    a.b('调教终了',end_train)
 
 def show_hide_memory():
     def change():
         a.tmp()['显示记忆'] = not a.tmp()['显示记忆']
-        repeat()
+        a.repeat()
     if not a.tmp()['显示记忆']:
         a.b('显示记忆',change)
     else:
         a.b('隐藏记忆',change)
+
+def end_train():
+    pass
+    a.back()

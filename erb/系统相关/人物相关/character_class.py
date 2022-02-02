@@ -29,8 +29,9 @@ import funcs as f
 '''
 
 def new_character_dict():
+    t= a.sav()['character_list']['character_number']
     new_character = {
-        'CharacterId': a.sav()['character_number'], '名字': '主人公', '外表年龄': '青年', '种族': '人类', '性别': '男性', 
+        'CharacterId': int(t+1), '名字': '主人公', '外表年龄': '青年', '种族': '人类', '性别': '男性', 
         'koujo': '', '最大体力值': 0, '体力值': 0, '最大气力值': 0, 
         '气力值': 0, '最大理智值': 0, '理智值': 0, '好感度':0,'侍奉快乐':0,
                      '身体信息': {

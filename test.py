@@ -1,8 +1,6 @@
 import erajs.api as a
 import funcs as f
-from erb.系统相关.页面.train_page import train_page
-from erb.人物相关.character_creat import new_character_dict
-
+from erb.系统相关.页面.game_start import game_start
 
 a.init()
 # 调教页面测试
@@ -25,3 +23,8 @@ a.init()
 # a.tmp()['显示记忆'] = True
 
 # a.goto(train_page)
+
+
+a.sav()['可用教案'] = ['单独授课']
+
+game_start()

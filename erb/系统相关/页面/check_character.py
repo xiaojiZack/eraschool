@@ -1,14 +1,15 @@
+from tkinter.ttk import Style
 from erajs import api as a
 
 
 def check_character():
     a.page()
-    a.mode('grid', 5)
+    a.mode('grid',4)
     a.divider()
     cl = a.sav()['character_list']['学生']
     for i in cl:
         c = cl[i]
-        a.b(c['名字'], a.goto, detail_character, c)
+        a.b('{}'.format(c['名字']), a.goto, detail_character, c)
         a.t()
         if c['性别'] == '男性':
             a.t('♂')
@@ -21,12 +22,12 @@ def check_character():
         a.progress(c['体力值'],c['最大体力值'], [{'width': '100px'}, {}])
         a.t('({}/{})'.format(c['体力值'],c['最大体力值']))
         a.t()
-        a.t('san:')
+        a.t('智:')
         a.progress(c['理智值'],c['最大理智值'], [{'width': '100px'}, {}])
         a.t('({}/{})'.format(c['理智值'],c['最大理智值']))
         a.t()
-        a.t(c['学籍']['班级'])
-        a.t()
+        # a.t(c['学籍']['班级'])
+        # a.t()
 
 def detail_character(c):
     def page_1():
@@ -90,8 +91,10 @@ def detail_character(c):
             a.t('{}:Lv{}'.format(i, q[i]))
             a.t()
         a.divider()
-        a.mode('grid',1)
+        a.mode('grid',2)
         a.b('第二页',page_2)
+        a.t()
+        a.b('返回',a.back)
     def page_2():
         a.page()
         a.mode()
@@ -111,4 +114,6 @@ def detail_character(c):
         a.divider()
         a.mode('grid',2)
         a.b('第一页',page_1)
+        a.t()
+        a.b('返回',a.back)
     page_1()

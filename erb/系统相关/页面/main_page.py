@@ -1,10 +1,18 @@
 import erajs.api as a
+from .arrange_plan import init_plan
+from .check_character import check_character
+from .arrange_building import arrange_building
+from ..事件.event import next_event
+
 def main_page():
 #主页面显示
+    a.cls()
     a.page()
     a.divider()
     a.mode('grid', 5)
     #日期
+    a.t(a.sav()['学院名'])
+    a.t()
     season = ['春','夏','秋','冬']
     week = ['上','下']
     date = a.sav()['日期']
@@ -28,20 +36,30 @@ def main_page():
     a.t()
     a.t('体力:')
     a.progress(lc['体力值'],lc['最大体力值'], [{'width': '200px'}, {}])
-    a.t('({}/{}'.format(lc['体力值'],lc['最大体力值']))
+    a.t('({}/{})'.format(lc['体力值'],lc['最大体力值']))
     a.t()
-    a.t('气力:')
-    a.progress(lc['气力值'],lc['最大气力值'], [{'width': '200px'}, {}])
-    a.t('({}/{}'.format(lc['气力值'],lc['最大气力值']))
-    a.t()
+    if (lc['性别'] != '女性'):
+            a.t('精巢存量:')
+            a.progress(lc['身体信息']['阴茎']['内容总量'],lc['身体信息']['阴茎']['容量'],style=[{'width':'100px'}])
+            a.t('({}ml)'.format(lc['身体信息']['阴茎']['内容总量']))
+            a.t()
 
     a.divider()
+    a.mode()
+    a.t('维护费用:')
+    for i in a.sav()['维护总费用']:
+        a.t('[{}:{}]'.format(i,a.sav()['维护总费用'][i]))
+    a.divider()
+    a.mode()
+    nt = next_event()
+    a.t('[{}]将于{}天后举办'.format(nt[0],nt[1]))
+    a.divider()
     a.mode('grid', 4)
-    a.b('安排教学')
+    a.b('安排教学', init_plan)
     a.t()
-    a.b('查看角色')
+    a.b('查看角色',check_character)
     a.t()
-    a.b('校区规划')
+    a.b('校区规划',a.goto,arrange_building)
     a.t()
     a.t('研发计划')
     a.t()
