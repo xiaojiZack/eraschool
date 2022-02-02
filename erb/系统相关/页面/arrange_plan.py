@@ -28,6 +28,7 @@ def arrange_plan():
             a.tmp()['选择计划位置'] = -1
             a.tmp()['剩余规划时间'] -= 1
             a.repeat()
+    a.cls()
     a.page()
     a.divider()
     a.mode('grid', 5)

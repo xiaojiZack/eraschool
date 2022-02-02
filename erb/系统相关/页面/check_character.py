@@ -28,6 +28,8 @@ def check_character():
         a.t()
         # a.t(c['学籍']['班级'])
         # a.t()
+    a.divider()
+    a.b('返回',a.back)
 
 def detail_character(c):
     def page_1():
@@ -41,10 +43,12 @@ def detail_character(c):
         a.mode('grid', 3)
         a.t('性别:{}'.format(c['性别']))
         a.t()
-        a.t('好感度:')
+        a.t('好感度:{}'.format(c['好感度']))
         a.t()
-        a.t('种族:{}'.format(c['种族']))
+        a.t('侍奉快乐:{}'.format(c['侍奉快乐']))
         a.t()
+        # a.t('种族:{}'.format(c['种族']))
+        # a.t()
         a.t('体力:')
         a.progress(c['体力值'],c['最大体力值'], [{'width': '100px'}, {}])
         a.t('({}/{})'.format(c['体力值'],c['最大体力值']))
@@ -64,11 +68,12 @@ def detail_character(c):
         a.t()
         a.t('体重:{}kg'.format(c['身体信息']['具体体重']))
         a.t()
-        a.t('胸部:{}'.format(c['身体信息']['三围']['B']))
-        a.t()
-        a.t('腰部:{}'.format(c['身体信息']['三围']['H']))
-        a.t()
-        a.t('臀部:{}'.format(c['身体信息']['三围']['W']))
+        if c['性别']!='男性':
+            a.t('胸部:{}'.format(c['身体信息']['三围']['B']))
+            a.t()
+            a.t('腰部:{}'.format(c['身体信息']['三围']['H']))
+            a.t()
+            a.t('臀部:{}'.format(c['身体信息']['三围']['W']))
         a.divider('属性')
         a.mode('grid',1)
         q = c['属性']

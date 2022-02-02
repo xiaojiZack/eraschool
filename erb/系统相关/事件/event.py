@@ -30,7 +30,11 @@ def next_event():
     next_event = 1
     date_day =change(date)
     for i in event_time_table:
-        if mini > change(event_time_table[i])-date_day and change(event_time_table[i])-date_day>0:
+        if change(event_time_table[i]) < date_day:
+            if mini > change(event_time_table[i]) - date_day+4*2*7:
+                mini = change(event_time_table[i])-date_day+4*2*7
+                next_event = i
+        elif mini > change(event_time_table[i])-date_day:
             mini = change(event_time_table[i])-date_day
             next_event = i
     return [event_table[str(next_event)],mini]

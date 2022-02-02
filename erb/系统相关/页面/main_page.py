@@ -1,4 +1,5 @@
 import erajs.api as a
+from .shop import shop_page
 from .arrange_plan import init_plan
 from .check_character import check_character
 from .arrange_building import arrange_building
@@ -19,6 +20,9 @@ def main_page():
     a.t('{}年{}季{}第{}周'.format(
         date['年'],season[date['季']-1],
         week[date['旬']-1],date['周']))
+    a.t()
+    nt = next_event()
+    a.t('[{}]将于{}周后举办'.format(nt[0],nt[1]))
     a.t()
     a.t('{}G'.format(a.sav()['资源']['金钱']))
     a.t()
@@ -50,22 +54,25 @@ def main_page():
     for i in a.sav()['维护总费用']:
         a.t('[{}:{}]'.format(i,a.sav()['维护总费用'][i]))
     a.divider()
-    a.mode()
-    nt = next_event()
-    a.t('[{}]将于{}天后举办'.format(nt[0],nt[1]))
+    a.t('持有物品:')
+    for i in a.sav()['物品']:
+        if a.sav()['物品'][i]>1:
+            a.t('[{}]*{}'.format(i,a.sav()['物品'][i]))
+        else:
+            a.t('[{}]'.format(i))
     a.divider()
     a.mode('grid', 4)
     a.b('安排教学', init_plan)
     a.t()
-    a.b('查看角色',check_character)
+    a.b('查看角色',a.goto,check_character)
     a.t()
     a.b('校区规划',a.goto,arrange_building)
     a.t()
-    a.t('研发计划')
+    a.b('研发计划')
     a.t()
-    a.t('采购物品')
+    a.b('采购物品',a.goto,shop_page)
     a.t()
-    a.t('制定校规')
+    a.b('制定校规')
 
     a.divider()
     a.t('设置')

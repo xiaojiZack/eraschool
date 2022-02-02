@@ -1,48 +1,13 @@
 import erajs.api as a
+from erb.系统相关.调教相关.记忆结算 import end_cal
+from erb.系统相关.页面.check_character import detail_character
 import funcs as f
 from ..人物相关.pregnancy import check_menstrual_period
 from ..调教相关.memory_progress import memory_progress
-from ..调教相关.命令.com1_50 import c1
-
-def role(id):
-    data = a.tmp()['调教数据']
-    def change_active():
-        def change(id):
-            data['调教者'] = id
-            a.repeat()
-        
-        data = a.tmp()['调教数据']
-        a.page()
-        a.mode()
-        a.t('要切换谁为调教者?')
-        for i in data['参与者']:
-            if i['标志']['助手'] and i['CharacterId'] == data['被调教']:
-                pass
-            elif i['标志']['助手'] or i['CharacterId'] == 0:
-                a.b(i['名字'],change,i['CharacterId'])
-                a.t()
-    def change_passive():
-        def change(id):
-            data['被调教'] = id
-            a.repeat()
-        
-        data = a.tmp()['调教数据']
-        a.page()
-        a.mode()
-        a.t('要切换谁为被调教的家伙?')
-        for i in data['参与者']:
-            if i['CharacterId'] != data['调教者']:
-                a.b(i['名字'],change,i['CharacterId'])
-                a.t()
-
-    if data['调教者']==id:
-        a.b('[调教者]',change_active)
-    elif data['被调教'] == id:
-        a.b('[被调教]',change_passive)
-    else:
-        a.b('[放置]',False)
+from ..调教相关.命令.com import *
 
 def train_page():
+    a.cls()
     memory_list = [
             '快C', '快V', '快B', '快A', '快M', '快P', '快W',
             'V润','A润','习得', '恭顺', '欲情', '屈服', 
@@ -64,7 +29,7 @@ def train_page():
     for c in data['参与者']:
         a.divider()
         a.mode('grid',4)
-        a.t(c['名字'])
+        a.b(c['名字'],a.goto,detail_character,c)
         if c['性别'] == '男性':
             a.t('♂')
             a.t('[{}]'.format(c['身体信息']['阴茎']['尺寸']))
@@ -118,6 +83,7 @@ def train_page():
         #装具、插入、药剂
         a.t('状态:')
         role(c['CharacterId'])
+
         a.divider()
         a.mode('grid',5)
         if a.tmp()['显示记忆']:
@@ -193,7 +159,9 @@ def train_page():
             passive = c
     a.divider()
     a.mode('grid',5)
-    c1(active,passive)
+    for i in range(1,com_number+1):
+        exec('c{}(active,passive)'.format(i))
+        a.t()
 
     a.divider()
     a.b('指令过滤')
@@ -203,6 +171,45 @@ def train_page():
     show_hide_memory()
     a.t()
     a.b('调教终了',end_train)
+
+def role(id):
+    
+    data = a.tmp()['调教数据']
+    def change_active():
+        def change(id):
+            data['调教者'] = id
+            a.repeat()
+        
+        data = a.tmp()['调教数据']
+        a.page()
+        a.mode()
+        a.t('要切换谁为调教者?')
+        for i in data['参与者']:
+            if i['标志']['助手'] and i['CharacterId'] == data['被调教']:
+                pass
+            elif i['标志']['助手'] or i['CharacterId'] == 0:
+                a.b(i['名字'],change,i['CharacterId'])
+                a.t()
+    def change_passive():
+        def change(id):
+            data['被调教'] = id
+            a.repeat()
+        
+        data = a.tmp()['调教数据']
+        a.page()
+        a.mode()
+        a.t('要切换谁为被调教的家伙?')
+        for i in data['参与者']:
+            if i['CharacterId'] != data['调教者']:
+                a.b(i['名字'],change,i['CharacterId'])
+                a.t()
+
+    if data['调教者']==id:
+        a.b('[调教者]',change_active)
+    elif data['被调教'] == id:
+        a.b('[被调教]',change_passive)
+    else:
+        a.b('[放置]',False)
 
 def show_hide_memory():
     def change():
@@ -214,5 +221,6 @@ def show_hide_memory():
         a.b('隐藏记忆',change)
 
 def end_train():
-    pass
-    a.back()
+    for i in a.tmp()['调教数据']['参与者']:
+        end_cal(i)
+    a.back(2)

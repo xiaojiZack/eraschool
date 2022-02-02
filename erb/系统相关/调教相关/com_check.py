@@ -24,7 +24,7 @@ def obey_check(difficulty,active,passive,com_trait):
         '欲望压抑':-5,'欲望解放':2*passive['开发']['欲望'],
         '淫乱':10,
     }
-    for i in al_check_list:
+    for i in pl_check_list:
         if sq(passive,i):
             pl[i] = pl_check_list[i]
     
@@ -163,7 +163,7 @@ def obey_check(difficulty,active,passive,com_trait):
         count = count +pl[i] 
     for i in al:
         text = text + '{}({})+'.format(i,al[i])
-        count = count +pl[i] 
+        count = count +al[i] 
     text = text+'...={}'.format(count)
     if count > difficulty:
         text = text+'>{}(难度) 成功'.format(difficulty)

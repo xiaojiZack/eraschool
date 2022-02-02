@@ -1,10 +1,12 @@
 from cmath import log10
 import erajs.api as a
 from ..人物相关.character_class import search_quaility as sq
-def decrease_pp(c,phychical_power, energy_power, mind_power):
-    pp = phychical_power
-    ep = energy_power
-    mp = mind_power
+def decrease_pp(c,d):
+    if d == []:
+        return 0
+    pp = d[0]
+    ep = d[1]
+    mp = d[2]
     a.divider()
     a.mode()
     
@@ -14,10 +16,12 @@ def decrease_pp(c,phychical_power, energy_power, mind_power):
     if sq(c,'癔病'):
         mp = mp *1.2
     m = c['待处理记忆']
-    times = [0,0.1,0.3,0.5,0.7,1]
-    pp = pp*(1+times[int(log10(m['苦痛']/100))])
-    ep = ep*(1+times[int(log10(m['苦痛']/100))])
-    mp = mp*(1+times[int(log10((m['恐怖']+m['反感'])/100))])
+    t = log10(max(m['苦痛']/100,1))
+    if m['苦痛']>100:
+        pp = pp*(1+0.2*int(log10(m['苦痛']/100+1)))
+        ep = ep*(1+0.2*int(log10(m['苦痛']/100+1)))
+    if m['恐惧']+m['反感']>100:
+        mp = mp*(1+0.2*int(log10((m['恐惧']+m['反感'])/100+1)))
     
     pp = int(pp)
     ep = int(ep)

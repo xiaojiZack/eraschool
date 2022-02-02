@@ -3,6 +3,7 @@ import funcs as f
 from erb.系统相关.页面.game_start import game_start
 
 a.init()
+a.cls()
 # 调教页面测试
 # a.page()
 # a.sav()['日期'] = {

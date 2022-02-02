@@ -125,12 +125,13 @@ def memory_cal(c):
     ml['反感'] = 0
     for i in ml:
         if m[i] != 0:
+            m[i] = int(m[i])
             a.t('{}:{} + {} = '.format(i, memory_list[i],m[i]))
             memory_list[i] = memory_list[i] + m[i]
             a.t('{}'.format(memory_list[i]))
             a.t()
             m[i] = 0
     c['调教记忆'] = memory_list
-    c['待处理经验'] = m
+    c['待处理记忆'] = m
     a.t('',True)
     return c
