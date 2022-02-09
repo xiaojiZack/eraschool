@@ -1,4 +1,5 @@
 import erajs.api as a
+from erb.系统相关.调教相关.命令.执行列表增减 import append_doing_list
 from erb.系统相关.调教相关.好感度和侍奉快乐 import cal_favor
 from ..com_check import obey_check
 from ...人物相关.character_class import search_quaility as sq
@@ -20,6 +21,7 @@ def com2(active,passive):
     decrease_a = []
     decrease_p = []
     favor = []
+    f = False#记录本指令是否执行成功
 
     if obey_check(0,active,passive,com_trait):
         active['标志']['手占用'] = 2
@@ -40,6 +42,8 @@ def com2(active,passive):
         decrease_a = [0,10,5]
         decrease_p = [0,20,10]
         favor = [1,0]
+        f = True
+        append_doing_list(active,passive,2)
     else:
         a.t('{}架开了{}的咸猪手'.format(pname,aname),True)
         a.t()
@@ -55,3 +59,9 @@ def com2(active,passive):
         passive = memory_cal(passive)
     
     a.repeat()
+    return f
+def undocom2(active,passive):
+    a.tmp()['执行列表'].remove([active['CharacterId'],passive['CharacterId'],2])
+    active['标志']['手占用'] = 0
+    a.repeat()
+    #a.t()

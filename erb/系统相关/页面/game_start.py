@@ -32,7 +32,8 @@ def game_init():
         "achievement_point":0,
     }
     save['物品'] = {}
-    save['tech'] = {}
+    save['科技'] = {}
+    save['正在研发'] = {}
 
     a.sav()['学院名'] = '测试学院名'
 

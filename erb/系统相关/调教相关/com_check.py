@@ -75,32 +75,42 @@ def obey_check(difficulty,active,passive,com_trait):
     if '疼痛' in com_trait:
         if sq(passive,'怕痛'):
             pl['怕痛'] = -10
-        if sq(passive,'耐痛'):
-            pl['耐痛'] = 5
+        elif sq(passive,'耐痛'):
+            pl['耐痛'] = 0
+        else:
+            pl['疼痛'] = -5
         if passive['开发']['M属性']>0:
             pl['M属性Lv{}'.format(passive['开发']['M属性'])] = 2*passive['开发']['M属性']
     if '饮精' in com_trait:
         if sq(passive, '精爱味觉'):
             pl['精爱味觉'] = 20
+        else:
+            pl['饮精'] = -6
     if '精液' in com_trait:
         if passive['开发']['精液成瘾']>0:
             pl['精液成瘾Lv{}'.format(passive['开发']['精液成瘾'])] = passive['开发']['精液成瘾']*passive['开发']['欲望']
+        else:
+            pl['精液'] = -5
     if '自慰' in com_trait:
         if passive['开发']['自慰成瘾']>0:
             pl['自慰成瘾Lv{}'.format(passive['开发']['自慰成瘾'])] = passive['开发']['自慰成瘾']*passive['开发']['欲望']
     if '污臭' in com_trait:
         if sq(passive,'污臭敏感'):
-            pl['污臭敏感'] = -10
+            pl['污臭敏感'] = -15
         if sq(passive,'污臭钝感'):
-            pl['污臭钝感'] = 5
+            pl['污臭钝感'] = 0
+        else:
+            pl['污臭'] = -6
     if '药物' in com_trait:
         if passive['刻印']['药毒刻印']>0:
             pl['药毒刻印'] = 5*passive['刻印']['药毒刻印']
     if '露出' in com_trait:
         if sq(passive,'不知耻'):
-            pl['不知耻'] = 5
-        if sq(passive, '怕羞'):
+            pl['不知耻'] = 0
+        elif sq(passive, '怕羞'):
             pl['怕羞'] = -10
+        else:
+            pl['露出'] = -5
         if sq(passive,'喜欢受人注目'):
             pl['喜欢受人注目'] = 10
         if passive['开发']['露出癖']>0:
@@ -108,14 +118,20 @@ def obey_check(difficulty,active,passive,com_trait):
     if '中出' in com_trait:
         if sq(passive,'被射成瘾'):
             pl['被射成瘾'] = 10
+        else:
+            pl['中出'] = -5
         if passive['开发']['被射中毒']>0:
             pl['被射中毒Lv{}'.format(passive['开发']['被射中毒'])] = passive['开发']['被射中毒']*passive['开发']['欲望']
     if '触手' in com_trait:
         if passive['开发']['触手适性']>0:
             pl['触手适性Lv{}'.format(passive['开发']['触手适性'])] = passive['开发']['触手适性']*passive['开发']['欲望']
+        else:
+            pl['触手'] = -10
     if '兽交' in com_trait:
         if passive['开发']['兽交中毒']>0:
             pl['兽交中毒Lv{}'.format(passive['开发']['兽交中毒'])] = passive['开发']['兽交中毒']*passive['开发']['欲望']
+        else:
+            pl['兽交'] = -10
     if '主导' in com_trait:
         if passive['开发']['侍奉欲望']>0:
             pl['侍奉欲望Lv{}'.format(passive['开发']['侍奉欲望'])] = passive['开发']['侍奉欲望']*passive['开发']['欲望']
@@ -128,6 +144,13 @@ def obey_check(difficulty,active,passive,com_trait):
     if '排泄' in com_trait:
         if passive['开发']['排泄成瘾']>0:
             pl['排泄成瘾Lv{}'.format(passive['开发']['排泄成瘾'])] = passive['开发']['排泄成瘾']*passive['开发']['欲望']
+        else:
+            pl['排泄'] = -5
+    if '尺寸过大' in com_trait:
+        if sq(passive,'扩张适性'):
+            pl['尺寸过大(扩张适性)'] = 0
+        else:
+            pl['尺寸过大'] = -10
 
     if active['性别'] == '男性':
         if sq(passive,'厌男'):

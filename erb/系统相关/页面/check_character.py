@@ -33,6 +33,7 @@ def check_character():
 
 def detail_character(c):
     def page_1():
+        a.cls()
         a.page()
         a.mode()
         a.b('返回',a.back)
@@ -101,6 +102,7 @@ def detail_character(c):
         a.t()
         a.b('返回',a.back)
     def page_2():
+        a.cls()
         a.page()
         a.mode()
         a.b('返回',a.back)

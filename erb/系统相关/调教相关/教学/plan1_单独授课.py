@@ -43,6 +43,8 @@ def dertermine(c):
     a.tmp()['调教数据']['参与者'].append(c)
     a.tmp()['调教数据']['调教者'] = 0
     a.tmp()['调教数据']['被调教'] = c['CharacterId']
+    a.tmp()['调教数据']['尺寸警告标志'] = True
     a.tmp()['显示记忆'] = True
+    a.tmp()['执行列表'] = []
     
     a.goto(train_page)

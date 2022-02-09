@@ -1,4 +1,6 @@
 import erajs.api as a
+from erb.系统相关.页面.research import research_page
+from funcs import debug
 from .shop import shop_page
 from .arrange_plan import init_plan
 from .check_character import check_character
@@ -38,13 +40,9 @@ def main_page():
     lc = a.sav()['character_list']['主角']
     a.t(lc['名字'])
     a.t()
-    a.t('体力:')
-    a.progress(lc['体力值'],lc['最大体力值'], [{'width': '200px'}, {}])
-    a.t('({}/{})'.format(lc['体力值'],lc['最大体力值']))
-    a.t()
     if (lc['性别'] != '女性'):
             a.t('精巢存量:')
-            a.progress(lc['身体信息']['阴茎']['内容总量'],lc['身体信息']['阴茎']['容量'],style=[{'width':'100px'}])
+            a.progress(lc['身体信息']['阴茎']['内容总量'],lc['身体信息']['阴茎']['容量'])
             a.t('({}ml)'.format(lc['身体信息']['阴茎']['内容总量']))
             a.t()
 
@@ -68,7 +66,7 @@ def main_page():
     a.t()
     a.b('校区规划',a.goto,arrange_building)
     a.t()
-    a.b('研发计划')
+    a.b('研发计划',a.goto,research_page)
     a.t()
     a.b('采购物品',a.goto,shop_page)
     a.t()
@@ -80,4 +78,7 @@ def main_page():
     a.t('存档')
     a.t()
     a.t('读档')
+    a.t()
+    a.cfg()['debug'] = True
+    debug()
 

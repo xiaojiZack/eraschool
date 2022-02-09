@@ -83,6 +83,10 @@ def train_page():
         #装具、插入、药剂
         a.t('状态:')
         role(c['CharacterId'])
+        c['调教状态'] = []
+        updata_state()
+        for i in c['调教状态']:
+            a.t('[{}({})]'.format(i[0],i[1]))
 
         a.divider()
         a.mode('grid',5)
@@ -171,6 +175,9 @@ def train_page():
     show_hide_memory()
     a.t()
     a.b('调教终了',end_train)
+    a.t()
+    a.cfg()['debug'] = True
+    f.debug()
 
 def role(id):
     

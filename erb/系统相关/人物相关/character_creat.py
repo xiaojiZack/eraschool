@@ -3,7 +3,7 @@ from scipy import rand
 import erajs.api as a
 from ..人物相关.quaility_list import random_list
 from ..人物相关.random_name import random_name
-from ..人物相关.character_class import new_character_dict
+from ..人物相关.character_class import new_character_dict, search_quaility
 import random
 
 def body_type_creat(c):
@@ -98,6 +98,96 @@ def body_type_creat(c):
         c['身体信息']['三围']['B'] = str(int(B))+'cm'+'({}杯罩)'.format(s)
         c['身体信息']['三围']['H'] = str(int(H))+'cm'
         c['身体信息']['三围']['W'] = str(int(W))+'cm'  
+
+    organ_updata(c)
+
+#器官数据生成
+def organ_updata(c):
+    o = c['身体信息']
+    size_describ = ['紧闭','闭合','微闭','名器','普通','微张','略张','张开','扩张','崩坏']
+
+    V = o['阴道']
+    standard = 100 #标准值 100ml
+    standard = int(standard*((o['具体身高']*1.0)/170))
+    #改造判断 (预留)
+    V['容量'] = standard
+    V['尺寸'] = size_describ[c['开发']['V扩张度'] - c['开发']['V名器度']]
+
+
+    s = o['肠胃']
+    standard = 3000 #标准值 3000ml
+    standard = int(standard*((o['具体身高']*1.0)/170))
+    #改造判断 (预留)
+    s['容量'] = standard
+
+    A = o['肛门']
+    A['尺寸'] = size_describ[c['开发']['A扩张度'] - c['开发']['A名器度']]
+
+    u = o['尿道']
+    standard = 500 #标准值 500ml
+    standard = int(standard*((o['具体身高']*1.0)/170))
+    #改造判断 (预留)
+    u['容量'] = standard
+    u['尺寸'] = size_describ[c['开发']['尿道扩张度'] - c['开发']['尿道名器度']]
+
+    w = o['子宫']
+    standard = 10
+    standard = int(standard*((o['具体身高']*1.0)/170))
+    #改造判断 (预留)
+    w['容量'] = standard
+
+    B = o['乳房']
+    standard = 800
+    if search_quaility(c,'贫乳'):
+            standard = 400
+    elif search_quaility(c,'巨乳'):
+        standard = 1500
+    elif search_quaility(c,'超乳'):
+        standard = 3000
+    elif search_quaility(c,'魔乳'):
+        standard = 5000
+    standard = int(standard*((o['具体身高']*1.0)/170))
+    produce = int(standard*0.5)#生产速度
+    ejct = 0.2#表示为内部所有液体的比值
+    #改造判断 (预留)
+    B['容量'] = standard
+    if search_quaility(c,'母乳体质'):
+        B['生产速度'] = produce
+        B['标准射出量'] = ejct
+
+    p = o['阴茎']
+    standard = 50
+    standard_length = 10.0
+    standard_diameter = 3.0
+    standard = int(standard*((o['具体身高']*1.0)/170))
+    produce = int(standard*0.5)#生产速度
+    ejct = 0.5#表示为内部所有液体的比值
+    endure = 10000#忍耐极限
+    #改造判断 (预留)
+    p['容量'] = standard
+    p['生产速度'] = produce
+    p['标准射出量'] = ejct
+    p['尺寸'] = size_describ[c['开发']['尿道扩张度'] - c['开发']['尿道名器度']]
+    p['忍耐极限'] = endure
+    if search_quaility(c,'巨根'):
+        standard_length = 15.0
+        standard_diameter = 4.5
+    elif search_quaility(c,'小根'):
+        standard_length = 7.0
+        standard_diameter = 2.0
+    elif search_quaility(c,'迷你根'):
+        standard_length = 4.0
+        standard_diameter = 1.0
+    elif search_quaility(c,'马根'):
+        standard_length = 25.0
+        standard_diameter = 6.0
+    elif search_quaility(c,'龙根'):
+        standard_length = 40.0
+        standard_diameter = 10.0
+    error = random.randint(-10,10)*0.1
+    standard_length = standard_length +error
+    error = random.randint(-10,10)*0.05
+    standard_diameter = standard_diameter + error
 
 def creat_normal_character(character=None):
     c = character
