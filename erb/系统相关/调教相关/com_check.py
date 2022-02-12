@@ -22,7 +22,7 @@ def obey_check(difficulty,active,passive,com_trait):
         '不知耻':5,'怕羞':-5,'纯情':-5,'好色':10,
         '忧郁':-5,'狂乱':-999,'崩坏':999,'幼儿退化':999,
         '欲望压抑':-5,'欲望解放':2*passive['开发']['欲望'],
-        '淫乱':10,
+        '淫乱':20,
     }
     for i in pl_check_list:
         if sq(passive,i):
@@ -126,12 +126,12 @@ def obey_check(difficulty,active,passive,com_trait):
         if passive['开发']['触手适性']>0:
             pl['触手适性Lv{}'.format(passive['开发']['触手适性'])] = passive['开发']['触手适性']*passive['开发']['欲望']
         else:
-            pl['触手'] = -10
+            pl['触手'] = -20
     if '兽交' in com_trait:
         if passive['开发']['兽交中毒']>0:
             pl['兽交中毒Lv{}'.format(passive['开发']['兽交中毒'])] = passive['开发']['兽交中毒']*passive['开发']['欲望']
         else:
-            pl['兽交'] = -10
+            pl['兽交'] = -20
     if '主导' in com_trait:
         if passive['开发']['侍奉欲望']>0:
             pl['侍奉欲望Lv{}'.format(passive['开发']['侍奉欲望'])] = passive['开发']['侍奉欲望']*passive['开发']['欲望']
@@ -169,7 +169,7 @@ def obey_check(difficulty,active,passive,com_trait):
     l = {'苦痛刻印':3,'快乐刻印':3,'屈服刻印':3,'药毒刻印':3,'羞耻刻印':3,'恐惧刻印':3,'反发刻印':-10}
     for i in l:
         if passive['刻印'][i]>0:
-            pl['{}}Lv{}'.format(i,passive['开发'][i])] = passive['开发'][i]*3*l[i]
+            pl['{}Lv{}'.format(i,passive['刻印'][i])] = passive['刻印'][i]*3*l[i]
     
     l = {'慕恋':10,'亲爱':20,'相爱':30,'服从':10,'隶属':30,'烙印':20,'妄信':30,'淫乱':15}
     for i in l:

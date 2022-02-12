@@ -37,6 +37,9 @@ def research_page():
     a.page()
     a.mode('grid',1)
     a.h('研发部')
+    a.divider('已经研发')
+    for i in a.sav()['科技']:
+        a.b('[{}]'.format(i),popup = '{}'.format(a.dat()['tech_item'][i]['描述']))
     a.divider('当前研发')
     for i in a.sav()['正在研发']:
         a.b('[{}:{}周]'.format(i,a.sav()['正在研发'][i]), stop_research,i)

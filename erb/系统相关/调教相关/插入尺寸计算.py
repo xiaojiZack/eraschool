@@ -1,3 +1,4 @@
+import time
 import erajs.api as a
 
 #插入时，插入尺寸的计算不会影响能否插入，但是会触发警告和惩罚
@@ -7,9 +8,9 @@ def size_warning():
     def undo_flag():
         a.tmp()['调教数据']['尺寸警告标志'] = False
         a.msg('尺寸警报已关闭')
-        a.repeat()
+        a.tmp()['尺寸警报确认中'] = False
     def mercy():
-        a.repeat()
+        a.tmp()['尺寸警报确认中'] = False
     a.page()
     a.mode()
     l = a.tmp()['调教数据']['参与者']
@@ -33,11 +34,14 @@ def check_size(body_size,be_insert_size,have_inserted):
     if temp<P_size_trans[be_insert_size]:
         if a.tmp()['调教数据']['尺寸警告标志']:
             size_warning()
-        else:
-            return False
+            a.tmp()['尺寸警报确认中'] = True
+            while a.tmp()['尺寸警报确认中']:
+                time.sleep(0.1)
+        return False
     else:
         return True
 
 def size_punish(c):
     c['待处理记忆']['恐惧'] += 2000
     c['待处理记忆']['苦痛'] += 2000
+    c['待处理记忆']['反感'] += 1000

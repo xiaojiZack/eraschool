@@ -16,12 +16,11 @@ def decrease_pp(c,d):
     if sq(c,'癔病'):
         mp = mp *1.2
     m = c['待处理记忆']
-    t = log10(max(m['苦痛']/100,1))
     if m['苦痛']>100:
-        pp = pp*(1+0.2*int(log10(m['苦痛']/100+1)))
-        ep = ep*(1+0.2*int(log10(m['苦痛']/100+1)))
+        pp = pp*(1+0.2*len(str(int(m['苦痛']/10))))
+        ep = ep*(1+0.2*len(str(int(m['苦痛']/10))))
     if m['恐惧']+m['反感']>100:
-        mp = mp*(1+0.2*int(log10((m['恐惧']+m['反感'])/100+1)))
+        mp = mp*(1+0.2*len(str(int((m['恐惧']+m['反感'])/100))))
     
     pp = int(pp)
     ep = int(ep)
@@ -46,4 +45,3 @@ def decrease_pp(c,d):
         elif (c['气力值'] == 0):
             a.t('理智:{}-{} = {}（气力不足)'.format(c['理智值'],ep,c['理智值']-ep))
             c['理智值'] -= mp*1.2
-        a.t()

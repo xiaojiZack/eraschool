@@ -55,31 +55,38 @@ def character_recover():
     liquid_produce(lr)
            
 def liquid_produce(c):
+    def sign_semen(c,semen_type):
+        #精液署名，返回名字
+        return  semen_type+'_{}'.format(c['CharacterId'])
+    
     b = c['身体信息']
     if c['性别'] != '女性':
+        semen1 = sign_semen(c,'精液')
+        semen2 = sign_semen(c,'浓厚精液')
+        semen3 = sign_semen(c,'凝块精液')
         plimit = b['阴茎']['容量']
         pliquid = b['阴茎']['内容液体']
         pin = b['阴茎']['内容总量']
         pproduce = b['阴茎']['生产速度']
-        if '精液' in pliquid:
-            pliquid['精液']+= pproduce
+        if semen1 in pliquid:
+            pliquid[semen1]+= pproduce
         else:
-            pliquid['精液'] = pproduce
+            pliquid[semen1] = pproduce
         pin +=  pproduce
         if pin >plimit:
             #过满，则浓缩精液
-            pliquid['精液'] -= pin-plimit
+            pliquid[semen1] -= pin-plimit
             pin = plimit
             b['阴茎']['积攒计数器'] += 1
         if b['阴茎']['积攒计数器'] == 2:
-            pliquid['浓厚精液'] = pliquid['精液']
-            pliquid['精液'] = 0
+            pliquid[semen2] = pliquid[semen1]
+            pliquid[semen1] = 0
         elif b['阴茎']['积攒计数器'] > 2:
             #遗精事件，待做
             pass
         elif b['阴茎']['积攒计数器'] == 4:
-            pliquid['凝块精液'] = pliquid['浓厚精液']
-            pliquid['浓厚精液'] = 0
+            pliquid[semen3] = pliquid[semen2]
+            pliquid[semen2] = 0
         b['阴茎']['内容总量'] = pin
         b['阴茎']['内容液体'] = pliquid
 
@@ -110,10 +117,12 @@ def liquid_produce(c):
             
 def tech_research():
     l = a.sav()['正在研发']
+    finish = []
     for i in l:
         l[i] -= 1
         if l[i] == 0:
             a.msg('[{}]研发完成'.format(i))
-            a.tech.append('{}'.format(i))
-
-
+            a.sav()['科技'].append('{}'.format(i))
+            finish.append(i)
+    for i in finish:
+        del a.sav()['正在研发'][i]

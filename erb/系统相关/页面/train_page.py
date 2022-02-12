@@ -9,7 +9,7 @@ from ..调教相关.命令.com import *
 def train_page():
     a.cls()
     memory_list = [
-            '快C', '快V', '快B', '快A', '快M', '快P', '快W',
+            '快C', '快V', '快B', '快A', '快M', '快U', '快W',
             'V润','A润','习得', '恭顺', '欲情', '屈服', 
             '羞耻', '苦痛', '恐惧', '药毒', '同化', '主导', '反感']
 
@@ -88,30 +88,32 @@ def train_page():
         for i in c['调教状态']:
             a.t('[{}({})]'.format(i[0],i[1]))
 
-        a.divider()
-        a.mode('grid',5)
         if a.tmp()['显示记忆']:
             if (c['CharacterId']!=0):
+                a.divider()
+                a.mode('grid',5)
                 for i in memory_list:
                     memory_progress(c['调教记忆'][i], i)
                     a.t()
+        a.divider()
+        a.mode('grid',5)
         if (c['性别'] != '女性'):
             a.t('精巢存量:')
-            a.progress(c['身体信息']['阴茎']['内容总量'],c['身体信息']['阴茎']['容量'],style=[{'width':'100px'}])
+            a.progress(c['身体信息']['阴茎']['内容总量'],c['身体信息']['阴茎']['容量'],style=[{'width':'100px'},{}])
             a.t('({}ml)'.format(c['身体信息']['阴茎']['内容总量']))
             a.t()
             if (c['CharacterId']==0):
                 a.t('射精:')
-                a.progress(c['其他参数']['射精数值'],c['其他参数']['射精极限'],style=[{'width':'200px'}])
-                a.t('{}/{}'.format(c['其他参数']['射精数值'],c['其他参数']['射精极限']))
+                a.progress(c['其他参数']['射精数值'],c['身体信息']['阴茎']['忍耐极限'],style=[{'width':'200px'},{}])
+                a.t('{}/{}'.format(c['其他参数']['射精数值'],c['身体信息']['阴茎']['忍耐极限']))
                 a.t()
         if (c['性别'] != '男性'):
             a.t('母乳存量:')
-            a.progress(c['身体信息']['乳房']['内容总量'],c['身体信息']['乳房']['容量'], style=[{'width':'50px'}])
+            a.progress(c['身体信息']['乳房']['内容总量'],c['身体信息']['乳房']['容量'], style=[{'width':'50px'},{}])
             a.t()
             a.t('胎内精液量:')
             if (c['身体信息']['子宫']['内容总量']<c['身体信息']['子宫']['容量']):
-                a.progress(c['身体信息']['子宫']['内容总量'],c['身体信息']['子宫']['容量'])
+                a.progress(c['身体信息']['子宫']['内容总量'],c['身体信息']['子宫']['容量'],style=[{'width':'50px'},{}])
             elif (c['身体信息']['子宫']['内容总量']<c['身体信息']['子宫']['容量']*2):
                 a.t('[满满的♥]',style={'color':'#FFC1C1'})
             else:
@@ -170,7 +172,7 @@ def train_page():
     a.divider()
     a.b('指令过滤')
     a.t()
-    a.b('持续进行')
+    a.b('持续进行',singal_step)
     a.t()
     show_hide_memory()
     a.t()

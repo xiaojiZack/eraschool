@@ -46,5 +46,8 @@ def dertermine(c):
     a.tmp()['调教数据']['尺寸警告标志'] = True
     a.tmp()['显示记忆'] = True
     a.tmp()['执行列表'] = []
+    a.tmp()['高潮名单'] = {}
+    a.tmp()['正在执行'] = False
+    a.tmp()['去冲突标志'] = False
     
     a.goto(train_page)

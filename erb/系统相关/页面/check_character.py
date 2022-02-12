@@ -1,5 +1,6 @@
 from tkinter.ttk import Style
 from erajs import api as a
+from erb.系统相关.调教相关.教学.学业评级 import rate_study
 
 
 def check_character():
@@ -119,8 +120,62 @@ def detail_character(c):
             a.t('{}:{}'.format(i, q[i]))
             a.t()
         a.divider()
-        a.mode('grid',2)
+        a.mode('grid',3)
         a.b('第一页',page_1)
         a.t()
+        a.b('第三页',page_3)
+        a.t()
         a.b('返回',a.back)
+    def page_3():
+        def show_detail(grade,name):
+            a.page()
+            a.mode()
+            a.h(name)
+            a.divider()
+            for i in grade['细则']:
+                a.t('{}({})+'.format(i,grade['细则'][i]))
+            a.t('...')
+            a.t('={}'.format(grade['分数']))
+            a.divider()
+            a.b('返回',page_3)
+        
+        def show_grade(grade,i):
+            style = change_style(grade['评级'])
+            if i != '总分':
+                a.b('{} [{}]'.format(grade['分数'],grade['评级']),show_detail,grades[i],i,style=style)
+            else:
+                a.t('{} [{}]'.format(grade['分数'],grade['评级']),style=style)
+
+        def change_style(rate):
+            style = {}
+            if rate == 'D':
+                style['color'] = '#778899'
+            elif rate == 'C':
+                style['color'] = '#7FFF00'
+            elif rate == 'B':
+                style['color'] = '#FFFF00'
+            elif rate == 'A':
+                style['color'] = '#FFC1C1'
+            elif rate == 'S':
+                style['color'] = '#FF0000'
+            return style
+        
+        rate_study(c)
+        a.cls()
+        a.page()
+        a.divider()
+        a.mode('grid',4)
+        grades = c['学籍']['成绩']
+        for i in grades:
+            a.t('{}:'.format(i))
+            show_grade(grades[i],i)
+            a.t()
+        a.divider()
+        a.mode('grid',2)
+        a.b('第二页',page_2)
+        a.t()
+        a.b('返回',a.back)
+    
     page_1()
+
+   

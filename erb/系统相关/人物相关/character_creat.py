@@ -107,10 +107,6 @@ def organ_updata(c):
     size_describ = ['紧闭','闭合','微闭','名器','普通','微张','略张','张开','扩张','崩坏']
 
     V = o['阴道']
-    standard = 100 #标准值 100ml
-    standard = int(standard*((o['具体身高']*1.0)/170))
-    #改造判断 (预留)
-    V['容量'] = standard
     V['尺寸'] = size_describ[c['开发']['V扩张度'] - c['开发']['V名器度']]
 
 
@@ -131,7 +127,7 @@ def organ_updata(c):
     u['尺寸'] = size_describ[c['开发']['尿道扩张度'] - c['开发']['尿道名器度']]
 
     w = o['子宫']
-    standard = 10
+    standard = 100
     standard = int(standard*((o['具体身高']*1.0)/170))
     #改造判断 (预留)
     w['容量'] = standard
@@ -167,23 +163,28 @@ def organ_updata(c):
     p['容量'] = standard
     p['生产速度'] = produce
     p['标准射出量'] = ejct
-    p['尺寸'] = size_describ[c['开发']['尿道扩张度'] - c['开发']['尿道名器度']]
+    p['尺寸'] = '普通根'
     p['忍耐极限'] = endure
     if search_quaility(c,'巨根'):
         standard_length = 15.0
         standard_diameter = 4.5
+        p['尺寸'] = '巨根'
     elif search_quaility(c,'小根'):
         standard_length = 7.0
         standard_diameter = 2.0
+        p['尺寸'] = '小根'
     elif search_quaility(c,'迷你根'):
         standard_length = 4.0
         standard_diameter = 1.0
+        p['尺寸'] = '迷你根'
     elif search_quaility(c,'马根'):
         standard_length = 25.0
         standard_diameter = 6.0
+        p['尺寸'] = '马根'
     elif search_quaility(c,'龙根'):
         standard_length = 40.0
         standard_diameter = 10.0
+        p['尺寸'] = '龙根'
     error = random.randint(-10,10)*0.1
     standard_length = standard_length +error
     error = random.randint(-10,10)*0.05
