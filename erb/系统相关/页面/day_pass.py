@@ -41,11 +41,11 @@ def character_recover():
             recover_rate[2] = 0.25
         if search_quaility(i,'乐观'):
             recover_rate[2] = 0.3
-        i['体力值'] += int(i['体力值'] * recover_rate[0])
+        i['体力值'] += int(i['最大体力值'] * recover_rate[0])
         if i['体力值']>i['最大体力值']:i['体力值'] = i['最大体力值']
-        i['气力值'] += int(i['气力值'] * recover_rate[1])
+        i['气力值'] += int(i['最大气力值'] * recover_rate[1])
         if i['气力值']>i['最大气力值']:i['气力值'] = i['最大气力值']
-        i['理智值'] += int(i['理智值'] * recover_rate[2])
+        i['理智值'] += int(i['最大理智值'] * recover_rate[2])
         if i['理智值']>i['最大理智值']:i['理智值'] = i['最大理智值']
         liquid_produce(i)
     lr = cl['主角']

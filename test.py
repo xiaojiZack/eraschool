@@ -26,6 +26,6 @@ a.cls()
 # a.goto(train_page)
 
 
-a.sav()['可用教案'] = ['单独授课']
+
 
 game_start()

@@ -1,4 +1,5 @@
 import erajs.api as a
+from erb.系统相关.事件.event_0_开幕 import event0
 from .main_page import main_page
 from erb.系统相关.人物相关.character_creat import new_character_dict, body_type_creat
 
@@ -189,7 +190,7 @@ def creat_leading_character():
             if (i != '扶持政策' and i != '快速回复'):
                 c['属性']['技能'].append(i)
             elif(i == '扶持政策'):
-                a.sav()['resource']['money'] += 20000
+                a.sav()['资源']['金钱'] += 20000
             elif(i == '快速回复'):
                 c['属性']['体质'].append(i)
             a.goto(leading_character_show, c)
@@ -235,7 +236,7 @@ def leading_character_show(c):
     def addcharacter(c):
         a.sav()['character_list']['主角'] = c
         a.clear()
-        a.goto(main_page)
+        a.goto(event0)
     a.page()
     a.mode()
     a.divider('基本信息')

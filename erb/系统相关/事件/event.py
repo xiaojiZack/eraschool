@@ -1,12 +1,15 @@
 import erajs.api as a
 from .event_1_入学 import event1
+from .event_2_毕业 import event2
 
 event_time_table={
     '1':{'季':1,'旬':1,'周':1},
+    '2':{'季':1,'旬':1,'周':2}
 }
 
 event_table = {
     '1':'入学',
+    '2':'毕业',
 }
 
 def event_check():
@@ -34,6 +37,8 @@ def next_event():
             if mini > change(event_time_table[i]) - date_day+4*2*7:
                 mini = change(event_time_table[i])-date_day+4*2*7
                 next_event = i
+        elif change(event_time_table[i])-date_day == 0:
+            pass
         elif mini > change(event_time_table[i])-date_day:
             mini = change(event_time_table[i])-date_day
             next_event = i

@@ -1,6 +1,8 @@
 from cmath import log10
 import erajs.api as a
 from ..人物相关.character_class import search_quaility as sq
+
+
 def decrease_pp(c,d):
     if d == []:
         return 0
@@ -17,10 +19,10 @@ def decrease_pp(c,d):
         mp = mp *1.2
     m = c['待处理记忆']
     if m['苦痛']>100:
-        pp = pp*(1+0.2*len(str(int(m['苦痛']/10))))
-        ep = ep*(1+0.2*len(str(int(m['苦痛']/10))))
+        pp = pp*(1+5*len(str(int(m['苦痛']/10))))
+        ep = ep*(1+5*len(str(int(m['苦痛']/10))))
     if m['恐惧']+m['反感']>100:
-        mp = mp*(1+0.2*len(str(int((m['恐惧']+m['反感'])/100))))
+        mp = mp*(1+5*len(str(int((m['恐惧']+m['反感'])/10))))
     
     pp = int(pp)
     ep = int(ep)
@@ -35,7 +37,7 @@ def decrease_pp(c,d):
         a.t('气力:{}-{} = {}'.format(c['气力值'],ep,c['气力值']-ep))
         c['气力值'] -= ep
         if (c['气力值']<0):
-            c['体力值'] += c['气力值']*1.5
+            c['体力值'] += int(c['气力值']*0.5)
             a.t(' 气力值不足,体力减少{}'.format(c['气力值']*1.5))
             c['气力值'] = 0
         a.t()
@@ -44,4 +46,8 @@ def decrease_pp(c,d):
             c['理智值'] -= mp
         elif (c['气力值'] == 0):
             a.t('理智:{}-{} = {}（气力不足)'.format(c['理智值'],ep,c['理智值']-ep))
-            c['理智值'] -= mp*1.2
+            c['理智值'] -= int(mp*1.5)
+
+def sum_pp(c,l):
+    for i in range(0,3):
+        c['待处理体力变化'][i] += l[i]

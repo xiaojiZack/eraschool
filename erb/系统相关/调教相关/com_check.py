@@ -31,7 +31,7 @@ def obey_check(difficulty,active,passive,com_trait):
     if '处女破坏' in com_trait:
         if sq(passive,'处女'):
             pl['处女'] = -15
-    if 'V插入' in com_trait:
+    if '贞操' in com_trait:
         if sq(passive,'重视贞操'):
             pl['重视贞操'] = -10
         if sq(passive,'无节操'):
@@ -151,19 +151,25 @@ def obey_check(difficulty,active,passive,com_trait):
             pl['尺寸过大(扩张适性)'] = 0
         else:
             pl['尺寸过大'] = -10
+    if '受缚' in com_trait:
+        if passive['开发']['M属性']>0:
+            pl['M属性Lv{}'.format(passive['开发']['M属性'])] = passive['开发']['M属性']*passive['开发']['欲望']
+
+    if '润滑不足' in com_trait:
+        pl['润滑不足'] = -5
 
     if active['性别'] == '男性':
         if sq(passive,'厌男'):
             pl['厌男'] = -10
         if passive['性别'] == '男性':
             if passive['开发']['男同中毒']>0:
-                pl['男同中毒Lv{}'.format(passive['开发']['男同中毒'])] = passive['开发']['男同中毒']*passive['开发']['欲望']
+                pl['男同中毒Lv{}'.format(passive['开发']['男同中毒'])] = passive['开发']['男同中毒']*passive['开发']['欲望'] -10
     if active['性别'] == '女性':
         if sq(passive,'厌女'):
             pl['厌女'] = -10
         if passive['性别'] == '女性':
             if passive['开发']['百合中毒']>0:
-                pl['百合中毒Lv{}'.format(passive['开发']['百合中毒'])] = passive['开发']['百合中毒']*passive['开发']['欲望']
+                pl['百合中毒Lv{}'.format(passive['开发']['百合中毒'])] = passive['开发']['百合中毒']*passive['开发']['欲望'] -10
 
 
     l = {'苦痛刻印':3,'快乐刻印':3,'屈服刻印':3,'药毒刻印':3,'羞耻刻印':3,'恐惧刻印':3,'反发刻印':-10}
@@ -179,6 +185,7 @@ def obey_check(difficulty,active,passive,com_trait):
     if passive['开发']['服从']>0:
             pl['服从Lv{}'.format(passive['开发']['服从'])] = passive['开发']['服从']*5
     
+    a.divider()
     text = ''
     count = 0
     for i in pl:

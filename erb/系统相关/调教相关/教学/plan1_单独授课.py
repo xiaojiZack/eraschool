@@ -44,9 +44,11 @@ def dertermine(c):
     a.tmp()['调教数据']['调教者'] = 0
     a.tmp()['调教数据']['被调教'] = c['CharacterId']
     a.tmp()['调教数据']['尺寸警告标志'] = True
+    a.tmp()['调教数据']['破处警告标志'] = True
     a.tmp()['显示记忆'] = True
     a.tmp()['执行列表'] = []
     a.tmp()['高潮名单'] = {}
+    a.tmp()['特殊事件'] = []
     a.tmp()['正在执行'] = False
     a.tmp()['去冲突标志'] = False
     

@@ -2,7 +2,7 @@ import time
 import erajs.api as a
 
 #插入时，插入尺寸的计算不会影响能否插入，但是会触发警告和惩罚
-P_size_trans = {'迷你根':1,'小根':3,'手指':2,'普通根':4,'巨根':6,'马根':8,'手臂尺寸':9,'龙根':10}
+P_size_trans = {'迷你根':1,'小根':3,'手指':2,'普通根':4,'巨根':6,'手臂尺寸':8,'马根':9,'龙根':10}
 
 def size_warning():
     def undo_flag():
@@ -32,6 +32,22 @@ def check_size(body_size,be_insert_size,have_inserted):
     for i in have_inserted:
         temp -= P_size_trans[have_inserted[i]]
     if temp<P_size_trans[be_insert_size]:
+        if a.tmp()['调教数据']['尺寸警告标志']:
+            size_warning()
+            a.tmp()['尺寸警报确认中'] = True
+            while a.tmp()['尺寸警报确认中']:
+                time.sleep(0.1)
+        return False
+    else:
+        return True
+
+def check_maintain_size(body_size,have_inserted):
+    #be_insert_size:扩张等级，have_inserted:已经插入的占用物品(字典)
+    #检查目前是否超过
+    temp = body_size
+    for i in have_inserted:
+        temp -= P_size_trans[have_inserted[i]]
+    if temp<0:
         if a.tmp()['调教数据']['尺寸警告标志']:
             size_warning()
             a.tmp()['尺寸警报确认中'] = True

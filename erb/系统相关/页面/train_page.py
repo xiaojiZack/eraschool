@@ -8,6 +8,7 @@ from ..调教相关.命令.com import *
 
 def train_page():
     a.cls()
+    if check_end_train() == False: return False
     memory_list = [
             '快C', '快V', '快B', '快A', '快M', '快U', '快W',
             'V润','A润','习得', '恭顺', '欲情', '屈服', 
@@ -86,7 +87,10 @@ def train_page():
         c['调教状态'] = []
         updata_state()
         for i in c['调教状态']:
-            a.t('[{}({})]'.format(i[0],i[1]))
+            if i[1] == '':
+                a.t('[{}]'.format(i[0],i[1]))
+            else:
+                a.t('[{}({})]'.format(i[0],i[1]))
 
         if a.tmp()['显示记忆']:
             if (c['CharacterId']!=0):
@@ -165,7 +169,7 @@ def train_page():
             passive = c
     a.divider()
     a.mode('grid',5)
-    for i in range(1,com_number+1):
+    for i in com_dict:
         exec('c{}(active,passive)'.format(i))
         a.t()
 
@@ -233,3 +237,14 @@ def end_train():
     for i in a.tmp()['调教数据']['参与者']:
         end_cal(i)
     a.back(2)
+
+def check_end_train():
+    #强制中止调教
+    l = a.tmp()['调教数据']['参与者']
+    for c in l:
+        if c['体力值']<=0:
+            a.msg('{}体力耗尽'.format(c['名字']))
+            end_train()
+            return False
+    return True
+    

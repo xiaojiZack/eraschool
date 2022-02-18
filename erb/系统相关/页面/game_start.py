@@ -36,11 +36,12 @@ def game_init():
     save['正在研发'] = {}
 
     a.sav()['学院名'] = '测试学院名'
+    a.sav()['学院名气度'] = 0
 
+    a.sav()['可用教案'] = ['单独授课']
     a.sav()['校内建筑列表']=[]
     a.sav()['校区建筑最大空间'] = 5
     a.sav()['维护总费用'] = {}
     a.sav()['可建设建筑列表'] = ['测试']
     a.sav()['每周最大行动次数'] = 4
-    event1()
     a.goto(creat_leading_character)

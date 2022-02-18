@@ -14,7 +14,7 @@ def end_cal(c):
             while temp>1:
                 temp = temp/10
                 l += 1
-            m[i] = int(m[i]/(pow(10,l-1)))
+            m[i] = int(m[i]/(pow(10,l-1))*pow(10,l-1))
         for i in m:
             if i in ['V润','A润']:
                 continue

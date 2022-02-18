@@ -1,3 +1,6 @@
+import math
+
+from numpy import negative
 import erajs.api as a
 from erb.系统相关.调教相关.体力衰减 import decrease_pp
 from ..人物相关.character_class import search_quaility as sq
@@ -9,6 +12,7 @@ def memory_cal(c):
         '快C':0, '快V':0, '快B':0, '快A':0, '快M':0, '快U':0, '快W':0,
         '习得':0, '恭顺':0, '欲情':0, '屈服':0, 
         '羞耻':0, '苦痛':0, '恐惧':0, '药毒':0, '同化':0, '主导':0,
+        'V润':0,'A润':0
         }
     l = {
         '癔病':{'恐惧':2,'屈服':2},
@@ -88,15 +92,39 @@ def memory_cal(c):
 
     #根据开发程度产生的不同加成(待写)
 
+    #反感降低计算
     m['反感'] += m['苦痛']+m['羞耻']+m['恐惧']/10
+    decrease_hate_quility = {'恋慕':0.25,'亲爱':0.1,'相爱':0,'服从':0.25,'烙印':0.1,'隶属':0,'妄信':0}
+    for i in decrease_hate_quility:
+        if sq(c,i):
+            m['反感'] = m['反感']*decrease_hate_quility[i]
+    m['反感'] = m['反感']*math.exp(-1*(c['好感度']/100))
+
+    #各项记忆导致的好感度调整
+    if m['反感']<100:
+        m['好感度'] = m['好感度'] - abs(int(m['好感度']*0.25))-1
+    elif m['反感']<1000:
+        m['好感度'] = m['好感度'] - abs(int(m['好感度']*0.5))-5
+    else:
+        m['好感度'] = m['好感度'] - abs(int(m['好感度']*0.75))-10
+    negative_emotion = c['调教记忆']['反感'] + c['调教记忆']['恐惧'] - c['调教记忆']['欲情'] -c['调教记忆']['恭顺']
+    if negative_emotion < 100:
+        m['好感度'] = m['好感度'] - abs(int(m['好感度']*0.25))
+    elif negative_emotion < 500:
+        m['好感度'] = m['好感度'] - abs(int(m['好感度']*0.5))
+    elif negative_emotion < 2000:
+        m['好感度'] = m['好感度'] - abs(int(m['好感度']*0.75))
+    else:
+        m['好感度'] = m['好感度'] - abs(int(m['好感度']*0.9))
+    
 
     #体液分泌
-    sum_list = ['快C', '快V', '快B', '快A', '快M', '快U', '快W','欲情']
+    sum_list = ['快C', '快V', '快B', '快A', '快M', '快U', '快W','欲情','苦痛']
     sumup = 0
     for i in sum_list:
         sumup = sumup + m[i]
     if sumup<100000:
-        sumup = sumup/10
+        sumup = sumup
     else:
         sumup = 10000
     m['V润'] = sumup
