@@ -83,7 +83,7 @@ def be_eject_semen(c,body_type,count,who_eject):
         l['恐惧'] = 50
         l['屈服'] = 20
         l['快V'] = 10
-        l['V润'] = 10
+        l['V润'] = 100
         e['腔射经验'] = 1
     if body_type == '子宫':
         l['欲情'] = 30
@@ -96,7 +96,7 @@ def be_eject_semen(c,body_type,count,who_eject):
         l['屈服'] = 50
         l['快V'] = 10
         l['快W'] = 10
-        l['V润'] = 5
+        l['V润'] = 100
         e['子宫被射经验'] = 1
     if body_type == '肛门':
         l['欲情'] = 10
@@ -108,7 +108,7 @@ def be_eject_semen(c,body_type,count,who_eject):
         l['恐惧'] = 50
         l['屈服'] = 50
         l['快A'] = 10
-        l['A润'] = 10
+        l['A润'] = 100
         e['肛射经验'] = 1
     if body_type == '口':
         l['欲情'] = 30

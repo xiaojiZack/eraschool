@@ -218,6 +218,64 @@ def cal_favor(c,data):
     c['待处理记忆']['好感度'] = 0
     c['待处理记忆']['侍奉快乐'] = 0
 
+def special_bouns(c):
+#多穴插入bouns，被虐快乐，施虐快乐，
+    insert_count = 0
+    if c != '男性':
+        if len(c['身体信息']['阴道']['内容固体']) >0:
+                insert_count += 1
+    if len(c['身体信息']['肛门']['内容固体'])>0:
+        insert_count += 1
+    if len(c['身体信息']['尿道']['内容固体'])>0:
+        insert_count += 1
+    if insert_count >= 2:
+        l = ['快V','快A','快U','屈服','恭顺']
+        number_trans = {2:'二',3:'三'}
+        a.t()
+        a.t('{}穴插入({}) 额外奖励   '.format(number_trans[insert_count],c['名字']), style = {'color':'#FFC1C1'})
+        for i in l:
+            if c['待处理记忆'][i]>0:
+                c['待处理记忆'][i] = c['待处理记忆'][i]*1.5
+    
+    if c['待处理经验']['饮精经验']>0 and (c['待处理经验']['绝顶经验']>0 or c['待处理经验']['射精经验']>0):
+        a.t()
+        a.t('饮精绝顶({}) 额外奖励  '.format(c['名字']),style = {'color':'#FFC1C1'})
+        bouns_list = ['恭顺','屈服','欲情','好感度','侍奉快乐']
+        for i in bouns_list:
+            c['待处理记忆'][i] = c['待处理记忆'][i]*1.5^(max(c['待处理经验']['饮精经验'],c['待处理经验']['绝顶经验'],c['待处理经验']['射精经验']))
+    
+    if c['待处理记忆']['苦痛']>100:
+        sumup=0
+        sum_list = ['快C', '快V', '快B', '快A', '快M', '快U', '快W']
+        c['待处理经验']['被虐快乐经验'] = 0
+        for i in sum_list:
+            sumup += c['待处理记忆'][i]
+        while sumup > 0:
+            sumup -= 1000*2^c['待处理经验']['被虐快乐经验']
+            c['待处理经验']['被虐快乐经验']+=1
+    
+    if c['待处理记忆']['主导']>100:
+        sumup=0
+        sum_list = ['快C', '快V', '快B', '快A', '快M', '快U', '快W']
+        c['待处理经验']['施虐快乐经验'] = 0
+        for i in sum_list:
+            sumup += c['待处理记忆'][i]
+        while sumup > 0:
+            sumup -= 1000*2^c['待处理经验']['施虐快乐经验']
+            c['待处理经验']['施虐快乐经验']+=1
+    
+    if c['待处理记忆']['侍奉快乐'] >0:
+        sumup=0
+        sum_list = ['快C', '快V', '快B', '快A', '快M', '快U', '快W']
+        c['待处理经验']['施虐快乐经验'] = 0
+        for i in sum_list:
+            sumup += c['待处理记忆'][i]
+        while sumup > 0:
+            sumup -= 1000*2^c['待处理经验']['施虐快乐经验']
+            c['待处理记忆']['侍奉快乐']+=1
+
+
+
 def all_cal(c):
     pp_cal(c)
     memory_cal(c)
