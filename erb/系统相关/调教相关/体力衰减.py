@@ -1,4 +1,3 @@
-from cmath import log10
 import erajs.api as a
 from ..人物相关.character_class import search_quaility as sq
 
@@ -13,10 +12,10 @@ def decrease_pp(c,d):
     a.mode()
     
     if sq(c,'病弱'):
-        pp = pp *1.2
-        ep = ep *1.2
+        pp = pp *1.5
+        ep = ep *1.5
     if sq(c,'癔病'):
-        mp = mp *1.2
+        mp = mp *1.5
     m = c['待处理记忆']
     if m['苦痛']>100:
         pp = pp*(1+5*len(str(int(m['苦痛']/10))))
@@ -46,7 +45,8 @@ def decrease_pp(c,d):
             c['理智值'] -= mp
         elif (c['气力值'] == 0):
             a.t('理智:{}-{} = {}（气力不足)'.format(c['理智值'],ep,c['理智值']-ep))
-            c['理智值'] -= int(mp*1.5)
+            c['理智值'] -= int(mp*0.5)
+        if c['理智值']<0: c['理智值'] = 0
 
 def sum_pp(c,l):
     for i in range(0,3):

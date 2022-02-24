@@ -6,7 +6,9 @@ def game_start():
      
     a.page()
     a.mode('grid',1)
-    a.t('game_start')
+    a.h('ERAschool')
+    a.t()
+    a.t('0.1')
     a.t()
     a.b('开始',a.goto, game_init)
 
@@ -44,4 +46,11 @@ def game_init():
     a.sav()['维护总费用'] = {}
     a.sav()['可建设建筑列表'] = ['测试']
     a.sav()['每周最大行动次数'] = 4
-    a.goto(creat_leading_character)
+
+    def input_school_name(name):
+            a.sav()['学院名'] = name
+    a.page()
+    a.t('学院名为:')
+    a.input(input_school_name,'测试学院名')
+    a.t()
+    a.b('[决定]',creat_leading_character,style = {'color':'#ff0'})

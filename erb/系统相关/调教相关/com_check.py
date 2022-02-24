@@ -1,4 +1,5 @@
 import erajs.api as a
+from erb.系统相关.人物相关.pregnancy import check_menstrual_period
 from ..人物相关.character_class import search_quaility as sq
 
 #还需添加：h氛围，淫纹，相性
@@ -157,6 +158,12 @@ def obey_check(difficulty,active,passive,com_trait):
 
     if '润滑不足' in com_trait:
         pl['润滑不足'] = -5
+    
+    if 'V' in com_trait:
+        if '中出' in com_trait:
+            if '精液' in com_trait:
+                if check_menstrual_period(passive) == '危险日':
+                    pl['危险日'] = -10
 
     if active['性别'] == '男性':
         if sq(passive,'厌男'):
@@ -185,6 +192,7 @@ def obey_check(difficulty,active,passive,com_trait):
     if passive['开发']['服从']>0:
             pl['服从Lv{}'.format(passive['开发']['服从'])] = passive['开发']['服从']*5
     
+    a.page()
     a.divider()
     text = ''
     count = 0

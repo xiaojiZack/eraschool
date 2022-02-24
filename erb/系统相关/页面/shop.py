@@ -16,6 +16,16 @@ def shop_page():
                 a.sav()['资源'][i] -= price[i]
             a.msg('成功购买[{}]'.format(item))
             a.repeat()
+    
+    def check_tech(item):
+        f = True
+        tech = a.dat()['shop_item'][item]['科技需求']
+        t = a.sav()['科技']
+        for i in tech:
+            if i=='无': return f
+            elif not i in a.sav()['科技']: 
+                f= False
+        return f
 
     items = a.dat()['shop_item']
     a.page()
@@ -30,11 +40,11 @@ def shop_page():
         else:
             a.t('[{}]'.format(i))
     a.divider()
-    a.mode('grid',3)
+    a.mode('grid',4)
     for i in items:
         if i in a.sav()['物品'] and items[i]['可重复'] == '否':
             pass
-        else:
+        elif check_tech(i):
             a.b('{}'.format(i),buy,i,items[i]['价格'],popup = '{}'.format(items[i]['价格']))
             a.t()
     a.divider()

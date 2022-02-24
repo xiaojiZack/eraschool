@@ -1,11 +1,11 @@
-from tkinter.ttk import Style
 from erajs import api as a
 from erb.系统相关.调教相关.教学.学业评级 import rate_study
+from erb.系统相关.页面.character_upgrade import character_upgrade_page
 
 
 def check_character():
     a.page()
-    a.mode('grid',4)
+    a.mode('grid',5)
     a.divider()
     cl = a.sav()['character_list']['学生']
     for i in cl:
@@ -20,11 +20,15 @@ def check_character():
             a.t('♀♂')
         a.t()
         a.t('体')
-        a.progress(c['体力值'],c['最大体力值'], [{'width': '100px'}, {}])
+        a.progress(c['体力值'],c['最大体力值'], [{'width': '80px'}, {}])
         a.t('({}/{})'.format(c['体力值'],c['最大体力值']))
         a.t()
+        a.t('气:')
+        a.progress(c['气力值'],c['最大气力值'], [{'width': '80px'}, {}])
+        a.t('({}/{})'.format(c['气力值'],c['最大气力值']))
+        a.t()
         a.t('智:')
-        a.progress(c['理智值'],c['最大理智值'], [{'width': '100px'}, {}])
+        a.progress(c['理智值'],c['最大理智值'], [{'width': '80px'}, {}])
         a.t('({}/{})'.format(c['理智值'],c['最大理智值']))
         a.t()
         # a.t(c['学籍']['班级'])
@@ -98,8 +102,10 @@ def detail_character(c):
             a.t('{}:Lv{}'.format(i, q[i]))
             a.t()
         a.divider()
-        a.mode('grid',2)
-        a.b('第二页',page_2)
+        a.mode('grid',3)
+        a.b('第二页->',page_2)
+        a.t()
+        a.b('角色升级',a.goto,character_upgrade_page,c,style = {'color':'#778899'})
         a.t()
         a.b('返回',a.back)
     def page_2():
@@ -121,9 +127,9 @@ def detail_character(c):
             a.t()
         a.divider()
         a.mode('grid',3)
-        a.b('第一页',page_1)
+        a.b('<-第一页',page_1)
         a.t()
-        a.b('第三页',page_3)
+        a.b('第三页->',page_3)
         a.t()
         a.b('返回',a.back)
     def page_3():
@@ -163,7 +169,7 @@ def detail_character(c):
         rate_study(c)
         a.cls()
         a.page()
-        a.divider()
+        a.divider('评分')
         a.mode('grid',4)
         grades = c['学籍']['成绩']
         for i in grades:
@@ -172,7 +178,7 @@ def detail_character(c):
             a.t()
         a.divider()
         a.mode('grid',2)
-        a.b('第二页',page_2)
+        a.b('<-第二页',page_2)
         a.t()
         a.b('返回',a.back)
     

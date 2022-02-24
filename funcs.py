@@ -13,7 +13,7 @@ def DebugPage():
                         path = path+i
                     if (type=="list"): path = path+"[{}]".format(targetname)
                     else: path = path+"[\"{}\"]".format(targetname)
-                    exec('a.tmp()'+path+'=value')
+                    exec('a.sav()'+path+'=value')
 
                 a.t("{}:".format(targetname))
                 a.input(inputback, target)

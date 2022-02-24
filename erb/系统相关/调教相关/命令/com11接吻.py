@@ -43,6 +43,7 @@ def com11(active,passive):
     else:
         if obey_check(20,active,passive,com_trait):
             active['标志']['口占用'] = 11
+            passive['标志']['口占用'] = 11
             append_doing_list(active,passive,11)
         else:
             a.t('{}架开了{}的咸猪手'.format(pname,aname),True)
@@ -54,6 +55,7 @@ def com11(active,passive):
 def undocom11(active,passive):
     a.tmp()['执行列表'].remove([active['CharacterId'],passive['CharacterId'],11])
     active['标志']['口占用'] = 0
+    passive['标志']['口占用'] = 0
     if a.tmp()['去冲突标志'] == False:
         a.repeat()
     else:

@@ -7,7 +7,6 @@ from ...人物相关.character_class import search_quaility as sq
 
 #爱抚
 def com1(active,passive):
-
     aname = active['名字']
     pname = passive['名字']
     com_trait = ['B','C']
@@ -23,7 +22,7 @@ def com1(active,passive):
         pm['欲情'] += 5 * (1+active['开发']['指技']*1)
         pm['习得'] += 5 * (1+active['开发']['指技']*1)
         am['快C'] += 5
-        active['身体信息']['阴茎']['插入位置'][passive['CharacterId']] = '阴道'
+        
         am['习得'] += 5
         pm['反感'] += 10
         ae['指技经验'] += 1
@@ -37,7 +36,6 @@ def com1(active,passive):
         sum_pp(passive,[0,20,10])
         
         f = True
-        append_doing_list(active,passive,1)
     else:
         if obey_check(0,active,passive,com_trait):
             #此处可能需要处理替换的问题
@@ -46,7 +44,6 @@ def com1(active,passive):
             f = True
         else:
             a.t('{}试图抚摸{},但被{}躲开了'.format(aname,pname,pname),True)
-            remove_doing_list(active,passive,1)
             pm['反感'] += 10
             pm['好感度'] += -5
             f = False

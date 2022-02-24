@@ -6,7 +6,7 @@ def research_page():
         for i in require:
             if i == '无':pass
             else: 
-                if not i in a.sav()['科技']: pass
+                if i in a.sav()['科技']: pass
                 else: return False
         return True
     

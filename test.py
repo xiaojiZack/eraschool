@@ -27,5 +27,5 @@ a.cls()
 
 
 
-
+a.footer('@xiaoji')
 game_start()

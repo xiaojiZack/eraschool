@@ -32,7 +32,7 @@ def com23(active,passive):
         am['习得'] += 5
         pm['反感'] += 10
 
-        pe['V经验'] += 1
+        pe['A经验'] += 1
         pm['好感度'] += 0
 
         sum_pp(passive,[0,10,15])
@@ -46,7 +46,6 @@ def com23(active,passive):
         else:
             pm['反感'] += 15
             pm['好感度'] += -3
-        all_cal(passive)
 
     return f
 

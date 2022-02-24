@@ -121,7 +121,7 @@ def tech_research():
     for i in l:
         l[i] -= 1
         if l[i] == 0:
-            a.msg('[{}]研发完成'.format(i))
+            a.msg('[{}]研发完成'.format(i), style={'color':'#ff0'})
             a.sav()['科技'].append('{}'.format(i))
             finish.append(i)
     for i in finish:

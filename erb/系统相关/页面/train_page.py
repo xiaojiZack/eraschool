@@ -104,7 +104,7 @@ def train_page():
         if (c['性别'] != '女性'):
             a.t('精巢存量:')
             a.progress(c['身体信息']['阴茎']['内容总量'],c['身体信息']['阴茎']['容量'],style=[{'width':'100px'},{}])
-            a.t('({}ml)'.format(c['身体信息']['阴茎']['内容总量']))
+            #a.t('({}ml)'.format(c['身体信息']['阴茎']['内容总量']))
             a.t()
             if (c['CharacterId']==0):
                 a.t('射精:')
@@ -122,7 +122,7 @@ def train_page():
                 a.t('[满满的♥]',style={'color':'#FFC1C1'})
             else:
                 a.t('[西瓜肚♥]',style={'color':'#FFC1C1'})
-            a.t('({}ml)'.format(c['身体信息']['子宫']['内容总量']))
+            #a.t('({}ml)'.format(c['身体信息']['子宫']['内容总量']))
             a.t()
         if (c['CharacterId']!=0):
             a.t('排泄欲:')
@@ -171,7 +171,6 @@ def train_page():
     a.mode('grid',5)
     for i in com_dict:
         exec('c{}(active,passive)'.format(i))
-        a.t()
 
     a.divider()
     a.b('指令过滤')
