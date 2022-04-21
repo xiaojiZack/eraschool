@@ -48,7 +48,7 @@ def check_pure(c,body_type):
                 time.sleep(0.1)
         return False
     else:
-        return True
+        return True#无需考虑处女问题
 
 def pure_punish(c,body_type):
     c['待处理记忆']['恐惧'] += 200
@@ -59,3 +59,5 @@ def pure_punish(c,body_type):
     if (body_type) == 'A': text = 'A处女'
     if (body_type) == 'P': text = '童贞'
     a.msg('{}失去了[{}]'.format(c['名字'],text),style={'color':'#f00'})
+    c['属性']['体质'].remove(text)
+    a.tmp()['特殊事件'].append(['{}丧失'.format(text),'{}'.format(c['名字'])])

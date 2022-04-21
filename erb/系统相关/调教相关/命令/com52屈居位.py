@@ -2,6 +2,7 @@ import erajs.api as a
 from erb.系统相关.调教相关.体力衰减 import sum_pp
 from erb.系统相关.调教相关.命令.执行列表增减 import append_doing_list, check_doing_list
 from erb.系统相关.调教相关.处女 import check_pure, pure_punish
+from erb.系统相关.调教相关.插入 import insert, insert_check
 from erb.系统相关.调教相关.插入尺寸计算 import check_maintain_size, check_size, size_punish
 from erb.系统相关.调教相关.润滑 import is_enough_oiling, not_oiling_punish
 from ..com_check import obey_check
@@ -21,67 +22,42 @@ def com52(active,passive):
     favor = []
     f = False
     
-    pure_flag = check_pure(passive,'V')
-
-    if check_doing_list(active,passive,52):
-        size = active['身体信息']['阴茎']['尺寸']
-        size_flag = check_size(passive['开发']['V扩张度'],size,passive['身体信息']['阴道']['内容固体'])
-    else: size_flag = check_maintain_size(passive['开发']['V扩张度'],passive['身体信息']['阴道']['内容固体'])
-
-    if size_flag == False:
-        com_trait.append('尺寸过大')
-        com_trait.append('疼痛')
-    
-    oil_flag = is_enough_oiling(passive,'V',3)
-    if oil_flag >0:
-        com_trait.append('润滑不足')
-    
-    if (size_flag or a.tmp()['调教数据']['尺寸警告标志'] == False):
-        if (pure_flag or a.tmp()['调教数据']['破处警告标志'] == False):
-            if check_doing_list(active,passive,52):
-                if oil_flag >0:
-                    not_oiling_punish(passive,oil_flag)
-                if size_flag == False:
-                    size_punish(passive)
+    check_result = insert_check(active,passive,'P','V',com_trait)
+    if check_doing_list(active,passive,52) and check_result!=False:
+        insert(active,passive,'P','V',check_result)
                                 
-                pm['快V'] += 5 * (1+active['开发']['腰技']*1)
-                pm['羞耻'] += 5 * (1+active['开发']['腰技']*1)
-                pm['屈服'] += 15 * (1+active['开发']['腰技']*1)
-                pm['欲情'] += 5 * (1+active['开发']['腰技']*1)
-                pm['恭顺'] += 15 * (1+active['开发']['腰技']*1)
-                pm['习得'] += 5 * (1+active['开发']['腰技']*1)
-                pm['反感'] += 10
-                pe['V经验'] += 1 * (1+active['开发']['腰技']*1)
-                pm['好感度'] += 1 * (1+active['开发']['腰技']*1)
-                
-                am['快C'] += (passive['开发']['V名器度']+5)*(1+passive['开发']['腰技']*1)
-                am['欲情'] += 10 * (1+active['开发']['腰技']*1)
-                am['习得'] += 5*(1+passive['开发']['腰技']*1)
-                am['主导'] += 10*(1+passive['开发']['腰技']*1)
-                ae['腰技经验'] += 1
-                pe['腰技经验'] += 1
-                ae['V插入经验'] += 1
-                
-                sum_pp(active,[0,10,5])
-                sum_pp(passive,[0,40,20])
-                
-                f = True
-                
-            else:
-                if  obey_check(32,active,passive,com_trait):
-                    #此处可能需要处理替换的问题
-                    active['标志']['阴茎占用'] = 52
-                    append_doing_list(active,passive,52)
-                    passive['身体信息']['阴道']['内容固体'][active['名字']] = active['身体信息']['阴茎']['尺寸']
-                    active['身体信息']['阴茎']['插入位置'][passive['CharacterId']] = '阴道'
-                    if pure_flag == False:
-                        pure_punish(passive,'V')
-                        passive['属性']['体质'].remove('处女')
-                        a.tmp()['特殊事件'].append(['处女丧失','{}'.format(passive['名字'])])
-
-                else:
-                    pm['反感'] += 50
-                    pm['好感度'] += -5
+        pm['快V'] += 5 * (1+active['开发']['腰技']*1)
+        pm['羞耻'] += 5 * (1+active['开发']['腰技']*1)
+        pm['屈服'] += 15 * (1+active['开发']['腰技']*1)
+        pm['欲情'] += 5 * (1+active['开发']['腰技']*1)
+        pm['恭顺'] += 15 * (1+active['开发']['腰技']*1)
+        pm['习得'] += 5 * (1+active['开发']['腰技']*1)
+        pm['反感'] += 10
+        pe['V经验'] += 1 * (1+active['开发']['腰技']*1)
+        pm['好感度'] += 1 * (1+active['开发']['腰技']*1)
+        
+        am['快C'] += (passive['开发']['V名器度']+5)*(1+passive['开发']['腰技']*1)
+        am['欲情'] += 10 * (1+active['开发']['腰技']*1)
+        am['习得'] += 5*(1+passive['开发']['腰技']*1)
+        am['主导'] += 10*(1+passive['开发']['腰技']*1)
+        ae['腰技经验'] += 1
+        pe['腰技经验'] += 1
+        ae['V插入经验'] += 1
+        
+        sum_pp(active,[0,10,5])
+        sum_pp(passive,[0,40,20])
+        
+        f = True
+        
+    else:
+        if  obey_check(32,active,passive,com_trait):
+            #此处可能需要处理替换的问题
+            active['标志']['阴茎占用'] = 52
+            append_doing_list(active,passive,52)
+            
+        else:
+            pm['反感'] += 50
+            pm['好感度'] += -5
         
     return f
 

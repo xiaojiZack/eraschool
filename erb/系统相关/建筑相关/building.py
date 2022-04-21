@@ -1,15 +1,6 @@
 import erajs.api as a
 from .building0_测试 import exec0
-building_dict = {
-    '测试':{
-        '简介':'测试简介',
-        '占用空间':1,
-        '建筑费用':{'金钱':10},
-        '维护费用':{'金钱':1},
-        '可执行':True,
-        '执行函数':0,
-    },
-}
+building_dict = a.dat()['building_item']
 
 def exec_building():
     bl = a.sav()['校内建筑列表']

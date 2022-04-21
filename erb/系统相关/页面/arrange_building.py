@@ -111,7 +111,7 @@ def existing_building(bname):
     a.divider()
     a.b('拆除建筑',destory,bname)
     a.t()
-    a.b('放弃',a.back)
+    a.b('返回',a.back)
 
 def update_building_cost():
     bl = a.sav()['校内建筑列表']

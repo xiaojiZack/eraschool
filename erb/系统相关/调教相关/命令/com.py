@@ -1,5 +1,6 @@
 import imp
 import erajs.api as a
+from erb.系统相关.口上相关.口上调用 import print_kojo
 from erb.系统相关.调教相关.memory_cal import all_cal
 from erb.系统相关.调教相关.命令.执行列表增减 import append_doing_list
 from erb.系统相关.调教相关.绝顶 import main_orgasm
@@ -829,6 +830,7 @@ def singal_step():
     for c in a.tmp()['调教数据']['参与者']:
         all_cal(c)
     main_orgasm(a.tmp()['调教数据']['参与者'])
+    print_kojo()
     a.repeat()
 
 #_________________________________________________________________________________

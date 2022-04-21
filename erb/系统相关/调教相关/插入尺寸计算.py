@@ -57,7 +57,8 @@ def check_maintain_size(body_size,have_inserted):
     else:
         return True
 
-def size_punish(c):
+def size_punish(c,place):
     c['待处理记忆']['恐惧'] += 2000
     c['待处理记忆']['苦痛'] += 2000
     c['待处理记忆']['反感'] += 1000
+    c['待处理经验']['{}扩张经验'.format(place)] += 1

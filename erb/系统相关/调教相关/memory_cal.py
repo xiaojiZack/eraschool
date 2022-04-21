@@ -1,6 +1,4 @@
 import math
-
-from numpy import negative
 import erajs.api as a
 from erb.系统相关.调教相关.体力衰减 import decrease_pp
 from ..人物相关.character_class import search_quaility as sq

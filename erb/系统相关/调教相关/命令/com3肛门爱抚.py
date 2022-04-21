@@ -41,7 +41,6 @@ def com3(active,passive):
             active['标志']['手占用'] = 3
             append_doing_list(active,passive,3)
         else:
-            a.t('{}试图抚摸{},但被{}躲开了'.format(aname,pname,pname),True)
             pm['反感'] += 50
             pm['好感度'] += -5
 

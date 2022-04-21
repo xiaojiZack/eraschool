@@ -1,4 +1,32 @@
+import time
 import erajs.api as a
+
+def not_oil_warning(p,demand):
+    flag = True
+    a.tmp()['润滑警报确认中'] = False
+    if a.tmp()['调教数据']['润滑警告标志'] and demand>=2:
+        def undo_flag():
+                a.tmp()['调教数据']['润滑警告标志'] = False
+                a.msg('润滑警报已关闭')
+                a.tmp()['润滑警报确认中'] = False
+                flag = True
+        def mercy():
+            a.tmp()['润滑警报确认中'] = False
+            flag = False
+        a.tmp()['润滑警报确认中'] = True
+        a.page()
+        a.mode()
+        pname = p['名字']
+        a.h('警告!')
+        a.t()
+        a.t('对于{}来说，似乎还需要一些润滑来插入，即使这样也要强行继续吗?'.format(pname))
+        a.t()
+        a.b('残酷调教',undo_flag)
+        a.t()
+        a.b('仁慈放过',mercy)
+    while(a.tmp()['润滑警报确认中']):
+        time.sleep(0.1)
+    return flag#返回能否执行后续操作
 
 #通过输入的c来判断是否润滑不足，若润滑不足则返回不足程度
 def is_enough_oiling(c,body_type,demand):

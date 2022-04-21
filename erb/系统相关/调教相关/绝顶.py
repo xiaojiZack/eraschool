@@ -3,6 +3,7 @@ import time
 import erajs.api as a
 import math
 from erb.系统相关.人物相关.character_class import search_quaility as sq
+from erb.系统相关.口上相关.口上调用 import comkojo
 from erb.系统相关.调教相关.memory_cal import exp_cal, memory_cal
 from erb.系统相关.调教相关.液体 import eject_liquid, inject_liquid
 
@@ -68,6 +69,7 @@ def eject_semen(c,count):
         p = find_people(who)
         be_eject_semen(p,c['身体信息']['阴茎']['插入位置'][who],count_level(count),c['名字'])
         inject_liquid(p,c['身体信息']['阴茎']['插入位置'][who],eject_liquid_list)
+        add_eject_kojo(c, who,c['身体信息']['阴茎']['插入位置'][who], eject_liquid_list)
     a.tmp()['射精处理中'] = False
 #被射
 def be_eject_semen(c,body_type,count,who_eject):
@@ -229,10 +231,11 @@ def orgasm_bouns():
         for j in ol[i]:
             if j in ['V','A','M','B','C','W','U']:
                 p['调教记忆']['快{}'.format(j)] = p['调教记忆']['快{}'.format(j)] - 10000*ol[i][j]
-                p['待处理记忆']['恭顺'] += 10
-                p['待处理记忆']['欲情'] += 10
-                p['待处理记忆']['V润'] += 50
-                p['待处理记忆']['A润'] += 50
+                p['待处理记忆']['恭顺'] += 500*ol[i][j]
+                p['待处理记忆']['欲情'] += 500*ol[i][j]
+                p['待处理记忆']['V润'] += 100*ol[i][j]
+                p['待处理记忆']['A润'] += 100*ol[i][j]
+                add_orgasm_kojo(p,j,ol[i][j]) #记录高潮口上
     
     #多重绝顶bouns
     for i in ol:
@@ -270,6 +273,12 @@ def find_people(CharacterId):
             return i
     return False
 
+def find_people_name(name):
+    for i in a.tmp()['调教数据']['参与者']:
+        if i['名字'] == name:
+            return i
+    return False
+
 def count_level(count):
     if count == 0:
         return False
@@ -293,11 +302,8 @@ def chain_orgasm():
     for cid in orgasm_list:
         if cid in a.tmp()['被射名单']:
             if trans_dict[orgasm_list[cid]] in a.tmp()['被射名单'][cid].keys():
-                a.t('{}的{}在'.format(find_people(cid)['名字'],trans_dict[orgasm_list[cid]]),style={'color':'#FFC1C1'})
                 for i in a.tmp()['被射名单'][cid][trans_dict[orgasm_list[cid]]]:
-                    a.t('[{}]'.format(i),style={'color':'#FFC1C1'})
-                a.t('的射精冲击下达到了高潮',style={'color':'#FFC1C1'})
-                a.t()
+                    add_beeject_kojo(find_people_name(i),cid,orgasm_list[cid])
     orgasm_bouns()
 
 #高潮处理主函数,输入参与者名单
@@ -316,5 +322,54 @@ def main_orgasm(cl):
         check_orgasm(find_people(cid))
     if len(a.tmp()['高潮名单']) >0:
         chain_orgasm()
+    for c in cl:
+        comkojo(cl, c,  -1)
+    a.tmp()['高潮口上记录'] = {
+        '射精':{},#{谁射精(id),谁被射(id),射在哪，{射了什么}}
+        '绝顶':{},#{谁绝顶(id):{哪个部位:绝顶程度}}
+        '被射高潮':{},#{谁射精(id),谁被射(id),哪个部位}
+        '淫纹':{}
+    }
 
 
+def add_eject_kojo(whoeject, whoinject, place, liquid):
+    l = a.tmp()['高潮口上记录']['射精']
+    flag = False
+    for i in l:
+        if i[0] == whoeject and i[1] == whoinject and i[2] == place:
+            add_dist(i[3],liquid)
+            flag = True
+            break
+    if flag == False:
+        l.append([whoeject,whoinject,place,liquid])
+
+def add_orgasm_kojo(whoorgasm, place, count):
+    l = a.tmp()['高潮口上记录']['绝顶']
+    flag= False
+    for i in l:
+        if i == whoorgasm and l[i] == place:
+            l[i][place] += count
+            flag = True
+            break
+    if flag == False:
+        d = {place:count}
+        if whoorgasm['CharacterId'] in l.keys():
+            l[whoorgasm['CharacterId']].update(d)
+        else:
+            l[whoorgasm['CharacterId']] = d
+
+def add_beeject_kojo(whoeject, whoinject,place):
+    l = a.tmp()['高潮口上记录']['被射高潮']
+    for i in l:
+        if i[0] == whoeject and i[1] == whoinject and i[2] == place:
+            flag = True
+            break
+    if flag == False:
+        l.append([whoeject,whoinject,place])
+
+def add_dist(dist1, dist2):
+    for i in dist2:
+        if i in dist1.keys():
+            dist1[i] += dist2[i]
+        else:
+            dist1[i] = dist2[i]

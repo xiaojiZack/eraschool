@@ -1,4 +1,3 @@
-from scipy import rand
 
 import erajs.api as a
 from ..人物相关.quaility_list import random_list

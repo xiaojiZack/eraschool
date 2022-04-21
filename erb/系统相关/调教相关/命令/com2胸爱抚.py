@@ -1,4 +1,5 @@
 import erajs.api as a
+from erb.系统相关.口上相关.口上调用 import comkojo
 from erb.系统相关.调教相关.体力衰减 import sum_pp
 from erb.系统相关.调教相关.命令.下一回合 import singal_step
 from erb.系统相关.调教相关.命令.执行列表增减 import append_doing_list, check_doing_list
@@ -26,15 +27,9 @@ def com2(active,passive):
         pm['反感'] += 10
         ae['指技经验'] += 1
         pe['B经验'] += 1
-        if sq(passive, '巨乳'):
-            a.t('{}的手在{}那巨大的乳房上抓揉抚摸'.format(aname,pname),True)
-        elif sq(passive,'贫乳'):
-            a.t('{}的手在{}平坦的胸部上轻柔抚摸'.format(aname,pname),True)
-        else:
-            a.t('{}的手在{}的胸部上抚摸'.format(aname,pname),True)
-        a.t()
         pm['好感度'] += 1
-
+        comkojo(active,passive,2,{'com':'doing'})
+        
         sum_pp(active,[0,10,5])
         sum_pp(passive,[0,20,10])
 
@@ -45,15 +40,16 @@ def com2(active,passive):
         if obey_check(0,active,passive,com_trait):
             active['标志']['手占用'] = 2
             append_doing_list(active,passive,2)
+            comkojo(active,passive,2,{'com':'add'})
         else:
-            a.t('{}架开了{}的咸猪手'.format(pname,aname),True)
-            a.t()
+            comkojo(active,passive,2,{'com':'fail'})
             pm['反感'] += 20
             pm['好感度'] += -5
     
     return f
 def undocom2(active,passive):
     a.tmp()['执行列表'].remove([active['CharacterId'],passive['CharacterId'],2])
+    comkojo(active,passive,2,{'com':'undo'})
     active['标志']['手占用'] = 0
     if a.tmp()['去冲突标志'] == False:
         a.repeat()

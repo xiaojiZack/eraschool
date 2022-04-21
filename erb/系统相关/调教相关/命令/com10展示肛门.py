@@ -36,8 +36,6 @@ def com10(active,passive):
         if obey_check(30,active,passive,com_trait):
             append_doing_list(active,passive,10)
         else:
-            a.t('{}架开了{}的咸猪手'.format(pname,aname),True)
-            a.t()
             pm['反感'] += 40
             pm['好感度'] += -5
     

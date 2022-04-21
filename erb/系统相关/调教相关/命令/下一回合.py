@@ -1,4 +1,5 @@
 import erajs.api as a
+from erb.系统相关.口上相关.口上调用 import print_kojo
 from erb.系统相关.调教相关.memory_cal import all_cal
 from erb.系统相关.调教相关.绝顶 import main_orgasm
 
@@ -13,6 +14,7 @@ def singal_step():
         exec('com{}(active,passive)'.format(com))
     all_cal(a.tmp()['调教信息']['参与者'])
     main_orgasm(a.tmp()['调教信息']['参与者'])
+    print_kojo()
     a.repeat()
 
 def find_people(CharacterId):

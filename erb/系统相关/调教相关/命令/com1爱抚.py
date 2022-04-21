@@ -1,4 +1,5 @@
 import erajs.api as a
+from erb.系统相关.口上相关.口上调用 import comkojo
 from erb.系统相关.调教相关.体力衰减 import sum_pp
 from erb.系统相关.调教相关.命令.下一回合 import singal_step
 from erb.系统相关.调教相关.命令.执行列表增减 import append_doing_list, check_doing_list, remove_doing_list
@@ -16,7 +17,7 @@ def com1(active,passive):
     pe = passive['待处理经验']
     f = False
     if check_doing_list(active,passive,1):
-        pm['快C'] += 5 * (1+active['开发']['指技']*1)
+        pm['快C'] += 50000 * (1+active['开发']['指技']*1)
         pm['快B'] += 5 * (1+active['开发']['指技']*1)
         pm['羞耻'] += 10 * (1+active['开发']['指技']*1)
         pm['欲情'] += 5 * (1+active['开发']['指技']*1)
@@ -24,11 +25,12 @@ def com1(active,passive):
         am['快C'] += 5
         
         am['习得'] += 5
+        am['快C'] += 50000
         pm['反感'] += 10
         ae['指技经验'] += 1
         pe['C经验'] += 1
         pe['B经验'] += 1
-        a.t('{}的手在{}身上轻柔抚摸'.format(aname,pname),True)
+        comkojo(active,passive,1,{'com':'doing'})
         a.t()
         pm['好感度'] += 1
 
@@ -37,13 +39,14 @@ def com1(active,passive):
         
         f = True
     else:
-        if obey_check(0,active,passive,com_trait):
+        if obey_check(-20,active,passive,com_trait):
             #此处可能需要处理替换的问题
             active['标志']['手占用'] = 1
             append_doing_list(active,passive,1)
+            comkojo(active,passive,1,{'com':'add'})
             f = True
         else:
-            a.t('{}试图抚摸{},但被{}躲开了'.format(aname,pname,pname),True)
+            comkojo(active,passive,1,{'com':'fail'})
             pm['反感'] += 10
             pm['好感度'] += -5
             f = False
@@ -53,6 +56,7 @@ def com1(active,passive):
 def undocom1(active,passive):
     a.tmp()['执行列表'].remove([active['CharacterId'],passive['CharacterId'],1])
     active['标志']['手占用'] = 0
+    comkojo(active,passive,1,{'com':'undo'})
     if a.tmp()['去冲突标志'] == False:
         a.repeat()
     else:
