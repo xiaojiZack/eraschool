@@ -7,7 +7,9 @@ from ..com_check import obey_check
 from ...人物相关.character_class import search_quaility as sq
 
 #爱抚
+comid = 1
 def com1(active,passive):
+
     aname = active['名字']
     pname = passive['名字']
     com_trait = ['B','C']
@@ -17,7 +19,7 @@ def com1(active,passive):
     pe = passive['待处理经验']
     f = False
     if check_doing_list(active,passive,1):
-        pm['快C'] += 50000 * (1+active['开发']['指技']*1)
+        pm['快C'] += 5 * (1+active['开发']['指技']*1)
         pm['快B'] += 5 * (1+active['开发']['指技']*1)
         pm['羞耻'] += 10 * (1+active['开发']['指技']*1)
         pm['欲情'] += 5 * (1+active['开发']['指技']*1)
@@ -25,7 +27,7 @@ def com1(active,passive):
         am['快C'] += 5
         
         am['习得'] += 5
-        am['快C'] += 50000
+        am['快C'] += 5
         pm['反感'] += 10
         ae['指技经验'] += 1
         pe['C经验'] += 1
@@ -34,7 +36,7 @@ def com1(active,passive):
         a.t()
         pm['好感度'] += 1
 
-        sum_pp(active,[0,10,5])
+        sum_pp(active,[0,10,0])
         sum_pp(passive,[0,20,10])
         
         f = True
@@ -47,7 +49,7 @@ def com1(active,passive):
             f = True
         else:
             comkojo(active,passive,1,{'com':'fail'})
-            pm['反感'] += 10
+            pm['反感'] += 20
             pm['好感度'] += -5
             f = False
     

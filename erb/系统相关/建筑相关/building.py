@@ -1,8 +1,8 @@
 import erajs.api as a
 from .building0_测试 import exec0
-building_dict = a.dat()['building_item']
 
 def exec_building():
+    building_dict = a.dat()['building_item']
     bl = a.sav()['校内建筑列表']
     for i in bl:
         if (building_dict[i]['可执行']):
@@ -17,3 +17,11 @@ def exec_building():
         else:
             a.sav()['资源'][i] -= cost[i]
     a.tmp()['资源短缺flag'] = flag
+
+def destory_building(bname):
+    building_dict = a.dat()['building_item']
+    if ('拆除函数' in building_dict[bname].keys()):
+        if (building_dict[bname]['拆除函数']):
+            exec('return destory{}()'.format(building_dict[bname]['执行函数']))
+    else:
+        return True

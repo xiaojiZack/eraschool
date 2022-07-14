@@ -1,4 +1,5 @@
 from  erajs import api as a
+from erb.系统相关.页面.main_page import main_page
 import funcs as f
 from .creat_leading_character import creat_leading_character
 from erb.系统相关.事件.event_1_入学 import *
@@ -11,6 +12,8 @@ def game_start():
     a.t('0.1')
     a.t()
     a.b('开始',a.goto, game_init)
+    a.t()
+    a.b('继续',a.goto, load_save)
 
 def game_init():
     save = a.sav()
@@ -38,14 +41,16 @@ def game_init():
     save['正在研发'] = {}
 
     a.sav()['学院名'] = '测试学院名'
-    a.sav()['学院名气度'] = 0
-
+    a.sav()['学院评级'] = 'D'
     a.sav()['可用教案'] = ['单独授课']
     a.sav()['校内建筑列表']=[]
     a.sav()['校区建筑最大空间'] = 5
     a.sav()['维护总费用'] = {}
     a.sav()['可建设建筑列表'] = ['测试']
     a.sav()['每周最大行动次数'] = 4
+    a.sav()['学生上限人数'] = 2
+    a.sav()['教职上限人数'] = 1
+    a.sav()['历史毕业人数'] = 0
 
     def input_school_name(name):
             a.sav()['学院名'] = name
@@ -54,3 +59,16 @@ def game_init():
     a.input(input_school_name,'测试学院名')
     a.t()
     a.b('[决定]',creat_leading_character,style = {'color':'#ff0'})
+
+def load_save():
+    a.page()
+    def load_file(i, filename_without_ext):
+        a.load(filename_without_ext)
+        a.clear()
+        a.goto(main_page)
+    a.mode()
+    for i, each in enumerate(a.scan_save_file()):
+        a.b('{}. {}'.format(i, each[0]), load_file, i, each[0])
+        a.t()
+    a.divider()
+    a.b('返回',a.back)

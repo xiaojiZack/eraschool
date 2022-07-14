@@ -5,9 +5,9 @@ from erb.系统相关.调教相关.命令.下一回合 import singal_step
 from erb.系统相关.调教相关.命令.执行列表增减 import append_doing_list, check_doing_list
 from ..com_check import obey_check
 from ...人物相关.character_class import search_quaility as sq
-
+comid = 2
 def com2(active,passive):
-
+    
     aname = active['名字']
     pname = passive['名字']
     com_trait = ['B']
@@ -30,7 +30,7 @@ def com2(active,passive):
         pm['好感度'] += 1
         comkojo(active,passive,2,{'com':'doing'})
         
-        sum_pp(active,[0,10,5])
+        sum_pp(active,[0,10,0])
         sum_pp(passive,[0,20,10])
 
 

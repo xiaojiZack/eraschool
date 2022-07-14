@@ -1,5 +1,6 @@
 import erajs.api as a
 from erb.系统相关.页面.research import research_page
+from erb.系统相关.页面.school_information import school_information
 from funcs import debug
 from .shop import shop_page
 from .arrange_plan import init_plan
@@ -14,7 +15,7 @@ def main_page():
     a.divider()
     a.mode('grid', 5)
     #日期
-    a.t(a.sav()['学院名'])
+    a.b(a.sav()['学院名'], a.goto, school_information)
     a.t()
     season = ['春','夏','秋','冬']
     week = ['上','下']
@@ -41,11 +42,11 @@ def main_page():
     a.t(lc['名字'])
     a.t()
     if (lc['性别'] != '女性'):
-            a.t('精巢存量:')
+            a.t('精液存量:')
             a.progress(lc['身体信息']['阴茎']['内容总量'],lc['身体信息']['阴茎']['容量'])
             #a.t('({}ml)'.format(lc['身体信息']['阴茎']['内容总量']))
             if lc['身体信息']['阴茎']['内容总量'] == lc['身体信息']['阴茎']['容量']:
-                a.t('[满溢]')
+                a.t('[满溢]', style=['color','#ff0'])
             a.t()
 
     a.divider()
@@ -77,9 +78,9 @@ def main_page():
     a.divider()
     a.t('设置')
     a.t()
-    a.t('存档')
+    a.b('存档', a.goto, a.ui_save)
     a.t()
-    a.t('读档')
+    a.b('读档',a.goto, a.ui_load)
     a.t()
     a.cfg()['debug'] = True
     debug()

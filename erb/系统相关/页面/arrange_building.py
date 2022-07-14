@@ -1,8 +1,10 @@
 import imp
 import erajs.api as a
-from ..建筑相关.building import building_dict
+from ..建筑相关.building import destory_building
 
 def arrange_building():
+    update_allowed_building()
+    building_dict = a.dat()['building_item']
     a.page()
     a.mode()
     a.divider('校内设施一览')
@@ -37,6 +39,7 @@ def arrange_building():
     a.b('返回',a.back)
 
 def add_building_page(bname):
+    building_dict = a.dat()['building_item']
     def check_fee(b):
         fee = a.sav()['资源']
         cost = b['建筑费用']
@@ -73,6 +76,8 @@ def add_building_page(bname):
     a.t()
     a.t('占用空间:{}'.format(building_dict[bname]['占用空间']))
     a.t()
+    a.t('最多所有数:{}'.format(building_dict[bname]['最多所有数']))
+    a.t()
     a.t('建筑费用:')
     for i in building_dict[bname]['建筑费用']:
         a.t('[{}:{}]'.format(i,building_dict[bname]['建筑费用'][i]))
@@ -83,17 +88,22 @@ def add_building_page(bname):
     a.divider()
     a.b('新建建筑',add_building, bname)
     a.t()
-    a.b('放弃',a.back)
+    a.b('放弃',a.repeat)
 
 def existing_building(bname):
+    building_dict = a.dat()['building_item']
     def destory(bname):
-        a.sav()['校内建筑列表'].remove(bname)
-        space = building_dict[bname]['占用空间']
-        remain_space = a.tmp()['剩余空间']
-        remain_space += space
-        update_building_cost()
-        a.msg('[{}]已经拆除'.format(bname))
-        a.repeat()
+        if destory_building(bname):
+            a.sav()['校内建筑列表'].remove(bname)
+            space = building_dict[bname]['占用空间']
+            remain_space = a.tmp()['剩余空间']
+            remain_space += space
+            update_building_cost()
+            a.msg('[{}]已经拆除'.format(bname))
+            a.repeat()
+        else:
+            a.msg('取消[{}]拆除'.format(bname))
+            a.repeat()
     a.page()
     a.mode()
     a.h(bname)
@@ -114,6 +124,7 @@ def existing_building(bname):
     a.b('返回',a.back)
 
 def update_building_cost():
+    building_dict = a.dat()['building_item']
     bl = a.sav()['校内建筑列表']
     cost = {}
     for i in bl:
@@ -123,3 +134,35 @@ def update_building_cost():
             else:
                 cost[j] += building_dict[i]['维护费用'][j]
     a.sav()['维护总费用'] = cost
+
+def update_allowed_building():
+    #更新可建筑列表
+    def check_allow(item):
+        #检查是否符合前置需求
+        f = True
+        tech = a.dat()['building_item'][item]['科技需求']
+        t = a.sav()['科技']
+        for i in tech:
+            if i=='无': f = True
+            elif not i in a.sav()['科技']: 
+                f= False
+        bl = a.sav()['校内建筑列表']
+        count = 0
+        for i in bl:
+            if i == item:
+                count = count +1
+        if count >= a.dat()['building_item'][item]['最多所有数']: 
+            f = False
+        return f
+    
+    cbl = a.sav()['可建设建筑列表']
+    building_dict = a.dat()['building_item']
+    for i in building_dict:
+        if i in cbl:
+            if not check_allow(i):
+                cbl.remove(i)
+                #已不再满足前置需求
+        else:
+            if check_allow(i):
+                cbl.append(i)
+                #新增建筑项

@@ -95,7 +95,7 @@ def obey_check(difficulty,active,passive,com_trait):
     if '自慰' in com_trait:
         if passive['开发']['自慰成瘾']>0:
             pl['自慰成瘾Lv{}'.format(passive['开发']['自慰成瘾'])] = passive['开发']['自慰成瘾']*passive['开发']['欲望']
-    if '污臭' in com_trait:
+    if '脏污' in com_trait:
         if sq(passive,'污臭敏感'):
             pl['污臭敏感'] = -15
         if sq(passive,'污臭钝感'):

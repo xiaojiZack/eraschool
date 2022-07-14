@@ -1,4 +1,5 @@
 import erajs.api as a
+from erb.系统相关.口上相关.口上调用 import comkojo
 from erb.系统相关.调教相关.体力衰减 import sum_pp
 from erb.系统相关.调教相关.命令.执行列表增减 import append_doing_list, check_doing_list
 from erb.系统相关.调教相关.处女 import check_pure, pure_punish
@@ -7,7 +8,7 @@ from erb.系统相关.调教相关.插入尺寸计算 import check_maintain_size
 from erb.系统相关.调教相关.润滑 import is_enough_oiling, not_oiling_punish
 from ..com_check import obey_check
 from ...人物相关.character_class import search_quaility as sq
-
+comid = 51
 def com51(active,passive):
 
     aname = active['名字']
@@ -34,6 +35,7 @@ def com51(active,passive):
         pm['习得'] += 5 * (1+active['开发']['腰技']*1)
         pm['反感'] += 10
         pe['V经验'] += 1 * (1+active['开发']['腰技']*1)
+        pe['V性交经验'] += 1 * (1+active['开发']['腰技']*1)
         pm['好感度'] += 1 * (1+active['开发']['腰技']*1)
         
         am['快C'] += (passive['开发']['V名器度']+10)*(1+passive['开发']['腰技']*1)
@@ -46,6 +48,7 @@ def com51(active,passive):
         
         sum_pp(active,[0,10,5])
         sum_pp(passive,[0,25,20])
+        comkojo(active,passive,comid,{'com':'doing'})
         
         f = True
             
@@ -54,15 +57,18 @@ def com51(active,passive):
             #此处可能需要处理替换的问题
             active['标志']['阴茎占用'] = 51
             append_doing_list(active,passive,51)
+            comkojo(active,passive,comid,{'com':'add'})
             
         else:
             pm['反感'] += 50
             pm['好感度'] += -5
+            comkojo(active,passive,comid,{'com':'fail'})
         
     return f
 
 def undocom51(active,passive):
     a.tmp()['执行列表'].remove([active['CharacterId'],passive['CharacterId'],51])
+    comkojo(active,passive,comid,{'com':'undo'})
     active['标志']['阴茎占用'] = 0
     del passive['身体信息']['阴道']['内容固体'][active['名字']]
     del active['身体信息']['阴茎']['插入位置'][passive['CharacterId']]

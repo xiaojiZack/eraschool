@@ -1,10 +1,11 @@
 import erajs.api as a
+from erb.系统相关.口上相关.口上调用 import comkojo
 from erb.系统相关.调教相关.体力衰减 import sum_pp
 from erb.系统相关.调教相关.命令.下一回合 import singal_step
 from erb.系统相关.调教相关.命令.执行列表增减 import append_doing_list, check_doing_list, remove_doing_list
 from ..com_check import obey_check
 from ...人物相关.character_class import search_quaility as sq
-
+comid = 67
 def com67(active,passive):
 
     aname = active['名字']
@@ -34,6 +35,7 @@ def com67(active,passive):
 
         sum_pp(active,[0,10,5])
         sum_pp(passive,[0,25,15])
+        comkojo(active,passive,comid,{'com':'doing'})
         
         f = True
     else:
@@ -43,10 +45,12 @@ def com67(active,passive):
             active['标志']['阴茎占用'] = 67
             active['身体信息']['阴茎']['插入位置'][passive['CharacterId']] = '胸'
             append_doing_list(active,passive,67)
+            comkojo(active,passive,comid,{'com':'add'})
             f = True
         else:
             pm['反感'] += 10
             pm['好感度'] += -5
+            comkojo(active,passive,comid,{'com':'fail'})
             f = False
     
     a.tmp()['执行结果'] = f
@@ -56,6 +60,7 @@ def undocom67(active,passive):
     passive['标志']['胸占用'] = 0
     active['标志']['阴茎占用'] = 0
     del active['身体信息']['阴茎']['插入位置'][passive['CharacterId']]
+    comkojo(active,passive,comid,{'com':'undo'})
     if a.tmp()['去冲突标志'] == False:
         a.repeat()
     else:

@@ -1,6 +1,7 @@
 import time
 from tkinter.ttk import Style
 import erajs.api as a
+from erb.系统相关.口上相关.口上调用 import comkojo
 from erb.系统相关.调教相关.体力衰减 import sum_pp
 from erb.系统相关.调教相关.命令.执行列表增减 import append_doing_list, check_doing_list
 from erb.系统相关.调教相关.处女 import check_pure, pure_punish
@@ -8,7 +9,7 @@ from erb.系统相关.调教相关.插入尺寸计算 import P_size_trans, check
 from erb.系统相关.调教相关.润滑 import is_enough_oiling, not_oiling_punish
 from ..com_check import obey_check
 from ...人物相关.character_class import search_quaility as sq
-
+comid = 25
 def com25(active,passive):
     aname = active['名字']
     pname = passive['名字']
@@ -62,6 +63,7 @@ def com25(active,passive):
             pe['V经验'] += 1
             pm['好感度'] += 1
             sum_pp(passive,[0,25,20])
+            comkojo(active,passive,25,{'com':'doing'})
             
             f = True
             
@@ -69,6 +71,7 @@ def com25(active,passive):
             if  obey_check(-100,active,passive,com_trait):
                 #此处可能需要处理替换的问题
                 append_doing_list(active,passive,25)
+                comkojo(active,passive,25,{'com':'add'})
                 passive['身体信息']['阴道']['内容固体']['按摩棒'] = size
                 if pure_flag == False:
                     pure_punish(passive,'V')
@@ -79,11 +82,13 @@ def com25(active,passive):
             else:
                 pm['反感'] += 30
                 pm['好感度'] += -3
+                comkojo(active,passive,25,{'com':'fail'})
         
     return f
 
 def undocom25(active,passive):
     remove_equipment(passive,25)
+    comkojo(active,passive,25,{'com':'undo'})
     del passive['身体信息']['阴道']['内容固体']['按摩棒']
     #a.t()
     if a.tmp()['去冲突标志'] == False:

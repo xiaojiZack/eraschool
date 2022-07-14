@@ -49,7 +49,7 @@ def insert(ac,pa,insertproject,place,check_result):
             size = insertproject
         pa['身体信息'][beinsertdist[place]]['内容固体'][ac['名字']] = size
         if insertproject == 'P':
-            ac['身体信息']['阴茎']['插入位置'][passive['CharacterId']] = beinsertdist[place]
+            ac['身体信息']['阴茎']['插入位置'][pa['CharacterId']] = beinsertdist[place]
         if check_result['size_flag']:
             size_punish(pa,place)
         if check_result['oil_require']>0:

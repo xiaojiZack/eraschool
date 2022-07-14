@@ -1,11 +1,12 @@
 import erajs.api as a
+from erb.系统相关.口上相关.口上调用 import comkojo
 from erb.系统相关.调教相关.体力衰减 import sum_pp
 from erb.系统相关.调教相关.命令.执行列表增减 import append_doing_list, check_doing_list
 from erb.系统相关.调教相关.插入尺寸计算 import check_size, size_punish
 from erb.系统相关.调教相关.润滑 import is_enough_oiling, not_oiling_punish
 from ..com_check import obey_check
 from ...人物相关.character_class import search_quaility as sq
-
+comid = 29
 def com29(active,passive):
     #成功判定
     aname = active['名字']
@@ -37,6 +38,7 @@ def com29(active,passive):
         pm['好感度'] += 1 * (1+active['开发']['指技']*1)
 
         sum_pp(passive,[0,10,5])
+        comkojo(active,passive,comid,{'com':'doing'})
 
         f = True
         
@@ -45,14 +47,17 @@ def com29(active,passive):
             #此处可能需要处理替换的问题
             active['标志']['手占用'] = 29
             append_doing_list(active,passive,29)
+            comkojo(active,passive,comid,{'com':'add'})
         else:
             pm['反感'] += 10
             pm['好感度'] += -2
+            comkojo(active,passive,comid,{'com':'fail'})
 
     return f
 
 def undocom29(active,passive):
     a.tmp()['执行列表'].remove([active['CharacterId'],passive['CharacterId'],29])
+    comkojo(active,passive,comid,{'com':'undo'})
     active['标志']['手占用'] = 0
     #a.t()
     if a.tmp()['去冲突标志'] == False:

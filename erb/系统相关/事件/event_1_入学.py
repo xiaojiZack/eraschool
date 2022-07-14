@@ -33,8 +33,8 @@ def event1():
         
 
 def number_of_new_student():
-    fame = a.sav()['学院名气度']
-    ex_number = len(str(int(fame/10)))
+    fame = a.sav()['学院评级']
+    if fame == 'D': ex_number = 1
     return ex_number+1
 
 def creat_new_student():

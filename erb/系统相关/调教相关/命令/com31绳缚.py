@@ -1,12 +1,13 @@
 import time
 import erajs.api as a
+from erb.系统相关.口上相关.口上调用 import comkojo
 from erb.系统相关.调教相关.体力衰减 import sum_pp
 from erb.系统相关.调教相关.命令.执行列表增减 import append_doing_list, check_doing_list, remove_doing_list
 from erb.系统相关.调教相关.插入尺寸计算 import check_size, size_punish
 from erb.系统相关.调教相关.润滑 import is_enough_oiling, not_oiling_punish
 from ..com_check import obey_check
 from ...人物相关.character_class import search_quaility as sq
-
+comid = 31
 def com31(active,passive):
 
     #成功判定
@@ -89,17 +90,19 @@ def com31(active,passive):
 
             pe['受缚经验'] += 1
             sum_pp(passive,[0,50,30])
-
+        comkojo(active,passive,comid,{'com':'doing'})
         f = True
         
     else:
         select_bound(passive)
         remove_all_bound_conflict(passive,passive['标志']['受缚类型'])
         append_doing_list(active,passive,31)
+        comkojo(active,passive,comid,{'com':'add'})
     return f
 
 def undocom31(active,passive):
     remove_equipment(passive,31)
+    comkojo(active,passive,comid,{'com':'undo'})
     passive['标志']['受缚类型'] = 0
     #a.t()
     if a.tmp()['去冲突标志'] == False:

@@ -19,6 +19,7 @@ def day_pass():
     date_count()
     event_check()
     a.t('',True)
+    a.save('自动存档')
     a.back(2)
 
 def character_recover():
@@ -47,14 +48,14 @@ def character_recover():
         if i['气力值']>i['最大气力值']:i['气力值'] = i['最大气力值']
         i['理智值'] += int(i['最大理智值'] * recover_rate[2])
         if i['理智值']>i['最大理智值']:i['理智值'] = i['最大理智值']
-        liquid_produce(i)
+        character_liquid_produce(i)
     lr = cl['主角']
     lr['体力值'] = lr['最大体力值']
     lr['气力值'] = lr['最大气力值']
     lr['理智值'] = lr['最大理智值']
-    liquid_produce(lr)
+    character_liquid_produce(lr)
            
-def liquid_produce(c):
+def character_liquid_produce(c):
     def sign_semen(c,semen_type):
         #精液署名，返回名字
         return  semen_type+'_{}'.format(c['CharacterId'])

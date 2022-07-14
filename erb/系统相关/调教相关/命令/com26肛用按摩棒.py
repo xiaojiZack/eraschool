@@ -8,7 +8,7 @@ from erb.系统相关.调教相关.插入尺寸计算 import P_size_trans, check
 from erb.系统相关.调教相关.润滑 import is_enough_oiling, not_oiling_punish
 from ..com_check import obey_check
 from ...人物相关.character_class import search_quaility as sq
-
+comid = 26
 def com26(active,passive):
     #成功判定
     aname = active['名字']
@@ -65,6 +65,7 @@ def com26(active,passive):
             pe['A经验'] += 1
             pm['好感度'] += 1
             sum_pp(passive,[0,30,20])
+            comkojo(active,passive,26,{'com':'doing'})
             
             f = True
             
@@ -72,6 +73,7 @@ def com26(active,passive):
             if  obey_check(25,active,passive,com_trait):
                 #此处可能需要处理替换的问题
                 append_doing_list(active,passive,26)
+                comkojo(active,passive,26,{'com':'add'})
                 passive['身体信息']['肛门']['内容固体']['按摩棒'] = size
                 if pure_flag == False:
                     pure_punish(passive,'A')
@@ -82,11 +84,13 @@ def com26(active,passive):
             else:
                 pm['反感'] += 30
                 pm['好感度'] += -3
+                comkojo(active,passive,26,{'com':'fail'})
         
     return f
 
 def undocom26(active,passive):
     remove_equipment(passive,26)
+    comkojo(active,passive,26,{'com':'undo'})
     del passive['身体信息']['肛门']['内容固体']['按摩棒']
     #a.t()
     if a.tmp()['去冲突标志'] == False:

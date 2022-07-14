@@ -4,7 +4,7 @@ from .event_2_毕业 import event2
 
 event_time_table={
     '1':{'季':1,'旬':1,'周':1},
-    '2':{'季':1,'旬':1,'周':2}
+    '2':{'季':4,'旬':2,'周':4}
 }
 
 event_table = {

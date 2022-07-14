@@ -21,9 +21,11 @@ def event0():
         a.t('(胡言乱语报)',True)
         a.t()
         event1()
+        a.clear()
         a.goto(main_page)
     def passopening():
         event1()
+        a.clear()
         a.goto(main_page)
 
     a.cls()

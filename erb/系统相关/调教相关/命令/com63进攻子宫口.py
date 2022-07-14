@@ -1,4 +1,5 @@
 import erajs.api as a
+from erb.系统相关.口上相关.口上调用 import comkojo
 from erb.系统相关.调教相关.体力衰减 import sum_pp
 from erb.系统相关.调教相关.命令.执行列表增减 import append_doing_list, check_doing_list
 from erb.系统相关.调教相关.处女 import check_pure, pure_punish
@@ -6,7 +7,7 @@ from erb.系统相关.调教相关.插入尺寸计算 import check_maintain_size
 from erb.系统相关.调教相关.润滑 import is_enough_oiling, not_oiling_punish
 from ..com_check import obey_check
 from ...人物相关.character_class import search_quaility as sq
-
+comid = 63
 def com63(active,passive):
 
     aname = active['名字']
@@ -35,21 +36,24 @@ def com63(active,passive):
         am['习得'] += 5*(1+passive['开发']['腰技']*1)
         am['主导'] += 10*(1+passive['开发']['腰技']*1)
         ae['腰技经验'] += 1
+        ae['子宫经验'] += 1
         pe['腰技经验'] += 1
         
         sum_pp(active,[0,10,0])
         sum_pp(passive,[0,5,5])
-        
+        comkojo(active,passive,comid,{'com':'doing'})
         f = True
         
     else:
         #此处可能需要处理替换的问题
         append_doing_list(active,passive,63)
+        comkojo(active,passive,comid,{'com':'add'})
         
     return f
 
 def undocom63(active,passive):
     a.tmp()['执行列表'].remove([active['CharacterId'],passive['CharacterId'],63])
+    comkojo(active,passive,comid,{'com':'undo'})
     #a.t()
     if a.tmp()['去冲突标志'] == False:
         a.repeat()
