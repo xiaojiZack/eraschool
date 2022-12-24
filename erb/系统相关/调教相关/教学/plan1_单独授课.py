@@ -26,11 +26,11 @@ def plan1():
             else:
                 a.t('♀♂')
             a.t()
-            a.t('体')
+            a.t('体力:')
             a.progress(c['体力值'],c['最大体力值'], [{'width': '100px'}, {}])
             a.t('({}/{})'.format(c['体力值'],c['最大体力值']))
             a.t()
-            a.t('san:')
+            a.t('理智:')
             a.progress(c['理智值'],c['最大理智值'], [{'width': '100px'}, {}])
             a.t('({}/{})'.format(c['理智值'],c['最大理智值']))
             a.t()
@@ -38,6 +38,7 @@ def plan1():
             a.t()
             a.b('决定',dertermine,c)
             a.t()
+    a.cls()
     a.goto(plan)
 
 def dertermine(c):

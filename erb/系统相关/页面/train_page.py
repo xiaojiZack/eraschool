@@ -37,7 +37,7 @@ def train_page():
             a.t()
         elif c['性别'] == '女性':
             a.t('♀')
-            t = check_menstrual_period(c['身体信息']['子宫']['危险日'])
+            t = check_menstrual_period(c)
             style = {}
             if (t =='危险日'):
                 t = t+'♥'
@@ -49,7 +49,7 @@ def train_page():
         else:
             a.t('♀♂')
             a.t('[{}]'.format(c['身体信息']['阴茎']['尺寸']))
-            t = check_menstrual_period(c['身体信息']['子宫']['危险日'])
+            t = check_menstrual_period(c)
             style = {}
             if (t =='危险日'):
                 t = t+' ♥'

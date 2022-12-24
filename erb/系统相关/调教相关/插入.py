@@ -62,7 +62,7 @@ def insert(ac,pa,insertproject,place,check_result):
 def check_insert_obejct(c,insertproject):
     #检查插入物是否存在
     if insertproject == 'P':
-        if a['性别'] == '女性':
+        if c['性别'] == '女性':
             return False
         else: return True
     elif insertproject == 'F':

@@ -191,6 +191,9 @@ def obey_check(difficulty,active,passive,com_trait):
     
     if passive['开发']['服从']>0:
             pl['服从Lv{}'.format(passive['开发']['服从'])] = passive['开发']['服从']*5
+
+    if passive['催眠']>0:
+        pl['催眠'] = passive['催眠']
     
     a.page()
     a.divider()

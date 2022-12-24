@@ -36,12 +36,13 @@ def com64(active,passive):
         pm['习得'] += 5 * (1+active['开发']['腰技']*1)
         pm['反感'] += 10
         pe['子宫经验'] += 1 * (1+active['开发']['腰技']*1)
-        pm['好感度'] += 1 * (1+active['开发']['腰技']*1)
+        pe['子宫姦经验'] += 1
         
         am['欲情'] += 10 * (1+active['开发']['腰技']*1)
         am['习得'] += 5*(1+passive['开发']['腰技']*1)
         am['主导'] += 5*(1+passive['开发']['腰技']*1)
-        
+        ae['子宫插入经验'] += 1
+
         sum_pp(active,[0,10,5])
         sum_pp(passive,[0,20,20])
         comkojo(active,passive,comid,{'com':'doing'})

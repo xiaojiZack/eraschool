@@ -4,7 +4,7 @@ import funcs as f
 from .creat_leading_character import creat_leading_character
 from erb.系统相关.事件.event_1_入学 import *
 def game_start():
-     
+    a.cls()
     a.page()
     a.mode('grid',1)
     a.h('ERAschool')
@@ -42,7 +42,7 @@ def game_init():
 
     a.sav()['学院名'] = '测试学院名'
     a.sav()['学院评级'] = 'D'
-    a.sav()['可用教案'] = ['单独授课']
+    a.sav()['可用教案'] = ['自由活动','单独授课','洗脑催眠','淫物鉴赏']
     a.sav()['校内建筑列表']=[]
     a.sav()['校区建筑最大空间'] = 5
     a.sav()['维护总费用'] = {}

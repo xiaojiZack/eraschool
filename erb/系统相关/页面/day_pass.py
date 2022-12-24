@@ -1,3 +1,4 @@
+import math
 import erajs.api as a
 from erb.系统相关.人物相关.character_class import search_quaility
 from ..建筑相关.building import exec_building
@@ -49,6 +50,9 @@ def character_recover():
         i['理智值'] += int(i['最大理智值'] * recover_rate[2])
         if i['理智值']>i['最大理智值']:i['理智值'] = i['最大理智值']
         character_liquid_produce(i)
+        #催眠回复
+        if i['催眠']>0:
+            i['催眠'] -= max(1,math.ceil(0.5*i['催眠']*i['理智值']/i['最大理智值']))
     lr = cl['主角']
     lr['体力值'] = lr['最大体力值']
     lr['气力值'] = lr['最大气力值']

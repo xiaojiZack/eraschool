@@ -89,9 +89,37 @@ def memory_cal(c):
                         m[k] = m[k]*l[q][j]
 
     #根据开发程度产生的不同加成(待写)
+    sence_part = ['C','V','B','A','M','U','W']
+    sence_level = [1,2,4,7.5,10,20]
+    develop_info = c['开发']
+    for part in sence_part:
+        m['快'+part] = m['快'+part]*sence_level[develop_info[part+'感觉']]
+    #侍奉欲望
+    level_gain = [1,2,4,7.5,10,20]
+    m['恭顺'] = m['恭顺']*level_gain[develop_info['侍奉欲望']]
+    #欲情
+    level_gain = [1,2,4,7.5,10,20]
+    m['欲情'] = m['欲情']*level_gain[develop_info['欲望']]
+    #屈服
+    level_gain = [1,2,4,7.5,10,20]
+    m['屈服'] = m['屈服']*level_gain[develop_info['服从']]
+    #施虐狂
+    level_gain = [1,1.2,1.4,1.6,1.8,2]
+    m['主导'] = m['主导'] * m['主导']*level_gain[develop_info['S属性']]
+    m['欲情'] = m['欲情'] + m['主导']*level_gain[develop_info['S属性']]
+    #受虐狂
+    level_gain = [1,1.2,1.4,1.6,1.8,2]
+    m['屈服'] = m['屈服'] + m['苦痛']*level_gain[develop_info['M属性']]
+    m['欲情'] = m['欲情'] + m['苦痛']*level_gain[develop_info['M属性']]
+    m['苦痛'] = m['苦痛'] * max(0.2,(2-level_gain[develop_info['M属性']]))
+    #露出癖
+    level_gain = [1,1.2,1.4,1.6,1.8,2]
+    m['屈服'] = m['屈服'] + m['羞耻']*level_gain[develop_info['露出癖']]
+    m['欲情'] = m['欲情'] + m['羞耻']*level_gain[develop_info['露出癖']]
+    m['羞耻'] = m['羞耻']*max(0.2,(2-level_gain[develop_info['露出癖']]))
 
     #反感降低计算
-    m['反感'] += m['苦痛']+m['羞耻']+m['恐惧']/10
+    m['反感'] += (m['苦痛']+m['羞耻']+m['恐惧'])/10
     decrease_hate_quility = {'恋慕':0.25,'亲爱':0.1,'相爱':0,'服从':0.25,'烙印':0.1,'隶属':0,'妄信':0}
     for i in decrease_hate_quility:
         if sq(c,i):
@@ -99,13 +127,7 @@ def memory_cal(c):
     m['反感'] = m['反感']*math.exp(-1*(c['好感度']/100))
 
     #各项记忆导致的好感度调整
-    if m['反感']<100:
-        m['好感度'] = m['好感度']
-    elif m['反感']<1000:
-        m['好感度'] = m['好感度'] -5
-    else:
-        m['好感度'] = m['好感度']-10
-    negative_emotion = c['调教记忆']['反感'] + c['调教记忆']['恐惧'] - c['调教记忆']['欲情'] -c['调教记忆']['恭顺']
+    negative_emotion = c['调教记忆']['反感'] + c['调教记忆']['恐惧']
     if negative_emotion < 100:
         m['好感度'] = m['好感度']
     elif negative_emotion < 500:
@@ -114,8 +136,18 @@ def memory_cal(c):
         m['好感度'] = m['好感度'] - 5
     else:
         m['好感度'] = m['好感度'] - 10
+    positive_emotion = 0
+    for emotion in ['快C', '快V', '快B', '快A', '快M', '快U', '快W','欲情','屈服','恭顺']:
+        positive_emotion = positive_emotion + c['调教记忆'][emotion]
+    if positive_emotion < 5000:
+        m['好感度'] = m['好感度']
+    elif positive_emotion < 10000:
+        m['好感度'] = m['好感度'] + 1
+    elif positive_emotion < 50000:
+        m['好感度'] = m['好感度'] + 5
+    else:
+        m['好感度'] = m['好感度'] + 10
     
-
     #体液分泌
     sum_list = ['快C', '快V', '快B', '快A', '快M', '快U', '快W','欲情','苦痛']
     sumup = 0
@@ -226,21 +258,23 @@ def special_bouns(c):
         insert_count += 1
     if len(c['身体信息']['尿道']['内容固体'])>0:
         insert_count += 1
+    if len(c['身体信息']['口喉']['内容固体'])>0:
+        insert_count += 1
     if insert_count >= 2:
-        l = ['快V','快A','快U','屈服','恭顺']
-        number_trans = {2:'二',3:'三'}
+        l = ['快V','快A','快U','屈服','恭顺','欲情']
+        number_trans = {2:'二',3:'三',4:'四'}
         a.t()
-        a.t('{}穴插入({}) 额外奖励   '.format(number_trans[insert_count],c['名字']), style = {'color':'#FFC1C1'})
+        a.t('{}被{}穴插入 额外奖励   '.format(c['名字'],number_trans[insert_count]), style = {'color':'#FFC1C1'})
         for i in l:
             if c['待处理记忆'][i]>0:
-                c['待处理记忆'][i] = c['待处理记忆'][i]*1.5
+                c['待处理记忆'][i] = c['待处理记忆'][i] * pow(1.5,number_trans)
     
     if c['待处理经验']['饮精经验']>0 and (c['待处理经验']['绝顶经验']>0 or c['待处理经验']['射精经验']>0):
         a.t()
         a.t('饮精绝顶({}) 额外奖励  '.format(c['名字']),style = {'color':'#FFC1C1'})
-        bouns_list = ['恭顺','屈服','欲情','好感度','侍奉快乐']
+        bouns_list = ['M','恭顺','屈服','欲情','侍奉快乐']
         for i in bouns_list:
-            c['待处理记忆'][i] = c['待处理记忆'][i]*1.5^(max(c['待处理经验']['饮精经验'],c['待处理经验']['绝顶经验'],c['待处理经验']['射精经验']))
+            c['待处理记忆'][i] = c['待处理记忆'][i] * pow(1.5,c['开发']['精液中毒']+max(c['待处理经验']['饮精经验'],c['待处理经验']['绝顶经验']))
     
     if c['待处理记忆']['苦痛']>100:
         sumup=0

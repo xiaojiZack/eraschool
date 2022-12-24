@@ -260,9 +260,11 @@ def check_conflict(d,q):
 def updata_exp(c):
     if (not('处女' in c['属性']['体质']) and c['性别'] != '男性'):
         c['经验']['v经验'] = random.randint(1,10)
+        c['经验']['v性交经验'] = random.randint(1,10)
         c['经验']['腔射经验'] = random.randint(0,1)
     if not('A处女' in c['属性']['体质']):
         c['经验']['A经验'] = random.randint(1,10)
+        c['经验']['A性交经验'] = random.randint(1,10)
         c['经验']['肛射经验'] = random.randint(0,1)
     if (not('童贞' in c['属性']['体质']) and c['性别'] != '女性'):
         c['经验']['V插入经验'] = random.randint(1,10)

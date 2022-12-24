@@ -7,6 +7,7 @@ def init_plan():
     a.tmp()['剩余规划时间'] = a.sav()['每周最大行动次数']
     a.tmp()['计划'] = []
     a.tmp()['选择计划位置'] = -1
+    a.tmp()['储存选择'] = 0
     for i in range(0,a.sav()['每周最大行动次数']):
         a.tmp()['计划'].append('自由活动')
     a.goto(arrange_plan)
@@ -26,7 +27,6 @@ def arrange_plan():
         else:
             a.tmp()['计划'][a.tmp()['选择计划位置']] = name
             a.tmp()['选择计划位置'] = -1
-            a.tmp()['剩余规划时间'] -= 1
             a.repeat()
     a.cls()
     a.page()
@@ -51,7 +51,6 @@ def arrange_plan():
 
     a.divider()
     a.mode()
-    a.t('还可以添加{}项计划'.format(a.tmp()['剩余规划时间']))
     a.divider('计划')
     a.mode('grid',4)
     for i in range(0,len(a.tmp()['计划'])):
