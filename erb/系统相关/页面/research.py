@@ -11,7 +11,9 @@ def research_page():
         return True
     
     def begin_research(tech,time):
+        #开始研究
         def check(require):
+            #检查资源是否充足
             for i in require:
                 if a.sav()['资源'][i]<require[i]:
                     return False
@@ -19,14 +21,20 @@ def research_page():
         if check(a.dat()['tech_item'][tech]['研发费用']):
             for i in a.dat()['tech_item'][tech]['研发费用']:
                 a.sav()['资源'][i] -= a.dat()['tech_item'][tech]['研发费用'][i]
-            l = a.sav()['正在研发']
-            l[tech] = time
-            a.msg('开始研发[{}]'.format(tech))
+            if time == 0:
+                #0时研发直接完成
+                a.sav()['科技'].append(tech) 
+                a.msg('[{}]研发完成'.format(tech))
+            else:
+                l = a.sav()['正在研发']
+                l[tech] = time
+                a.msg('开始研发[{}]'.format(tech))
         else:
             a.msg('资源不足')
         a.repeat()
     
     def stop_research(tech):
+        #终止研发
         del a.sav()['正在研发'][tech]
         a.msg('取消了[{}]的研发,已退还费用'.format(tech))
         for i in a.dat()['tech_item'][tech]['研发费用']:
@@ -37,13 +45,18 @@ def research_page():
     a.page()
     a.mode('grid',1)
     a.h('研发部')
+
     a.divider('已经研发')
     for i in a.sav()['科技']:
         a.b('[{}]'.format(i),popup = '{}'.format(a.dat()['tech_item'][i]['描述']))
+
     a.divider('当前研发')
     for i in a.sav()['正在研发']:
         a.b('[{}:{}周]'.format(i,a.sav()['正在研发'][i]), stop_research,i)
-    a.divider()
+
+   
+
+    a.divider('可开发项目')
     a.mode('grid',3)
     tech_list = a.dat()['tech_item']
     for i in tech_list:
@@ -56,6 +69,7 @@ def research_page():
             a.t()
             a.t('{}周'.format(t['时间']))
             a.t()
+            
     a.divider()
     a.b('返回',a.back)
     

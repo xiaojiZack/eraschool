@@ -24,6 +24,7 @@ def day_pass():
     a.back(2)
 
 def character_recover():
+    #回复角色体力、气力
     cl = a.sav()['character_list']
     l = cl['学生']
     for j in l:
@@ -50,7 +51,7 @@ def character_recover():
         i['理智值'] += int(i['最大理智值'] * recover_rate[2])
         if i['理智值']>i['最大理智值']:i['理智值'] = i['最大理智值']
         character_liquid_produce(i)
-        #催眠回复
+        #催眠回复，随时间流逝催眠接触
         if i['催眠']>0:
             i['催眠'] -= max(1,math.ceil(0.5*i['催眠']*i['理智值']/i['最大理智值']))
     lr = cl['主角']
@@ -60,6 +61,7 @@ def character_recover():
     character_liquid_produce(lr)
            
 def character_liquid_produce(c):
+    #角色回复体液存量
     def sign_semen(c,semen_type):
         #精液署名，返回名字
         return  semen_type+'_{}'.format(c['CharacterId'])
@@ -88,6 +90,7 @@ def character_liquid_produce(c):
             pliquid[semen1] = 0
         elif b['阴茎']['积攒计数器'] > 2:
             #遗精事件，待做
+            #TODO
             pass
         elif b['阴茎']['积攒计数器'] == 4:
             pliquid[semen3] = pliquid[semen2]
@@ -115,12 +118,14 @@ def character_liquid_produce(c):
             pliquid['母乳'] = 0
         elif b['乳房']['积攒计数器'] > 2:
             #漏乳事件，待做
+            #TODO
             pass
         elif b['乳房']['积攒计数器'] == 4:
             pliquid['粘稠母乳'] = pliquid['浓厚母乳']
             pliquid['浓厚母乳'] = 0
             
 def tech_research():
+    #研发科技推进
     l = a.sav()['正在研发']
     finish = []
     for i in l:

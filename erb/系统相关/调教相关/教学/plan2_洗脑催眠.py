@@ -189,6 +189,8 @@ def plan2():
         determine_participants()
 
     a.sav()['科技'].append('课程:常识变更')
+    a.tmp()['储存选择'] = 0
+    a.tmp()['选择对象'] = "常识变更"
     a.goto(plan)
 
 def check_tech(tech):

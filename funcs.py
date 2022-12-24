@@ -7,6 +7,7 @@ def DebugPage():
         def ExpandorShowdata(target, targetname):
 
             def SeeAndChangeIntOrChar(target, targetname, type):
+                #查看并修改参数
                 def inputback(value):
                     path = ""
                     for i in pathlist:
@@ -65,16 +66,62 @@ def DebugPage():
         a.t()
         a.b('back',a.back)
 
+    def ChangeTech():
+        #修改科技
+
+        def GetTech(tech):
+            a.sav()['科技'].append(tech)
+            a.repeat()
+        
+        def RemoveTech(tech):
+            a.sav()['科技'].remove(tech)
+            a.repeat()
+       
+        def StopResearch(tech):
+            a.sav()['正在研发'].remove(tech)
+            a.repeat()
+
+        a.cls()
+        a.page()
+        a.mode()
+        a.title('修改科技')
+
+        a.divider('已经研发')
+        for i in a.sav()['科技']:
+            a.b('[{}]'.format(i),RemoveTech, i, popup = '{}'.format(a.dat()['tech_item'][i]['描述']))
+
+        a.divider('当前研发')
+        for i in a.sav()['正在研发']:
+            a.b('[{}:{}周]'.format(i,a.sav()['正在研发'][i]), StopResearch,i)
+
+        a.divider('可开发项目')
+        a.mode('grid',4)
+        tech_list = a.dat()['tech_item']
+        for i in tech_list:
+            t = tech_list[i]
+            if not i in a.sav()['科技'] and not i in a.sav()['正在研发']:
+                a.b('[{}]'.format(i),GetTech, i, popup = '{}'.format(t['描述']))
+                a.t()
+            
+        a.divider()
+        a.b('返回',a.back)
+
     a.page()
-    a.mode()
+    a.mode('grid', 5)
     a.b('tmp临时数据', a.goto, CheckThedata, a.tmp())
+    a.t()
     a.b('dat静态数据', a.goto, CheckThedata, a.dat())
+    a.t()
     a.b('sav存档数据', a.goto, CheckThedata, a.sav())
+    a.t()
     a.b('cfg配置数据', a.goto, CheckThedata, a.cfg())
+    a.t()
+    a.b('修改科技', a.goto, ChangeTech)
     a.t()
     a.b('back',a.back)
 
 def debug():
+    #debug 按钮
     if (a.cfg()['debug'] == True):
         a.b('debug', a.goto, DebugPage)
 

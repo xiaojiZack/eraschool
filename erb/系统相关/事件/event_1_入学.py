@@ -62,7 +62,6 @@ def detail_character(c,mode='一般'):
         a.cls()
         a.page()
         a.mode()
-        a.b('返回',a.back)
         a.divider()
         a.mode('grid',1)
         a.h(c['名字'])
