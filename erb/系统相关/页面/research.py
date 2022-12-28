@@ -25,6 +25,9 @@ def research_page():
                 #0时研发直接完成
                 a.sav()['科技'].append(tech) 
                 a.msg('[{}]研发完成'.format(tech))
+                if '课程:' in tech:
+                    temp = tech.replace('课程:','')
+                    a.sav()['可用教案'].append(temp)
             else:
                 l = a.sav()['正在研发']
                 l[tech] = time

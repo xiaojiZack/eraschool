@@ -88,6 +88,6 @@ def plan_exec():
         p = a.tmp()['计划']
         i = a.tmp()['执行计划位置']
         num = plan[p[i]]
-        a.msg('正在进行:课程{}'.format(i+1))
+        a.msg('正在进行:{}'.format(p[i]))
         exec('plan{}()'.format(num))
     check_plan()

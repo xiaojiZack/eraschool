@@ -134,5 +134,9 @@ def tech_research():
             a.msg('[{}]研发完成'.format(i), style={'color':'#ff0'})
             a.sav()['科技'].append('{}'.format(i))
             finish.append(i)
+            #课程类科技加入课程选单
+            if '课程:' in i:
+                    temp = i.replace('课程:','')
+                    a.sav()['可用教案'].append(temp)
     for i in finish:
         del a.sav()['正在研发'][i]

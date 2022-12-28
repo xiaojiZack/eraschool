@@ -73,7 +73,7 @@ def main_page():
     a.t()
     a.b('采购物品',a.goto,shop_page)
     a.t()
-    a.b('制定校规')
+    #a.b('制定校规')
 
     a.divider()
     a.t('设置')
