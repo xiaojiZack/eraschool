@@ -2,11 +2,7 @@ import erajs.api as a
 
 from erb.系统相关.调教相关.教学.plan组件 import check_tech, determine_participants
 
-
-#TODO
-#本课程需要服装系统配合，构思是可以通过调整人物的服装装具来反映露出度
-
-def plan6():
+def plan7():
     def plan():
         course_tag = []
         course_difficulity = 0
@@ -59,7 +55,7 @@ def plan6():
         determine_participants(course_tag, course_difficulity,material_determine)
     
     material_list = {}
-    material_list['露出游行'] = {
+    material_list['捆绑淫具耐久'] = {
         '花费':{
             '金钱':0,
         },
@@ -67,13 +63,13 @@ def plan6():
             '体力变化':[0,200,0],
             '体力增长':50
         },
-        '施行需求':check_tech(['无']),
+        '施行需求':check_tech(['拘束具']),
         '难度':0,
         'tag':[],
         '说明':'',
         '能否施行':True
     }
-    material_list['跑步'] = {
+    material_list['播种受孕耐久'] = {
         '花费':{
             '金钱':0,
         },
@@ -87,7 +83,21 @@ def plan6():
         '说明':'',
         '能否施行':True
     }
-    material_list['游泳'] = {
+    material_list['触手苗床耐久'] = {
+        '花费':{
+            '金钱':0,
+        },
+        '效果':{
+            '体力变化':[300,1000,0],
+            '体力增长':400
+        },
+        '施行需求':check_tech(['课程组件:游泳','泳池']),
+        '难度':0,
+        'tag':[],
+        '说明':'',
+        '能否施行':True
+    }
+    material_list['淫畜榨取耐久'] = {
         '花费':{
             '金钱':0,
         },
