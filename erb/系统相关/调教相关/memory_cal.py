@@ -78,7 +78,8 @@ def memory_cal(c):
         '淫靡尿道':{'快U':2},
         '淫靡子宫':{'快W':2},
         }
-    
+    dr = c['药物效果']
+
     for q in l:
         if sq(c,q):
             for j in l[q]:
@@ -93,25 +94,25 @@ def memory_cal(c):
     sence_level = [1,2,4,7.5,10,20]
     develop_info = c['开发']
     for part in sence_part:
-        m['快'+part] = m['快'+part]*sence_level[develop_info[part+'感觉']]
+        m['快'+part] = m['快'+part]*sence_level[develop_info[part+'感觉']]*dr['cy'] #催淫
     #侍奉欲望
     level_gain = [1,2,4,7.5,10,20]
     m['恭顺'] = m['恭顺']*level_gain[develop_info['侍奉欲望']]
     #欲情
     level_gain = [1,2,4,7.5,10,20]
-    m['欲情'] = m['欲情']*level_gain[develop_info['欲望']]
+    m['欲情'] = m['欲情']*level_gain[develop_info['欲望']]*dr['cy']
     #屈服
     level_gain = [1,2,4,7.5,10,20]
-    m['屈服'] = m['屈服']*level_gain[develop_info['服从']]
+    m['屈服'] = m['屈服']*level_gain[develop_info['服从']]*dr['cy']
     #施虐狂
     level_gain = [1,1.2,1.4,1.6,1.8,2]
-    m['主导'] = m['主导'] * m['主导']*level_gain[develop_info['S属性']]
+    m['主导'] = m['主导'] * m['主导']*level_gain[develop_info['S属性']]*(1/dr['mz'])
     m['欲情'] = m['欲情'] + m['主导']*level_gain[develop_info['S属性']]
     #受虐狂
     level_gain = [1,1.2,1.4,1.6,1.8,2]
     m['屈服'] = m['屈服'] + m['苦痛']*level_gain[develop_info['M属性']]
     m['欲情'] = m['欲情'] + m['苦痛']*level_gain[develop_info['M属性']]
-    m['苦痛'] = m['苦痛'] * max(0.2,(2-level_gain[develop_info['M属性']]))
+    m['苦痛'] = m['苦痛'] * max(0.2,(2-level_gain[develop_info['M属性']]))*(1/dr['mz']) #麻醉
     #露出癖
     level_gain = [1,1.2,1.4,1.6,1.8,2]
     m['屈服'] = m['屈服'] + m['羞耻']*level_gain[develop_info['露出癖']]

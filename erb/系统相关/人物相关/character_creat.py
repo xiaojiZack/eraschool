@@ -109,8 +109,14 @@ def organ_updata(c):
     V['尺寸'] = size_describ[c['开发']['V扩张度'] - c['开发']['V名器度']]
 
 
-    s = o['肠胃']
+    s = o['肠道']
     standard = 3000 #标准值 3000ml
+    standard = int(standard*((o['具体身高']*1.0)/170))
+    #改造判断 (预留)
+    s['容量'] = standard
+
+    s = o['胃']
+    standard = 2000 #标准值 2000ml
     standard = int(standard*((o['具体身高']*1.0)/170))
     #改造判断 (预留)
     s['容量'] = standard
@@ -119,7 +125,7 @@ def organ_updata(c):
     A['尺寸'] = size_describ[c['开发']['A扩张度'] - c['开发']['A名器度']]
 
     u = o['尿道']
-    standard = 500 #标准值 500ml
+    standard = 1000 #标准值 1000ml
     standard = int(standard*((o['具体身高']*1.0)/170))
     #改造判断 (预留)
     u['容量'] = standard

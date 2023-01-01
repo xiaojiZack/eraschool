@@ -1,3 +1,4 @@
+from time import sleep
 import erajs.api as a
 import erb.系统相关.人物相关.character_class as c
 
@@ -191,3 +192,11 @@ def colorful_progress(now, max, style = None):
     style.append({'color':color})
     style.append({'background-color': color})
     a.progress(now, max, style)
+
+def wait():
+    a.tmp()['等待挂起'] = True
+    while a.tmp()['等待挂起']:
+        sleep(0.1)
+
+def unwait():
+    a.tmp()['等待挂起'] = False

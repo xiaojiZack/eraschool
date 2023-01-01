@@ -22,6 +22,7 @@ def decrease_pp(c,d):
         ep = ep*(1+5*len(str(int(m['苦痛']/10))))
     if m['恐惧']+m['反感']>100:
         mp = mp*(1+5*len(str(int((m['恐惧']+m['反感'])/10))))
+
     
     pp = int(pp)
     ep = int(ep)
@@ -47,6 +48,14 @@ def decrease_pp(c,d):
             a.t('理智:{}-{} = {}（气力不足)'.format(c['理智值'],ep,c['理智值']-ep))
             c['理智值'] -= int(mp*0.5)
         if c['理智值']<0: c['理智值'] = 0
+        a.t()
+
+        #回复系药剂效果
+        if 'hf' in c['药物效果']:
+            if c['药物效果']['hf']>0:
+                recover = 100*c['药物效果']['hf']
+                c['体力值'] = min(c['最大体力值'], int(recover+c['体力值']))
+                a.t('由于药剂效果，体力回复了:+{}->{}'.format(recover, c['体力值']))
 
 def sum_pp(c,l):
     for i in range(0,3):

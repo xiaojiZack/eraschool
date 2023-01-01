@@ -67,7 +67,7 @@ def main_page():
     a.t()
     a.b('查看角色',a.goto,check_character)
     a.t()
-    a.b('校区规划',a.goto,arrange_building)
+    a.b('设施规划',a.goto,arrange_building)
     a.t()
     a.b('研发计划',a.goto,research_page)
     a.t()
