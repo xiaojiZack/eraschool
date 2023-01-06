@@ -1,5 +1,7 @@
 from math import pow
 import erajs.api as a
+from erb.系统相关.页面.character_upgrade import character_upgrade_page
+from funcs import unwait, wait
 
 def end_cal(c):
     a.divider('{}本次所得记忆和经验'.format(c['名字']))
@@ -23,6 +25,20 @@ def end_cal(c):
                 a.t()
                 c['记忆'][i+'记忆'] += m[i]
             m[i] = 0
+
+        a.divider('由高潮产生的额外记忆')
+        #高潮产生的补正
+        wm = c['待处理记忆']
+        for i in wm:
+            if '高潮' in i:
+                if wm[i]>0:
+                    item_name = i
+                    item_name = item_name.replace('高潮','')
+                    a.t('{}:{}+{} = {}'.format(item_name,c['记忆'][item_name+'记忆'],wm[i],c['记忆'][item_name+'记忆']+wm[i]))
+                    a.t()
+                    c['记忆'][item_name+'记忆'] += wm[i]
+                    wm[i] = 0
+
     e = c['待处理经验']
     for i in e:
         if e[i]>0:
@@ -30,4 +46,11 @@ def end_cal(c):
             a.t()
             c['经验'][i] += e[i]
         e[i] = 0
-    a.t('',True)
+    
+
+    if c['CharacterId'] != 0:
+        #开发提升页面
+        a.goto(character_upgrade_page, c, enter_mode='after train')
+    else:
+        a.b('继续', unwait)
+        

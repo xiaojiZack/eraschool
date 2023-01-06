@@ -25,12 +25,14 @@ def com23(active,passive):
     
     if check_equipment(passive,23):
         
-        pm['快A'] += 20
-        pm['羞耻'] += 5
-        pm['欲情'] += 10
-        pm['恐惧'] += 10
-        am['习得'] += 5
-        pm['反感'] += 10
+        pm['快A'] += 50
+        pm['羞耻'] += 50
+        pm['欲情'] += 100
+        pm['屈服'] += 150
+        pm['恐惧'] += 100
+        pm['恭顺'] += 20
+        am['习得'] += 10
+        pm['反感'] += 40
         pe['A经验'] += 1
         pm['好感度'] += 0
         comkojo(active,passive,23,{'com':'doing'})

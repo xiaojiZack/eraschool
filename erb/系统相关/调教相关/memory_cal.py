@@ -1,6 +1,7 @@
 import math
 import erajs.api as a
 from erb.系统相关.调教相关.体力衰减 import decrease_pp
+from erb.系统相关.调教相关.液体 import liquid_updata
 from ..人物相关.character_class import search_quaility as sq
 from .刻印获取 import mark_get
 def memory_cal(c):
@@ -78,6 +79,8 @@ def memory_cal(c):
         '淫靡尿道':{'快U':2},
         '淫靡子宫':{'快W':2},
         }
+    
+    liquid_updata(c)
     dr = c['药物效果']
 
     for q in l:
@@ -91,30 +94,30 @@ def memory_cal(c):
 
     #根据开发程度产生的不同加成(待写)
     sence_part = ['C','V','B','A','M','U','W']
-    sence_level = [1,2,4,7.5,10,20]
+    sence_level = [1,2,4,10,20,40]
     develop_info = c['开发']
     for part in sence_part:
-        m['快'+part] = m['快'+part]*sence_level[develop_info[part+'感觉']]*dr['cy'] #催淫
+        m['快'+part] = m['快'+part]*sence_level[develop_info[part+'感觉']]*(1+dr['cy']) #催淫
     #侍奉欲望
     level_gain = [1,2,4,7.5,10,20]
     m['恭顺'] = m['恭顺']*level_gain[develop_info['侍奉欲望']]
     #欲情
-    level_gain = [1,2,4,7.5,10,20]
+    level_gain = [1,2,4,8,20,50]
     m['欲情'] = m['欲情']*level_gain[develop_info['欲望']]*dr['cy']
     #屈服
-    level_gain = [1,2,4,7.5,10,20]
+    level_gain = [1,2,4,8,20,50]
     m['屈服'] = m['屈服']*level_gain[develop_info['服从']]*dr['cy']
     #施虐狂
-    level_gain = [1,1.2,1.4,1.6,1.8,2]
-    m['主导'] = m['主导'] * m['主导']*level_gain[develop_info['S属性']]*(1/dr['mz'])
+    level_gain = [1,1.5,2,5,10,30]
+    m['主导'] = m['主导'] * m['主导']*level_gain[develop_info['S属性']]*(1/(dr['mz']+1))
     m['欲情'] = m['欲情'] + m['主导']*level_gain[develop_info['S属性']]
     #受虐狂
-    level_gain = [1,1.2,1.4,1.6,1.8,2]
+    level_gain = [1,1.5,2,5,10,30]
     m['屈服'] = m['屈服'] + m['苦痛']*level_gain[develop_info['M属性']]
     m['欲情'] = m['欲情'] + m['苦痛']*level_gain[develop_info['M属性']]
-    m['苦痛'] = m['苦痛'] * max(0.2,(2-level_gain[develop_info['M属性']]))*(1/dr['mz']) #麻醉
+    m['苦痛'] = m['苦痛'] * max(0.2,(2-level_gain[develop_info['M属性']]))*(1/(dr['mz']+1)) #麻醉
     #露出癖
-    level_gain = [1,1.2,1.4,1.6,1.8,2]
+    level_gain = [1,1.5,2,5,10,30]
     m['屈服'] = m['屈服'] + m['羞耻']*level_gain[develop_info['露出癖']]
     m['欲情'] = m['欲情'] + m['羞耻']*level_gain[develop_info['露出癖']]
     m['羞耻'] = m['羞耻']*max(0.2,(2-level_gain[develop_info['露出癖']]))
@@ -129,11 +132,11 @@ def memory_cal(c):
 
     #各项记忆导致的好感度调整
     negative_emotion = c['调教记忆']['反感'] + c['调教记忆']['恐惧']
-    if negative_emotion < 100:
+    if negative_emotion < 500:
         m['好感度'] = m['好感度']
-    elif negative_emotion < 500:
+    elif negative_emotion < 1000:
         m['好感度'] = m['好感度'] - 1
-    elif negative_emotion < 2000:
+    elif negative_emotion < 10000:
         m['好感度'] = m['好感度'] - 5
     else:
         m['好感度'] = m['好感度'] - 10
@@ -153,7 +156,7 @@ def memory_cal(c):
     sum_list = ['快C', '快V', '快B', '快A', '快M', '快U', '快W','欲情','苦痛']
     sumup = 0
     for i in sum_list:
-        sumup = sumup + m[i]
+        sumup = sumup + m[i]*0.1
     if sumup<100000:
         sumup = sumup
     else:
@@ -165,7 +168,7 @@ def memory_cal(c):
         '肠液分泌体质':{'A润':1},
         '易湿':{'V润':1.5,'A润':1.5},
         '不易湿':{'V润':0.5,'A润':0.5},
-        '淫乱':{'V润':1.5,'A润':1.5}
+        '淫乱':{'V润':2,'A润':2}
     }
     for q in l:
         if sq(c,q):
@@ -184,8 +187,6 @@ def memory_cal(c):
     
     #获取刻印
     mark_get(c,m)
-
-    
 
     flag = False
     for i in m:
@@ -234,6 +235,7 @@ def exp_cal(c):
 
 def pp_cal(c):
     decrease_pp(c,c['待处理体力变化'])
+    c['待处理体力变化'] = [0,0,0]
 
 def cal_favor(c,data):
     if c['CharacterId'] == 0:

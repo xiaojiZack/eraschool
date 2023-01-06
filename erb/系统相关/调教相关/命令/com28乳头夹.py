@@ -27,8 +27,11 @@ def com28(active,passive):
 
     if check_equipment(passive,28):
     
-        pm['快B'] += 10
-        pm['欲情'] += 5
+        pm['快B'] += 30
+        pm['欲情'] += 250
+        pm['羞耻'] += 150
+        pm['屈服'] += 200
+        pm['恐惧'] += 150
         pm['反感'] += 10
         pe['B经验'] += 1
         pm['好感度'] += 1

@@ -179,7 +179,7 @@ def obey_check(difficulty,active,passive,com_trait):
                 pl['百合中毒Lv{}'.format(passive['开发']['百合中毒'])] = passive['开发']['百合中毒']*passive['开发']['欲望'] -10
 
 
-    l = {'苦痛刻印':3,'快乐刻印':3,'屈服刻印':3,'药毒刻印':3,'羞耻刻印':3,'恐惧刻印':3,'反发刻印':-10}
+    l = {'苦痛刻印':3,'快乐刻印':3,'屈服刻印':3,'药毒刻印':3,'羞耻刻印':3,'恐惧刻印':3,'反发刻印':-3}
     for i in l:
         if passive['刻印'][i]>0:
             pl['{}Lv{}'.format(i,passive['刻印'][i])] = passive['刻印'][i]*3*l[i]

@@ -178,13 +178,22 @@ def update_drug(p):
     body_parts = ['血液','肠道','胃','尿道','子宫','乳房']
     drugs_effects = {}
     for bp in body_parts:
-        drugs_list = bp['内容液体']
+        drugs_list = p['身体信息'][bp]['内容液体']
         effects = effect_absorb(drugs_list,bp,b['具体体重'])
         for i in effects:
             if i in drugs_effects.keys():
                 drugs_effects[i] += effects[i]
             else:
                 drugs_effects[i] = effects[i]
+        liquid_list = p['身体信息'][bp]['内容液体']
+        new_volume = 0
+
+        liquid_type_list = list(liquid_list.keys()).copy()
+        for d in liquid_type_list:
+            new_volume += liquid_list[d]
+            if liquid_list[d] <=0:
+                liquid_list.pop(d)
+        p['身体信息'][bp]['内容总量'] = new_volume
     
     p['药物效果'] = drugs_effects
 

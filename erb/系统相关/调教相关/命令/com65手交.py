@@ -20,17 +20,16 @@ def com65(active,passive):
     pe = passive['待处理经验']
     f = False
     if check_doing_list(active,passive,65):
-        am['快C'] += 5 * (1+passive['开发']['指技']*1)
-        pm['羞耻'] += 5 * (1+passive['开发']['指技']*1)
-        pm['屈服'] += 10 * (1+passive['开发']['指技']*1)
-        pm['主导'] += 20 * (1+passive['开发']['指技']*1)
-        pm['习得'] += 10 * (1+passive['开发']['指技']*1)
-        am['习得'] += 5
+        am['快C'] += 50 * (1+passive['开发']['指技']*1)
+        pm['羞耻'] += 500 * (1+passive['开发']['指技']*1)
+        pm['屈服'] += 400 * (1+passive['开发']['指技']*1)
+        pm['欲情'] += 100 * (1+passive['开发']['指技']*1)
+        pm['主导'] += 200 * (1+passive['开发']['指技']*1)
+        pm['习得'] += 100 * (1+passive['开发']['指技']*1)
+        am['习得'] += 50
         pm['反感'] += 10
         pe['指技经验'] += 1
 
-        a.t('{}的手在{}身上轻柔抚摸'.format(aname,pname),True)
-        a.t()
         pm['好感度'] += 1
         pm['侍奉快乐'] += 1
 

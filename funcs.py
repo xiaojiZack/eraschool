@@ -2,6 +2,13 @@ from time import sleep
 import erajs.api as a
 import erb.系统相关.人物相关.character_class as c
 
+def is_number(str):
+    try:
+        float(str)
+        return True
+    except ValueError:
+        return False
+
 def DebugPage():
 #用于加入debug按钮，可以在此查看和编辑后台数据
     def CheckThedata(target):
@@ -15,6 +22,9 @@ def DebugPage():
                         path = path+i
                     if (type=="list"): path = path+"[{}]".format(targetname)
                     else: path = path+"[\"{}\"]".format(targetname)
+
+                    if is_number(value):
+                        value = int(value)
                     exec('a.sav()'+path+'=value')
 
                 a.t("{}:".format(targetname))

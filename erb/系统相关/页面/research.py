@@ -2,13 +2,6 @@ from faulthandler import disable
 import erajs.api as a
 
 def research_page():
-    def check_available(require):
-        for i in require:
-            if i == '无':pass
-            else: 
-                if i in a.sav()['科技']: pass
-                else: return False
-        return True
     
     def begin_research(tech,time):
         #开始研究
@@ -76,3 +69,21 @@ def research_page():
     a.divider()
     a.b('返回',a.back)
     
+def check_free_tech():
+    #对于免费科技直接获得
+    tech_list = a.dat()['tech_item']
+    for t in tech_list:
+        if check_available(tech_list[t]['前置']) and not t in a.sav()['科技'] and not t in a.sav()['正在研发'] and tech_list[t]['研发费用'] == {'金钱':0} and tech_list[t]['时间'] == 0:
+            a.sav()['科技'].append(t)
+            if '课程:' in t:
+                    temp = t.replace('课程:','')
+                    a.sav()['可用教案'].append(temp)
+
+def check_available(require):
+    #检查科技前置需求是否满足
+    for i in require:
+        if i == '无':pass
+        else: 
+            if i in a.sav()['科技']: pass
+            else: return False
+    return True

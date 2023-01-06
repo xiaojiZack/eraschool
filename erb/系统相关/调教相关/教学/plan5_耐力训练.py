@@ -58,6 +58,7 @@ def plan5():
         a.mode()
         determine_details()
         determine_participants(course_tag, course_difficulity,material_determine)
+        
     
     material_list = {}
     material_list['健身操'] = {

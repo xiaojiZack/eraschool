@@ -10,7 +10,7 @@ def plan1():
         a.mode()
         a.t('要对谁进行单独指导呢？')
         a.divider()
-        a.mode('grid',6)
+        a.mode('grid',7)
         a.tmp()['调教数据']={}
         a.tmp()['调教数据']['参与者'] = []
         a.tmp()['调教数据']['参与者'].append(a.sav()['character_list']['主角'])
@@ -29,6 +29,10 @@ def plan1():
             a.t('体力:')
             a.progress(c['体力值'],c['最大体力值'], [{'width': '100px'}, {}])
             a.t('({}/{})'.format(c['体力值'],c['最大体力值']))
+            a.t()
+            a.t('气力:')
+            a.progress(c['气力值'],c['最大气力值'], [{'width': '100px'}, {}])
+            a.t('({}/{})'.format(c['气力值'],c['最大气力值']))
             a.t()
             a.t('理智:')
             a.progress(c['理智值'],c['最大理智值'], [{'width': '100px'}, {}])

@@ -1,6 +1,7 @@
 import time
 from tkinter.ttk import Style
 import erajs.api as a
+from erb.系统相关.口上相关.口上调用 import comkojo
 from erb.系统相关.调教相关.体力衰减 import sum_pp
 from erb.系统相关.调教相关.命令.执行列表增减 import append_doing_list, check_doing_list
 from erb.系统相关.调教相关.处女 import check_pure, pure_punish
@@ -58,10 +59,12 @@ def com26(active,passive):
                 pe['A扩张经验'] += 1
                         
             pm['快A'] += 30 
-            pm['欲情'] += 5 
-            pm['屈服'] += 10
-            pm['羞耻'] += 20
-            pm['反感'] += 20
+            pm['欲情'] += 300 
+            pm['羞耻'] += 500 
+            pm['屈服'] += 700 
+            pm['恭顺'] += 200
+            pm['恐惧'] += 700 
+            pm['反感'] += 40
             pe['A经验'] += 1
             pm['好感度'] += 1
             sum_pp(passive,[0,30,20])

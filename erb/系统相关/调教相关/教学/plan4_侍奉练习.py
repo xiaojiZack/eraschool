@@ -27,7 +27,7 @@ def plan4():
                 '随机技术':1,
             },
             '施行需求':check_tech(['课程组件:女仆侍奉']),
-            '难度':0,
+            '难度':10,
             'tag':[],
             '说明':'仅仅只是要求装扮成女仆进行日常的打扫活动。',
             '能否施行':True
@@ -46,7 +46,7 @@ def plan4():
                 '随机技术':0,
                 '催眠':0,
             },
-            '施行需求':check_tech(['无']),
+            '施行需求':check_tech(['课程组件:榨精侍奉']),
             '难度':0,
             'tag':[],
             '说明':'灌输性奴观念，扭曲常识，合理化性行为',
@@ -75,7 +75,7 @@ def plan4():
         else:
             material_determine = material_list[list(material_list.keys())[0]]
 
-        def determine_details():
+        def determine_details(material_determine):
             def AV_selection(selection):
                 a.tmp()['储存选择'] = selection['index']
                 a.tmp()['选择对象'] = selection['value']
@@ -96,10 +96,11 @@ def plan4():
             a.t('难度:{}'.format(material_determine['难度']))
             a.t()
             a.t('课程说明:{}'.format(material_determine['说明']))
+            return material_determine
         
         a.page()
         a.mode()
-        determine_details()
+        material_determine = determine_details(material_determine)
         determine_participants(course_tag, course_difficulity,material_determine)
     if not '课程组件:常识变更' in a.sav()['科技']:
         a.sav()['科技'].append('课程组件:常识变更')
@@ -158,6 +159,7 @@ def design_class():
                     '金钱':0,
                     },
                     '效果':{
+                        '体力变化':[0,0,0],
                     },
                     '施行需求':check_tech(['无']),
                     '难度':0,
@@ -295,17 +297,17 @@ def design_class():
                 '金钱':0,
             },
             '效果':{
-                '欲情':-10,
-                '习得':-10,
-                '羞耻':-10,
-                '恭顺':-10,
-                '反感':-10,
-                '体力变化':[0,10,10],
+                '欲情':1000,
+                '习得':1000,
+                '羞耻':1000,
+                '恭顺':100,
+                '反感':1000,
+                '体力变化':[0,100,100],
                 '随机技术':0,
-                '催眠':0,
+                '催眠':1,
             },
             '新增施行需求':check_tech(['无']),
-            '难度':-5,
+            '难度':20,
             '新增tag':[],
             '删除tag':['精液','脏污','主导'],
         },
@@ -314,17 +316,17 @@ def design_class():
                 '金钱':0,
             },
             '效果':{
-                '欲情':0,
-                '习得':0,
-                '羞耻':0,
-                '恭顺':0,
-                '反感':-10,
-                '体力变化':[0,10,10],
+                '欲情':3000,
+                '习得':5000,
+                '羞耻':4000,
+                '恭顺':2000,
+                '反感':2000,
+                '体力变化':[0,400,100],
                 '随机技术':0,
                 '催眠':0,
             },
             '新增施行需求':check_tech(['无']),
-            '难度':-5,
+            '难度':30,
             '新增tag':['主导'],
             '删除tag':['精液','脏污'],
         },
@@ -333,17 +335,17 @@ def design_class():
                 '金钱':0,
             },
             '效果':{
-                '欲情':0,
-                '习得':0,
-                '羞耻':0,
-                '恭顺':0,
-                '反感':0,
-                '体力变化':[0,10,10],
+                '欲情':5000,
+                '习得':8000,
+                '羞耻':6000,
+                '恭顺':3000,
+                '反感':3000,
+                '体力变化':[0,800,300],
                 '随机技术':0,
                 '催眠':0,
             },
             '新增施行需求':check_tech(['无']),
-            '难度':0,
+            '难度':40,
             '新增tag':['精液','脏污','主导'],
             '删除tag':[],
         },

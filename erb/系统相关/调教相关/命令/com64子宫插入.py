@@ -27,14 +27,14 @@ def com64(active,passive):
     if check_doing_list(active,passive,comid) and check_result!=False:
         insert(active,passive,'P','V',check_result)
                                 
-        pm['快A'] += 15 * (1+active['开发']['腰技']*1)
-        pm['苦痛'] += 10 * (1+active['开发']['腰技']*1)
-        pm['屈服'] += 20 * (1+active['开发']['腰技']*1)
-        pm['羞耻'] += 5 * (1+active['开发']['腰技']*1)
-        pm['欲情'] += 5 * (1+active['开发']['腰技']*1)
-        pm['恭顺'] += 5 * (1+active['开发']['腰技']*1)
-        pm['习得'] += 5 * (1+active['开发']['腰技']*1)
-        pm['反感'] += 10
+        pm['快W'] += 25 * (1+active['开发']['腰技']*1)
+        pm['苦痛'] += 400 * (1+active['开发']['腰技']*1)
+        pm['屈服'] += 600 * (1+active['开发']['腰技']*1)
+        pm['羞耻'] += 300 * (1+active['开发']['腰技']*1)
+        pm['欲情'] += 700 * (1+active['开发']['腰技']*1)
+        pm['恭顺'] += 500 * (1+active['开发']['腰技']*1)
+        pm['习得'] += 50 * (1+active['开发']['腰技']*1)
+        pm['反感'] += 60
         pe['子宫经验'] += 1 * (1+active['开发']['腰技']*1)
         pe['子宫姦经验'] += 1
         

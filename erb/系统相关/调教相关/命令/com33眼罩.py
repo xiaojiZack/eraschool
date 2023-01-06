@@ -25,9 +25,11 @@ def com33(active,passive):
 
     if check_equipment(passive,33):
     
-        pm['屈服'] += 20
-        pm['恐惧'] += 20
-        pm['反感'] += 5
+        pm['屈服'] += 600
+        pm['欲情'] += 80
+        pm['恐惧'] += 800
+        pm['恭顺'] += 400
+        pm['反感'] += 60
         pm['好感度'] += 1
         pe['受缚经验'] += 1
         sum_pp(passive,[0,30,20])

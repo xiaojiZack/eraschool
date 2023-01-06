@@ -74,7 +74,7 @@ def rate_study(c):
     sumup += squeeze['分数']
     sumup_rate += trans[squeeze['评级']]
     c['学籍']['成绩']['个性科目'] = special
-    sumup += special['分数']
+    sumup = special['分数']*sumup
     sumup_rate += trans[special['评级']]
     c['学籍']['成绩']['总分'] =  {'评级':trans[str(int(sumup_rate/4))],'分数':sumup}
 

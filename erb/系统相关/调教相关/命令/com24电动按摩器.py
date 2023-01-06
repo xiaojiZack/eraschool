@@ -23,10 +23,12 @@ def com24(active,passive):
     
     if check_doing_list(active,passive,21):
         
-        pm['快C'] += 50
-        pm['羞耻'] += 5
-        pm['欲情'] += 10
-        pm['恐惧'] += 5
+        pm['快C'] += 200
+        pm['羞耻'] += 500
+        pm['欲情'] += 400
+        pm['屈服'] += 200
+        pm['恭顺'] += 200
+        pm['恐惧'] += 100
         am['习得'] += 5
         pm['反感'] += 10
         pe['C经验'] += 1

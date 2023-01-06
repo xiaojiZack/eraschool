@@ -17,13 +17,14 @@ def com71(active,passive):
     pe = passive['待处理经验']
     f = False
     if check_doing_list(active,passive,71):
-        pm['羞耻'] += 5 * (1+passive['开发']['指技']*1)
-        pm['屈服'] += 5 * (1+passive['开发']['指技']*1)
-        pm['主导'] += 30 * (1+passive['开发']['指技']*1)
-        pm['习得'] += 10 * (1+passive['开发']['指技']*1)
+        pm['羞耻'] += 150 * (1+passive['开发']['足技']*1)
+        pm['欲情'] += 150 * (1+passive['开发']['足技']*1)
+        pm['屈服'] += 50 * (1+passive['开发']['足技']*1)
+        pm['主导'] += 800 * (1+passive['开发']['足技']*1)
+        pm['习得'] += 150 * (1+passive['开发']['足技']*1)
         pm['快C'] += 5
-        am['习得'] += 5
-        pm['反感'] += 10
+        am['习得'] += 50
+        pm['反感'] += 20
 
 
         a.t('{}的手在{}身上轻柔抚摸'.format(aname,pname),True)

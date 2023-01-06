@@ -21,9 +21,10 @@ def com1(active,passive):
     if check_doing_list(active,passive,1):
         pm['快C'] += 5 * (1+active['开发']['指技']*1)
         pm['快B'] += 5 * (1+active['开发']['指技']*1)
-        pm['羞耻'] += 10 * (1+active['开发']['指技']*1)
-        pm['欲情'] += 5 * (1+active['开发']['指技']*1)
+        pm['羞耻'] += 20 * (1+active['开发']['指技']*1)
+        pm['欲情'] += 20 * (1+active['开发']['指技']*1)
         pm['习得'] += 5 * (1+active['开发']['指技']*1)
+        pm['恭顺'] += 20 * (1+active['开发']['指技']*1)
         am['快C'] += 5
         
         am['习得'] += 5

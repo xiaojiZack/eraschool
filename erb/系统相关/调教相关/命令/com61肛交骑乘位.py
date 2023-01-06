@@ -3,6 +3,7 @@ from erb.系统相关.口上相关.口上调用 import comkojo
 from erb.系统相关.调教相关.体力衰减 import sum_pp
 from erb.系统相关.调教相关.命令.执行列表增减 import append_doing_list, check_doing_list
 from erb.系统相关.调教相关.处女 import check_pure, pure_punish
+from erb.系统相关.调教相关.插入 import insert, insert_check
 from erb.系统相关.调教相关.插入尺寸计算 import check_maintain_size, check_size, size_punish
 from erb.系统相关.调教相关.润滑 import is_enough_oiling, not_oiling_punish
 from ..com_check import obey_check
@@ -26,18 +27,20 @@ def com61(active,passive):
     if check_doing_list(active,passive,61) and check_result!=False:
         insert(active,passive,'P','A',check_result)
                                 
-        pm['快A'] += 15 * (1+active['开发']['腰技']*1)
-        pm['苦痛'] += 20 * (1+active['开发']['腰技']*1)
-        pm['主导'] += 20 * (1+active['开发']['腰技']*1)
-        pm['羞耻'] += 15 * (1+active['开发']['腰技']*1)
-        pm['欲情'] += 10 * (1+active['开发']['腰技']*1)
-        pm['习得'] += 5 * (1+active['开发']['腰技']*1)
-        pm['反感'] += 10
+        pm['快A'] += 150 * (1+active['开发']['腰技']*1)
+        pm['苦痛'] += 350 * (1-active['开发']['腰技']*0.1)
+        pm['恐惧'] += 250 * (1-active['开发']['腰技']*0.1)
+        pm['屈服'] += 800 * (1+active['开发']['腰技']*1)
+        pm['羞耻'] += 550 * (1+active['开发']['腰技']*1)
+        pm['欲情'] += 450 * (1+active['开发']['腰技']*1)
+        pm['恭顺'] += 350 * (1+active['开发']['腰技']*1)
+        pm['习得'] += 50 * (1+active['开发']['腰技']*1)
+        pm['反感'] += 60
         pe['A经验'] += 1 * (1+active['开发']['腰技']*1)
         pe['A性交经验'] += 1 * (1+active['开发']['腰技']*1)
         pm['好感度'] += 1 * (1+active['开发']['腰技']*1)
         
-        am['快C'] += (passive['开发']['A名器度']+20)*(1+passive['开发']['腰技']*1)*1.5
+        am['快C'] += (passive['开发']['A名器度']+200)*(1+passive['开发']['腰技']*1)*1.5
         am['欲情'] += 10 * (1+active['开发']['腰技']*1)
         am['习得'] += 5*(1+passive['开发']['腰技']*1)
         am['屈服'] += 5*(1+passive['开发']['腰技']*1)

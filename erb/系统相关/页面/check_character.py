@@ -107,7 +107,7 @@ def detail_character(c):
         a.mode('grid',3)
         a.b('第二页->',page_2)
         a.t()
-        a.b('角色升级',a.goto,character_upgrade_page,c,style = {'color':'#778899'})
+        a.b('角色升级',a.goto,character_upgrade_page,c, 'check', style = {'color':'#778899'})
         a.t()
         a.b('返回',a.back)
     def page_2():

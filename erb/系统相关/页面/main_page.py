@@ -1,5 +1,5 @@
 import erajs.api as a
-from erb.系统相关.页面.research import research_page
+from erb.系统相关.页面.research import check_free_tech, research_page
 from erb.系统相关.页面.school_information import school_information
 from funcs import debug
 from .shop import shop_page
@@ -9,6 +9,8 @@ from .arrange_building import arrange_building
 from ..事件.event import next_event
 
 def main_page():
+#主界面
+    init_main_page()
 #主页面显示
     a.cls()
     a.page()
@@ -85,3 +87,7 @@ def main_page():
     a.cfg()['debug'] = True
     debug()
 
+
+def init_main_page():
+    #在载入主页面之前的一些工作
+    check_free_tech()

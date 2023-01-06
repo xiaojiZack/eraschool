@@ -22,11 +22,12 @@ def com3(active,passive):
 
     if check_doing_list(active,passive,3):
         pm['快A'] += 5 * (1+active['开发']['指技']*1)
-        pm['羞耻'] += 10 * (1+active['开发']['指技']*1)
-        pm['欲情'] += 5 * (1+active['开发']['指技']*1)
+        pm['羞耻'] += 30 * (1+active['开发']['指技']*1)
+        pm['欲情'] += 15 * (1+active['开发']['指技']*1)
         pm['习得'] += 5 * (1+active['开发']['指技']*1)
+        pm['恭顺'] += 10 * (1+active['开发']['指技']*1)
         am['习得'] += 5
-        pm['反感'] += 15
+        pm['反感'] += 20
         pe['A经验'] += 1
         ae['指技经验'] += 1
         comkojo(active,passive,3,{'com':'doing'})

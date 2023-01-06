@@ -47,9 +47,10 @@ def shop_page():
         if i in a.sav()['物品'] and items[i]['可重复'] == '否':
             buyable = False
             price_text = "售罄"
+            a.t()
         elif check_tech(i): 
             for j in items[i]['价格']: price_text = price_text+j+ ":"+ str(items[i]['价格'][j])
-        a.b('{}||{}'.format(i,price_text),buy,i,items[i]['价格'],disabled = not buyable,popup = '{}'.format(items[i]['描述']))
-        a.t()
+            a.b('{}||{}'.format(i,price_text),buy,i,items[i]['价格'],disabled = not buyable,popup = '{}'.format(items[i]['描述']))
+            a.t()
     a.divider()
     a.b('返回',a.back)

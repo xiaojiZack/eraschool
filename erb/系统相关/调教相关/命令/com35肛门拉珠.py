@@ -25,16 +25,18 @@ def com35(active,passive):
     
     if check_equipment(passive,35):
         
-        pm['快A'] += 10
+        pm['快A'] += 80
 
-        pm['羞耻'] += 5
-        pm['欲情'] += 10
-        pm['恐惧'] += 10
+        pm['羞耻'] += 500
+        pm['欲情'] += 400
+        pm['屈服'] += 800
+        pm['苦痛'] += 400
+        pm['恐惧'] += 300
         am['习得'] += 5
-        pm['反感'] += 5
+        pm['反感'] += 50
 
-        pe['A经验'] += 1
-        pm['好感度'] += 0
+        pe['A经验'] += 2
+        pm['好感度'] += 1
 
         sum_pp(passive,[0,10,15])
         comkojo(active,passive,comid,{'com':'doing'})

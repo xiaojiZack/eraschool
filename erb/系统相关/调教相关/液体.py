@@ -94,15 +94,9 @@ def leak(c,body_type):
 
 #药液吸收
 #详见药液文件
-def liquid_updata(c,body_type):
+def liquid_updata(c):
     update_drug(c)
-    liquid_list = c['身体信息'][body_type]['内容液体']
-    new_volume = 0
-    for d in liquid_list:
-        new_volume += liquid_list[d]
-        if liquid_list[d] <=0:
-            liquid_list.pop(d)
-    c['身体信息'][body_type]['内容总量'] = new_volume
+
 
 #注入泄露系数
 def inject_leak(c,body_type):
