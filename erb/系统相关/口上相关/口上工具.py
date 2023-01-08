@@ -1,3 +1,4 @@
+import time
 import erajs.api as a
 
 def show_kojo():
@@ -10,6 +11,7 @@ def show_kojo():
         else:
             style = lines[1]
             a.t(text, style=style)
+        time.sleep(0.01)
     a.t('',True)
     a.tmp()['待显示口上'] = []
 

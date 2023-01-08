@@ -852,6 +852,8 @@ def singal_step():
     for c in a.tmp()['调教数据']['参与者']:
         all_cal(c)
     main_orgasm(a.tmp()['调教数据']['参与者'])
+    a.divider()
+    a.mode()
     print_kojo()
     a.repeat()
 

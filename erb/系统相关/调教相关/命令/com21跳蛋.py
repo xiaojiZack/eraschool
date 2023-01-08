@@ -25,9 +25,9 @@ def com21(active,passive):
     if check_doing_list(active,passive,21):
         
         pm['快C'] += 100
-        pm['羞耻'] += 50
-        pm['欲情'] += 100
-        pm['屈服'] += 50
+        pm['羞耻'] += 70
+        pm['欲情'] += 150
+        pm['屈服'] += 30
         pm['恭顺'] += 20
         pm['恐惧'] += 50
         am['习得'] += 10

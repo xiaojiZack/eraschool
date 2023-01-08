@@ -26,8 +26,8 @@ def kojosample(person, attenders, comnumber = 0, information = {}):
         pt()
         #加入此函数以加入回车
 
-    if (comnumber == 1 and comdoing(inf) and (d['C感觉']>=5000 or mark['快乐刻印']>=1)):
-        #示范：当情景为[持续执行][‘爱抚’指令，指令编号1]，且['C感觉'不小于5000]或['快乐刻印'不小于1]
+    if (comnumber == 1 and comdoing(inf) and (d['C感觉']>=3 or mark['快乐刻印']>=1)):
+        #示范：当情景为[持续执行][‘爱抚’指令，指令编号1]，且['C感觉'不小于3级]或['快乐刻印'不小于1]
         push_text('\"嗯哼哼哼啊啊啊啊啊啊啊啊啊!\"')
         #可以不携带style设定,用[\"]来在文本中输出"
         pt()

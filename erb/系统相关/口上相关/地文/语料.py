@@ -1,6 +1,3 @@
-from audioop import add
-from pickle import NONE
-from pydoc import describe
 from random import random
 import erajs.api as a
 import random
@@ -9,7 +6,7 @@ def c(l):
     if l != []:
         return random.choice(l)
     else:
-        return NONE
+        return None
 
 def search_quaility(c,target):
     for i in c['属性']:
@@ -73,32 +70,60 @@ def yinjing(p):
         elif search_quaility(p,'普通根'):
             addlist(describe,['完美的','平均尺寸的'])
         elif search_quaility(p,'巨根'):
-            addlist(describe,['大于一般尺寸的','巨大的','粗大的'])
+            addlist(describe,['大于一般尺寸的','巨大的','粗大的','大'])
         elif search_quaility(p,'马根'):
-            addlist(describe,['手臂粗的','凶恶的','爆筋的','又粗又长的'])
+            addlist(describe,['手臂粗的','凶恶的','爆筋的','又粗又长的','马'])
         elif search_quaility(p,'龙根'):
-            addlist(describe,['尺寸极其夸张的','一人合抱的','不可思议的'])
+            addlist(describe,['尺寸极其夸张的','如女性腰粗的','不可思议的'])
     #脏污
     #穿环
     w = c(words)
     d = c(describe)
     return d+w
 
+#TODO 描述较少
+def yinhe(p):
+    words = ['阴核']
+    describe = ['','']
+    
+    w = c(words)
+    d = c(describe)
+    return d+w
+
+#阴部和阴道的区别在于一个是注重描述外部，一个则是注重描述内部
 def yinbu(p):
     words = ['阴部','蜜壶','花蕊','私处','温柔乡','女阴']
     describe = ['']
     if search_quaility(p,'白虎'):
         addlist(describe,['光滑的','美丽的'])
-        addlist(words, '一线天')
+        addlist(words, ['一线天','馒头穴'])
     if search_quaility(p,'处女'):
         describe = ['尚未开封的','未尝过男人滋味的','纯洁的']
-        addlist(words, '一线天')
+        addlist(words, ['处女穴'])
     if search_quaility(p,'小只') or search_quaility(p,'小孩体型'):
         addlist(describe,['幼小的','小小的','稚嫩的'])
+        addlist(words, ['幼女穴'])
     #脏污
     #穿环
     #漏精
     #纹身
+    w = c(words)
+    d = c(describe)
+    return d+w
+
+def yindao(p):
+    words = ['阴道','肉腔','肉壶']
+    describe = ['','','正在蠕动的']
+    
+    w = c(words)
+    d = c(describe)
+    return d+w
+
+#肠道注重描述内部
+def changdao(P):
+    words = ['肠道','屁穴','肠穴']
+    describe = ['','','正在蠕动的']
+    
     w = c(words)
     d = c(describe)
     return d+w
@@ -136,6 +161,23 @@ def pigu(p):
     elif search_quaility(p,'巨尻'):
         addlist(describe,['大于一般尺寸的','巨大的','硕大的'])
     #涂鸦
+    w = c(words)
+    d = c(describe)
+    return d+w
+
+def niaodao(P):
+    words = ['尿道']
+    describe = ['','']
+    
+    w = c(words)
+    d = c(describe)
+    return d+w
+
+#TODO 描述较少
+def gangmen(p):
+    words = ['肛门','菊穴','后穴']
+    describe = ['','']
+    
     w = c(words)
     d = c(describe)
     return d+w
