@@ -5,7 +5,7 @@ from erb.系统相关.调教相关.命令.执行列表增减 import append_doing
 from erb.系统相关.调教相关.处女 import check_pure, pure_punish
 from erb.系统相关.调教相关.插入 import insert, insert_check
 from erb.系统相关.调教相关.插入尺寸计算 import check_maintain_size, check_size, size_punish
-from erb.系统相关.调教相关.润滑 import is_enough_oiling, not_oiling_punish
+from erb.系统相关.调教相关.润滑 import is_enough_oiling, not_oiling_punish, oiling_buff
 
 from ...人物相关.character_class import search_quaility as sq
 from ..com_check import obey_check
@@ -29,7 +29,7 @@ def com55(active,passive):
     if check_doing_list(active,passive,55) and check_result!=False:
         insert(active,passive,'P','V',check_result)
                                 
-        pm['快V'] += 30 * (1+active['开发']['腰技']*1)
+        pm['快V'] += 50 * (1+active['开发']['腰技']*1)
         pm['羞耻'] += 550 * (1+active['开发']['腰技']*1)
         pm['屈服'] += 500 * (1+active['开发']['腰技']*1)
         pm['欲情'] += 500 * (1+active['开发']['腰技']*1)
@@ -41,14 +41,17 @@ def com55(active,passive):
         pe['V性交经验'] += 1 * (1+active['开发']['腰技']*1)
         pm['好感度'] += 2 * (1+active['开发']['腰技']*1)
         
-        am['快C'] += (passive['开发']['V名器度']+200)*(1+passive['开发']['腰技']*1)*1.5
-        am['欲情'] += 10 * (1+active['开发']['腰技']*1)
+        am['快C'] += ((1+passive['开发']['V名器度'])*400)*(1+passive['开发']['腰技']*1)*1.5
+        am['欲情'] += 100 * (1+active['开发']['腰技']*1)
         am['习得'] += 5*(1+passive['开发']['腰技']*1)
         pe['腰技经验'] += 2
         ae['V插入经验'] += 1
+
+        am['快C'] = oiling_buff(passive, 'V')*am['快C']
+        pm['快V'] = oiling_buff(passive, 'V')*pm['快V']
         
-        sum_pp(active,[0,20,5])
-        sum_pp(passive,[0,40,20])
+        sum_pp(active,[0,200,5])
+        sum_pp(passive,[0,400,20])
         comkojo(active,passive,comid,{'com':'doing'})
         
         f = True

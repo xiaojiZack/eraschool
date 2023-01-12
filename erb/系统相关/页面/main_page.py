@@ -61,11 +61,11 @@ def main_page():
     for i in a.sav()['物品']:
         if a.sav()['物品'][i]>1:
             a.t('[{}]*{}'.format(i,a.sav()['物品'][i]))
-        else:
+        elif a.sav()['物品'][i]==1:
             a.t('[{}]'.format(i))
     a.divider()
     a.mode('grid', 4)
-    a.b('安排教学', init_plan)
+    a.b('调教计划', init_plan)
     a.t()
     a.b('查看角色',a.goto,check_character)
     a.t()

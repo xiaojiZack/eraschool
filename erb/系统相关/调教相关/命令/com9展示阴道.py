@@ -28,7 +28,7 @@ def com9(active,passive):
         pe['露出经验'] += 1
         pm['好感度'] += 1
         sum_pp(active,[0,10,0])
-        sum_pp(passive,[0,15,20])
+        sum_pp(passive,[0,50,30])
         comkojo(active,passive,9,{'com':'doing'})
         f = True
         

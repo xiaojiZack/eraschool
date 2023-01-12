@@ -42,15 +42,15 @@ def kojosample(person, attenders, comnumber = 0, information = {}):
         #示范当情景为[人物p，射精时]
         res = check_eject(p)
         push_text('{}在{}的{}内射出了'.format(p['名字'],res['谁被射'],res['位置']))
-        for i in res['液体']:
-            push_text('{}:{}ml,'.format(i,res['液体'][i]))
+        for liquid_type in res['液体']:
+            push_text('{}:{}ml,'.format(liquid_type,res['液体'][liquid_type]))
         pt()
     
     if (check_be_eject(p)):
-        res = check_eject(p)
+        res = check_be_eject(p)
         push_text('{}在{}的{}内射出了'.format(res['谁射'],p['名字'],res['位置']))
         for liquid_type in res['液体']:
-            push_text('{}:{}ml,'.format(liquid_type,res['液体'][i]))
+            push_text('{}:{}ml,'.format(liquid_type,res['液体'][liquid_type]))
         pt()
     
     
@@ -61,10 +61,10 @@ def kojosample(person, attenders, comnumber = 0, information = {}):
     
     if (check_special(inf,'开场')):
         #示范：检查特殊事件示范包含‘开场’，可以替换为‘破处’‘结束调教’
-        push_text('绝望而浑浊的调教今天也一直一直地持续着')
+        push_text('调教开场')
         pt()
     
-    #测试
+    #示例，添加（comadd）命令“爱抚”（命令序列号为1）时给出口上
     if (comnumber == 1 and comadd(inf)):
         push_text('此处为口上文本', style={'color':'#0f0'})
         #将口上'此处为口上文本'输出到口上输出序列，且颜色为绿色

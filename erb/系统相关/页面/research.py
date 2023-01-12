@@ -81,9 +81,16 @@ def check_free_tech():
 
 def check_available(require):
     #检查科技前置需求是否满足
+    flag = True
     for i in require:
-        if i == '无':pass
+        if i == '无':f = True
+        elif '建筑:' in i:
+            f = False
+            for building in a.sav()['校内建筑列表']:
+                if building['名称'] in i:
+                    f = True
         else: 
-            if i in a.sav()['科技']: pass
-            else: return False
-    return True
+            if i in a.sav()['科技']: f = True
+            else: f = False
+        flag = flag and f
+    return flag

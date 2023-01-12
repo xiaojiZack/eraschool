@@ -41,7 +41,7 @@ def com62(active,passive):
         pe['腰技经验'] += 1
         
         sum_pp(active,[0,10,0])
-        sum_pp(passive,[0,5,5])
+        sum_pp(passive,[0,50,15])
         comkojo(active,passive,comid,{'com':'doing'})
         
         f = True

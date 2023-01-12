@@ -1,9 +1,10 @@
 import erajs.api as a
 from .building3_宿舍楼 import exec3,destory3, structure3
+from .building2_影视厅 import exec2,destory2,structure2
 from .building0_测试 import exec0,destory0
 
 def exec_building():
-    exec_func = {0:exec0, 3:exec3}
+    exec_func = {0:exec0, 2:exec2, 3:exec3}
     building_dict = a.dat()['building_item']
     bl = a.sav()['校内建筑列表']
     for b in bl:

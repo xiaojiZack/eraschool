@@ -35,7 +35,7 @@ def com31(active,passive):
             pm['好感度'] += 0
 
             pe['受缚经验'] += 1
-            sum_pp(passive,[0,20,30])
+            sum_pp(passive,[0,80,30])
         if t == 2:
             pm['恐惧'] += 500
             pm['屈服'] += 500
@@ -46,7 +46,7 @@ def com31(active,passive):
             pm['好感度'] += 0
 
             pe['受缚经验'] += 1
-            sum_pp(passive,[0,40,30])
+            sum_pp(passive,[0,140,30])
         if t == 3:
             pm['恐惧'] += 500
             pm['屈服'] += 500
@@ -57,7 +57,7 @@ def com31(active,passive):
             pm['好感度'] += 0
 
             pe['受缚经验'] += 1
-            sum_pp(passive,[0,20,30])
+            sum_pp(passive,[0,120,30])
         if t == 4:
             pm['恐惧'] += 500
             pm['屈服'] += 500
@@ -68,7 +68,7 @@ def com31(active,passive):
             pm['好感度'] += 0
 
             pe['受缚经验'] += 1
-            sum_pp(passive,[0,30,40])
+            sum_pp(passive,[0,130,40])
         if t == 5:
             pm['恐惧'] += 800
             pm['屈服'] += 800
@@ -79,7 +79,7 @@ def com31(active,passive):
             pm['好感度'] += 0
 
             pe['受缚经验'] += 1
-            sum_pp(passive,[0,80,40])
+            sum_pp(passive,[0,180,40])
         if t == 6:
             pm['恐惧'] += 800
             pm['屈服'] += 800
@@ -90,7 +90,7 @@ def com31(active,passive):
             pm['好感度'] += 0
 
             pe['受缚经验'] += 1
-            sum_pp(passive,[0,50,30])
+            sum_pp(passive,[0,150,30])
         comkojo(active,passive,comid,{'com':'doing'})
         f = True
         

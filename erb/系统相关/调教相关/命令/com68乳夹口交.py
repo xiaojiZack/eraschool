@@ -38,7 +38,7 @@ def com68(active,passive):
         pm['侍奉快乐'] += 2
 
         sum_pp(active,[0,10,5])
-        sum_pp(passive,[0,25,15])
+        sum_pp(passive,[0,350,65])
         comkojo(active,passive,comid,{'com':'doing'})
         
         f = True

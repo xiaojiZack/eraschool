@@ -99,16 +99,16 @@ def memory_cal(c):
     level_gain = [1,2,4,8,20,50]
     m['屈服'] = m['屈服']*level_gain[develop_info['服从']]*(1+dr['cy'])
     #施虐狂
-    level_gain = [1,1.5,2,5,10,30]
-    m['主导'] = m['主导'] * m['主导']*level_gain[develop_info['S属性']]*(1/(dr['mz']+1))
+    level_gain = [0,0.25,0.5,0.75,1,1.2]
+    m['主导'] = m['主导'] + m['主导']*level_gain[develop_info['S属性']]*(1/(dr['mz']+1))
     m['欲情'] = m['欲情'] + m['主导']*level_gain[develop_info['S属性']]
     #受虐狂
-    level_gain = [1,1.5,2,5,10,30]
+    level_gain = [0,0.25,0.5,0.75,1,1.2]
     m['屈服'] = m['屈服'] + m['苦痛']*level_gain[develop_info['M属性']]
     m['欲情'] = m['欲情'] + m['苦痛']*level_gain[develop_info['M属性']]
     m['苦痛'] = m['苦痛'] * max(0.2,(2-level_gain[develop_info['M属性']]))*(1/(dr['mz']+1)) #麻醉
     #露出癖
-    level_gain = [1,1.5,2,5,10,30]
+    level_gain = [0.25,0.5,0.75,1,2,4]
     m['屈服'] = m['屈服'] + m['羞耻']*level_gain[develop_info['露出癖']]
     m['欲情'] = m['欲情'] + m['羞耻']*level_gain[develop_info['露出癖']]
     m['羞耻'] = m['羞耻']*max(0.2,(2-level_gain[develop_info['露出癖']]))
@@ -120,6 +120,7 @@ def memory_cal(c):
         if sq(c,i):
             m['反感'] = m['反感']*decrease_hate_quility[i]
     m['反感'] = m['反感']*math.exp(-1*(c['好感度']/100))
+    m['反感'] = max(0,m['反感'])
 
     #各项记忆导致的好感度调整
     negative_emotion = c['调教记忆']['反感'] + c['调教记忆']['恐惧']
@@ -161,8 +162,8 @@ def memory_cal(c):
         sumup = sumup
     else:
         sumup = 10000
-    m['V润'] = sumup
-    m['A润'] = sumup
+    m['V润'] += sumup
+    m['A润'] += sumup
 
     l = {
         '肠液分泌体质':{'A润':1},
@@ -188,27 +189,63 @@ def memory_cal(c):
     #获取刻印
     mark_get(c,m)
 
-    flag = False
-    for i in m:
-        if m[i] >=1:
-            flag = True
-            break
-    if flag:
-        a.t()
-        ml['反感'] = 0
-        for i in ml:
-            if m[i] != 0:
-                m[i] = int(m[i])
-                a.t('{}:{} + {} = '.format(i, memory_list[i],m[i]))
-                memory_list[i] = memory_list[i] + m[i]
-                a.t('{}'.format(memory_list[i]))
+    if a.sav()['调教中']:
+        flag = False
+        for i in m:
+            if m[i] >=1:
+                flag = True
+                break
+        if flag:
+            a.t()
+            ml['反感'] = 0
+            for i in ml:
+                if m[i] != 0:
+                    m[i] = int(m[i])
+                    a.t('{}:{} + {} = '.format(i, memory_list[i],m[i]))
+                    memory_list[i] = memory_list[i] + m[i]
+                    a.t('{}'.format(memory_list[i]))
+                    a.t()
+                    m[i] = 0
+            cal_favor(c,[m['好感度'],m['侍奉快乐']])
+            c['调教记忆'] = memory_list
+            c['待处理记忆'] = m
+            a.t('',True)
+        return c
+    else:   #建筑事件计算
+        for i in m:
+            temp = m[i]
+            l = 0
+            if temp == 0:
+                l = 1
+            while temp>1:
+                temp = temp/10
+                l += 1
+            m[i] = int(int(m[i]/(pow(10,l-1)))*pow(10,l-2))
+        for i in m:
+            if i in ['V润','A润']:
+                continue
+            if m[i]>0:
+                a.t('{}:{}+{} = {}'.format(i,c['记忆'][i+'记忆'],m[i],c['记忆'][i+'记忆']+m[i]))
                 a.t()
-                m[i] = 0
-        cal_favor(c,[m['好感度'],m['侍奉快乐']])
-        c['调教记忆'] = memory_list
-        c['待处理记忆'] = m
-        a.t('',True)
-    return c
+                c['记忆'][i+'记忆'] += m[i]
+            m[i] = 0
+        
+        #调教结束后射精槽位设为0
+        if c['性别'] != '女性':
+            try:
+                c['其他参数']['射精数值'] = 0
+            except:
+                pass
+        
+        e = c['待处理经验']
+        for i in e:
+            if e[i]>0:
+                a.t('{}:{}+{} = {}'.format(i,c['经验'][i],e[i],c['经验'][i]+e[i]))
+                a.t()
+                c['经验'][i] += e[i]
+            e[i] = 0
+
+        return c
 
 #计算射精槽
 def eject_semen_cal(c):
@@ -218,7 +255,7 @@ def eject_semen_cal(c):
         sumup = 0
         for i in ['V','A','M','B','C','W','U']:
             sumup += c['待处理记忆']['快{}'.format(i)]
-        sumup += c['待处理记忆']['欲情']
+        sumup += c['待处理记忆']['欲情']*0.1
         c['其他参数']['射精数值'] += sumup
 
 #经验处理

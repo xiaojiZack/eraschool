@@ -26,16 +26,20 @@ def eject_liquid(c,body_type,count):
         eject_rate = c['身体信息'][body_type]['标准射出量']
         liquid_list = c['身体信息'][body_type]['内容液体']
         liquid_sum = c['身体信息'][body_type]['内容总量']
-        for i in liquid_list:
-            temp = math.ceil((liquid_list[i]*1.0/liquid_sum)*eject_rate)
-            if not i in eject_liquid_list.keys():
-                eject_liquid_list[i] = temp
-            else:
-                eject_liquid_list[i] += temp
-            liquid_list[i] -= temp
-            liquid_sum -= temp
-        c['身体信息'][body_type]['内容液体'] = liquid_list
-        c['身体信息'][body_type]['内容总量'] = liquid_sum
+        temp_liquid_sum = liquid_sum
+        if liquid_sum != 0: #防止除0
+            for i in liquid_list:
+                temp = math.ceil((liquid_list[i]*1.0/liquid_sum)*eject_rate*liquid_list[i])
+                if temp == 0:
+                    continue #当液体太少而射不出来时跳过该种液体
+                if not i in eject_liquid_list.keys():
+                    eject_liquid_list[i] = temp
+                else:
+                    eject_liquid_list[i] += temp
+                liquid_list[i] -= temp
+                temp_liquid_sum -= temp
+            c['身体信息'][body_type]['内容液体'] = liquid_list
+            c['身体信息'][body_type]['内容总量'] = temp_liquid_sum
     return eject_liquid_list
 
 #注入液体
@@ -62,7 +66,7 @@ def inject_liquid(c,body_type,eject_liquid_list):
         overinject(c,save_body_type)
     c['身体信息'][save_body_type]['内容总量'] = liquid_sum
     c['身体信息'][save_body_type]['内容液体'] = liquid_list
-    liquid_updata(c,save_body_type)
+    liquid_updata(c)
 
 #过度注入
 #考虑是溢出多余液体还是暂时扩张容量

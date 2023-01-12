@@ -32,7 +32,7 @@ def com34(active,passive):
         pm['反感'] += 110
         pm['好感度'] += 1
         pe['受缚经验'] += 1
-        sum_pp(passive,[0,30,30])
+        sum_pp(passive,[0,80,30])
         comkojo(active,passive,comid,{'com':'doing'})
         
         f = True

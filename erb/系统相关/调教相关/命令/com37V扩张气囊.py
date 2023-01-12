@@ -38,7 +38,7 @@ def com37(active,passive):
         pe['V扩张经验'] += 2
         pm['好感度'] += 0
 
-        sum_pp(passive,[0,20,10])
+        sum_pp(passive,[0,400,80])
         comkojo(active,passive,comid,{'com':'doing'})
 
         f = True

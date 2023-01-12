@@ -26,12 +26,12 @@ def size_warning():
     a.t()
     a.b('仁慈放过',mercy)
 
-def check_size(body_size,be_insert_size,have_inserted):
-    #be_insert_size:扩张等级，insert_size:插入物的尺寸，have_inserted:已经插入的占用物品(字典)
-    temp = body_size
+def check_size(body_size,insert_size,have_inserted):
+    #body_size:扩张等级，insert_size:插入物的尺寸，have_inserted:已经插入的占用物品(字典)
+    temp = body_size*2
     for i in have_inserted:
         temp -= P_size_trans[have_inserted[i]]
-    if temp<P_size_trans[be_insert_size]:
+    if temp<P_size_trans[insert_size]:
         if a.tmp()['调教数据']['尺寸警告标志']:
             size_warning()
             a.tmp()['尺寸警报确认中'] = True
@@ -44,7 +44,7 @@ def check_size(body_size,be_insert_size,have_inserted):
 def check_maintain_size(body_size,have_inserted):
     #be_insert_size:扩张等级，have_inserted:已经插入的占用物品(字典)
     #检查目前是否超过
-    temp = body_size
+    temp = body_size*2
     for i in have_inserted:
         temp -= P_size_trans[have_inserted[i]]
     if temp<0:

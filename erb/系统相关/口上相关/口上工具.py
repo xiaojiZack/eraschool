@@ -77,23 +77,23 @@ def check_eject(person):
     ol = a.tmp()['高潮口上记录']['射精']
     result = []
     for i in ol:
-        if i[0] == person['CharacterId']:
+        if i['whoeject'] == person['CharacterId']:
             result = i
-    if (result == []):
-        return False
-    else:
-        return {'谁被射':find_people(i[1])['名字'],'位置':i[2],'液体':i[3]}
+        if (result == []):
+            return False
+        else:
+            return {'谁被射':find_people(i['whoinject'])['名字'],'位置':i['place'],'液体':i['liquid']}
 
 def check_be_eject(person):
     ol = a.tmp()['高潮口上记录']['射精']
     result = []
     for i in ol:
-        if i[1] == person['CharacterId']:
+        if i['whoinject'] == person['CharacterId']:
             result = i
     if (result == []):
         return False
     else:
-        return {'谁射':find_people(i[0])['名字'],'位置':i[2],'液体':i[3]}
+        return {'谁射':find_people(i['whoeject'])['名字'],'位置':i['place'],'液体':i['liquid']}
 
 def get_mark(inf, mark):
     if '获得刻印' in inf:
@@ -104,7 +104,7 @@ def get_mark(inf, mark):
 
 def find_people(CharacterId):
     for i in a.tmp()['调教数据']['参与者']:
-        if i['CharacterId'] == CharacterId:
+        if i['CharacterId'] == int(CharacterId):
             return i
     return False
 

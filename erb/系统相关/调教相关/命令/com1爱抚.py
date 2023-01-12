@@ -25,10 +25,8 @@ def com1(active,passive):
         pm['欲情'] += 20 * (1+active['开发']['指技']*1)
         pm['习得'] += 5 * (1+active['开发']['指技']*1)
         pm['恭顺'] += 20 * (1+active['开发']['指技']*1)
-        am['快C'] += 5
         
         am['习得'] += 5
-        am['快C'] += 5
         pm['反感'] += 10
         ae['指技经验'] += 1
         pe['C经验'] += 1
@@ -38,7 +36,7 @@ def com1(active,passive):
         pm['好感度'] += 1
 
         sum_pp(active,[0,10,0])
-        sum_pp(passive,[0,20,10])
+        sum_pp(passive,[0,90,10])
         
         f = True
     else:

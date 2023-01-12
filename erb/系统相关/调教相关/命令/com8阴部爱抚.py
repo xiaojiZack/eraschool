@@ -32,7 +32,7 @@ def com8(active,passive):
         pm['好感度'] += 1
         
         sum_pp(active,[0,10,5])
-        sum_pp(passive,[0,20,10])
+        sum_pp(passive,[0,80,10])
         comkojo(active,passive,8,{'com':'doing'})
         f = True
         

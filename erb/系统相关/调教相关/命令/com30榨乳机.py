@@ -36,7 +36,7 @@ def com30(active,passive):
         pm['反感'] += 50
         pe['B经验'] += 1
         pm['好感度'] += 1
-        sum_pp(passive,[0,80,10])
+        sum_pp(passive,[0,300,10])
         comkojo(active,passive,comid,{'com':'doing'})
         
         f = True

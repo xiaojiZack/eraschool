@@ -34,7 +34,7 @@ def is_enough_oiling(c,body_type,demand):
         return demand-1
     elif c['调教记忆']['{}润'.format(body_type)]<1000:
         return demand-2
-    elif c['调教记忆']['{}润'.format(body_type)]<10000:
+    elif c['调教记忆']['{}润'.format(body_type)]<3000:
         return demand-3
     else:
         return 0
@@ -48,3 +48,15 @@ def not_oiling_punish(c,degree):
         c['待处理记忆']['苦痛'] += 100
     else:
         pass
+
+def oiling_buff(p,body_part):
+    #润滑充足对于获得VC快感的补正倍率
+    if p['调教记忆']['{}润'.format(body_part)]>12000:
+        return 2
+    elif p['调教记忆']['{}润'.format(body_part)]>8000:
+        return 1.5
+    elif p['调教记忆']['{}润'.format(body_part)]>3000:
+        return 1
+    else:
+        return 0.5
+    

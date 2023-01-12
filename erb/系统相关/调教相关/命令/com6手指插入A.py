@@ -38,7 +38,7 @@ def com6(active,passive):
         pm['好感度'] += 1 * (1+active['开发']['指技']*1)
         ae['指技经验'] += 1 * (1+active['开发']['指技']*1)
         sum_pp(active,[0,10,5])
-        sum_pp(passive,[0,25,10])
+        sum_pp(passive,[0,100,10])
         comkojo(active,passive,6,{'com':'doing'})
         f = True
         

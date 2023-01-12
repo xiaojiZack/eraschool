@@ -34,7 +34,7 @@ def com24(active,passive):
         pe['C经验'] += 1
         pm['好感度'] += 1
         comkojo(active,passive,24,{'com':'doing'})
-        sum_pp(passive,[0,20,15])
+        sum_pp(passive,[0,200,15])
 
         f = True
         

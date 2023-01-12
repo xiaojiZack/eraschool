@@ -1,15 +1,22 @@
 import erajs.api as a
 from .event_1_入学 import event1
 from .event_2_毕业 import event2
+from .event_3_参观日 import event3_1,event3_2,event3_3
 
 event_time_table={
     '1':{'季':1,'旬':1,'周':1},
-    '2':{'季':4,'旬':2,'周':7}
+    '2':{'季':4,'旬':2,'周':7},
+    '3_1':{'季':2,'旬':1,'周':2},
+    '3_2':{'季':3,'旬':1,'周':1},
+    '3_3':{'季':4,'旬':1,'周':1},
 }
 
 event_table = {
     '1':'入学',
     '2':'毕业',
+    '3_1':'参观日',
+    '3_2':'参观日',
+    '3_3':'参观日',
 }
 
 def event_check():

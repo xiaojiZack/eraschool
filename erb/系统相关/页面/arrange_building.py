@@ -54,7 +54,7 @@ def add_building_page(bname):
             if fee[i]<cost[i]:
                 a.msg('{}不足'.format(i))
                 return False
-        if space >= remain_space:
+        if space > remain_space:
             a.msg('校区空间不足')
             return False
         return True

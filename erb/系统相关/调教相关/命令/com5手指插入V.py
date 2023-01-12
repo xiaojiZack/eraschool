@@ -40,7 +40,7 @@ def com5(active,passive):
         ae['指技经验'] += 1
         pm['好感度'] += 1 * (1+active['开发']['指技']*1)
         sum_pp(active,[0,15,0])
-        sum_pp(passive,[0,30,25])
+        sum_pp(passive,[0,80,25])
         comkojo(active,passive,5,{'com':'doing'})
         f = True
         

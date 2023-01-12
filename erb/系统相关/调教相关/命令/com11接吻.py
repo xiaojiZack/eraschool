@@ -19,7 +19,7 @@ def com11(active,passive):
     f = False#记录本指令是否执行成功
 
     if check_doing_list(active,passive,11):
-        pm['快M'] += 25 * (1+active['开发']['舌技']*1)
+        pm['快M'] += 250 * (1+active['开发']['舌技']*1)
         pm['羞耻'] += 400 * (1+active['开发']['舌技']*1)
         pm['欲情'] += 500 * (1+active['开发']['舌技']*1)
         pm['恭顺'] += 400 * (1+active['开发']['舌技']*1)
@@ -28,6 +28,7 @@ def com11(active,passive):
         am['习得'] += 10
         pm['反感'] += 50
         pe['M经验'] += 1 * (1+active['开发']['舌技']*1)
+        ae['M经验'] += 1 * (1+active['开发']['舌技']*1)
         pe['亲吻经验'] += 1
         ae['亲吻经验'] += 1
         ae['爱情经验'] += 1

@@ -1,6 +1,7 @@
 import math
 import erajs.api as a
 from erb.系统相关.人物相关.character_class import search_quaility
+from erb.系统相关.调教相关.药液.药液 import drain_drugs
 from ..建筑相关.building import exec_building
 from ..事件.daily_event import daily_event
 from ..system_time import date_count
@@ -9,7 +10,7 @@ from ..事件.event import event_check
 def day_pass():
     character_recover()
     tech_research()
-    a.divider('建筑事件')
+    a.divider('建筑事件',style={'color':'#f00','size':20})
     exec_building()
     a.t('',True)
     a.divider('日常事件')
@@ -50,15 +51,22 @@ def character_recover():
         if i['气力值']>i['最大气力值']:i['气力值'] = i['最大气力值']
         i['理智值'] += int(i['最大理智值'] * recover_rate[2])
         if i['理智值']>i['最大理智值']:i['理智值'] = i['最大理智值']
+        #液体流失
+        drain_drugs(i)
+        #体液回复
         character_liquid_produce(i)
         #催眠回复，随时间流逝催眠接触
         if i['催眠']>0:
             i['催眠'] -= max(1,math.ceil(0.5*i['催眠']*i['理智值']/i['最大理智值']))
+        
+        
+    
     lr = cl['主角']
     lr['体力值'] = lr['最大体力值']
     lr['气力值'] = lr['最大气力值']
     lr['理智值'] = lr['最大理智值']
     character_liquid_produce(lr)
+    
            
 def character_liquid_produce(c):
     #角色回复体液存量

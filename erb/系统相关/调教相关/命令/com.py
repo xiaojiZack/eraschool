@@ -54,7 +54,7 @@ from .com67乳交 import com67,undocom67
 from .com68乳夹口交 import com68,undocom68
 from .com70素股 import com70,undocom70
 from .com71足交 import com71,undocom71
-from .com100润滑油 import com100
+from .com100润滑液 import com100
 from .com101媚药 import com101
 from .com102注射药物 import com102
 
@@ -70,7 +70,7 @@ com_dict = {
     54:'背面坐位',55:'骑乘位',56:'肛交正常位',57:'肛交后背位',58:'肛交屈居位',
     59:'肛交对面坐位',60:'肛交背面坐位',61:'肛交骑乘位',62:'刺激G点',63:'进攻子宫口',
     65:'手交',66:'口交',67:'乳交',68:'乳夹口交',70:'素股',71:'足交',
-    100:'润滑油',101:'媚药',102:'注射药物',
+    100:'润滑液',101:'媚药',102:'注射药物',
     }
 
 def c1(active,passive):
@@ -820,22 +820,33 @@ def execcom71(active,passive):
         singal_step()
 
 def c100(active,passive):
-    if check_item('润滑油')>0:
-        a.b('润滑油',com100,active,passive)
+    if check_item('润滑液'):
+        if a.sav()['物品']['润滑液']>0:
+            a.b('润滑液',exec100,active,passive)
+            a.t()
+def exec100(active,passive):
+        com100(active,passive)
+        if not a.tmp()['正在执行']:
+            singal_step()
 
 def c101(active,passive):
-    if check_item('媚药')>0:
-        a.b('喂媚药',exec101,active,passive)
+    if check_item('媚药'):
+        if a.sav()['物品']['媚药']>0:
+            a.b('喂媚药',exec101,active,passive)
+            a.t()
 def exec101(active,passive):
-        com101()
-        singal_step()
+        com101(active,passive)
+        if not a.tmp()['正在执行']:
+            singal_step()
 
 def c102(active,passive):
     if check_item('注射器')>0:
         a.b('注射媚药',exec102,active,passive)
+        a.t()
 def exec102(active,passive):
-        com102()
-        singal_step()
+        com102(active,passive)
+        if not a.tmp()['正在执行']:
+            singal_step()
 
 def singal_step():
     a.page()

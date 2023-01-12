@@ -34,14 +34,14 @@ def com100(active,passive):
         a.t('要涂抹哪里？')
         a.t()
         a.mode('grid', 2)
-        a.b('腔穴')
+        a.b('腔穴', select_v)
         a.t()
-        a.b('尻穴')
+        a.b('尻穴', select_A)
         wait()
 
     if obey_check(0,active,passive,com_trait):
         select_place()
-        a.sav()['道具']['润滑油'] -= 1
+        a.sav()['物品']['润滑液'] -= 1
         comkojo(active,passive,comid,{'com':'add'})
     else:
         comkojo(active,passive,comid,{'com':'fail'})

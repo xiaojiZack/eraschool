@@ -6,6 +6,7 @@ insertdist = {'P':"阴茎",'F':'手指'}
 beinsertdist = {'V':'阴道','A':'肛门','U':'尿道','M':'口'}
 oilneed = {'P':3,'F':1}
 def insert_check(ac,pa,insertproject,place,com_trait):
+    #检查插入是否需要注意什么
     #insertproject = P/F, place = V/A/U
     if check_insert_obejct(ac,insertproject) == False:
         a.t('err-插入物不存在')
@@ -50,11 +51,11 @@ def insert(ac,pa,insertproject,place,check_result):
         pa['身体信息'][beinsertdist[place]]['内容固体'][ac['名字']] = size
         if insertproject == 'P':
             ac['身体信息']['阴茎']['插入位置'][pa['CharacterId']] = beinsertdist[place]
-        if check_result['size_flag']:
+        if not check_result['size_flag']:
             size_punish(pa,place)
         if check_result['oil_require']>0:
             not_oiling_punish(pa,check_result['oil_require'])
-        if check_result['pure_flag']:
+        if not check_result['pure_flag']:
             pure_punish(pa,place)
         return True
     return False

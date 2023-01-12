@@ -69,4 +69,5 @@ def dertermine(c):
     comkojo(a.tmp()['调教数据']['参与者'], c, -1, {'特殊事件':['开场']})
     a.page()
     print_kojo()
+    a.sav()['调教中'] = True
     a.goto(train_page)

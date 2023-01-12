@@ -32,7 +32,7 @@ def com2(active,passive):
         comkojo(active,passive,2,{'com':'doing'})
         
         sum_pp(active,[0,10,0])
-        sum_pp(passive,[0,20,10])
+        sum_pp(passive,[0,90,10])
 
 
         f = True

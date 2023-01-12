@@ -41,8 +41,8 @@ def com63(active,passive):
         ae['子宫经验'] += 1
         pe['腰技经验'] += 1
         
-        sum_pp(active,[0,10,0])
-        sum_pp(passive,[0,5,5])
+        sum_pp(active,[0,100,0])
+        sum_pp(passive,[0,150,50])
         comkojo(active,passive,comid,{'com':'doing'})
         f = True
         

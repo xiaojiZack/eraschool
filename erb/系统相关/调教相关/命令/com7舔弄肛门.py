@@ -37,7 +37,7 @@ def com7(active,passive):
         am['侍奉快乐'] += 1
 
         sum_pp(active,[0,10,15])
-        sum_pp(passive,[0,30,10])
+        sum_pp(passive,[0,70,10])
         comkojo(active,passive,7,{'com':'doing'})
         f = True
         

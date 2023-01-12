@@ -34,7 +34,7 @@ def com3(active,passive):
         pm['好感度'] += 1
 
         sum_pp(active,[0,10,5])
-        sum_pp(passive,[0,25,20])
+        sum_pp(passive,[0,100,20])
 
         f = True
     else:

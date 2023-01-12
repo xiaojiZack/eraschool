@@ -37,7 +37,7 @@ def com29(active,passive):
         pe['C经验'] += 1 * (1+active['开发']['指技']*1)
         pm['好感度'] += 1 * (1+active['开发']['指技']*1)
 
-        sum_pp(passive,[0,10,5])
+        sum_pp(passive,[0,100,5])
         comkojo(active,passive,comid,{'com':'doing'})
 
         f = True

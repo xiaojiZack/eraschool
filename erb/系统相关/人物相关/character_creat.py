@@ -161,7 +161,7 @@ def organ_updata(c):
     standard_length = 10.0
     standard_diameter = 3.0
     standard = int(standard*((o['具体身高']*1.0)/170))
-    produce = int(standard*0.5)#生产速度
+    produce = int(standard*0.25)#生产速度
     ejct = 0.5#表示为内部所有液体的比值
     endure = 10000#忍耐极限
     #改造判断 (预留)
@@ -253,7 +253,6 @@ def quaility_random(d):
         for i in d:
             if select<d[i]:
                 return i
-                break
             select -= d[i]
 
 def check_conflict(d,q):

@@ -33,12 +33,45 @@ def check_orgasm(c):
 #选择射精位置
 def set_eject(c):
     def change_eject_place(p):
-        if p == '':
+
+        if not p  == '阴道' or "子宫":
+            #由于不在阴部射精，尝试取消V插入系命令   
+            who = list(c['身体信息']['阴茎']['插入位置'].keys())
+            for pid in who:
+                passive = find_people(pid)
+                for comid in [50,51,52,53,54,55,62,63,64]:
+                    try:
+                        a.tmp()['执行列表'].remove([c['CharacterId'],passive['CharacterId'],comid])
+                        comkojo(c,passive,comid,{'com':'undo'})
+                        c['标志']['阴茎占用'] = 0
+                        del passive['身体信息']['阴道']['内容固体'][c['名字']]
+                        del c['身体信息']['阴茎']['插入位置'][passive['CharacterId']]
+                    except:
+                        pass
+        
+        if not p  == "肛门" or "肠道":
+            #由于不在肛门射精，尝试取消A插入系命令   
+            who = list(c['身体信息']['阴茎']['插入位置'].keys())
+            for pid in who:
+                passive = find_people(pid)
+                for comid in [56,57,58,59,60]:
+                    try:
+                        a.tmp()['执行列表'].remove([c['CharacterId'],passive['CharacterId'],comid])
+                        comkojo(c,passive,comid,{'com':'undo'})
+                        c['标志']['阴茎占用'] = 0
+                        del passive['身体信息']['肛门']['内容固体'][c['名字']]
+                        del c['身体信息']['阴茎']['插入位置'][passive['CharacterId']]
+                    except:
+                        pass
+        
+        if p == '纸巾':
             c['身体信息']['阴茎']['插入位置'] = {}
         else:
             who = c['身体信息']['阴茎']['插入位置'].keys()
             for i in who:
                 c['身体信息']['阴茎']['插入位置'][i] = p
+        
+        a.tmp()['高潮名单'][c['CharacterId']]['射精']
         eject_semen(c,a.tmp()['高潮名单'][c['CharacterId']]['射精'])
     if c['CharacterId'] == 0:
         a.divider()
@@ -47,10 +80,10 @@ def set_eject(c):
         a.t()
         a.b('就这样射精',eject_semen,c,a.tmp()['高潮名单'][c['CharacterId']]['射精'])
         a.t()
-        a.b('纸巾上',change_eject_place,'')
+        a.b('纸巾上',change_eject_place,'纸巾')
         a.t()
     else:
-        eject_semen(c)
+        eject_semen(c,a.tmp()['高潮名单'][c['CharacterId']]['射精'])
     
 def eject_semen(c,count):
     ae = {}
@@ -62,14 +95,15 @@ def eject_semen(c,count):
         c['待处理经验'][i] += ae[i]
     eject_liquid_list = eject_liquid(c,'阴茎',count)
     if c['身体信息']['阴茎']['插入位置'] == {}:
-        pass
+        #射到纸巾上的处理
+        add_eject_kojo(c['CharacterId'], '',"纸巾", eject_liquid_list)
     else:
         who = list(c['身体信息']['阴茎']['插入位置'].keys())
-        who = who[0]    
+        who = who[0]    #这个地方可能以后会出bug，在有多个阴茎的时候
         p = find_people(who)
         be_eject_semen(p,c['身体信息']['阴茎']['插入位置'][who],count_level(count),c['名字'])
         inject_liquid(p,c['身体信息']['阴茎']['插入位置'][who],eject_liquid_list)
-        add_eject_kojo(c, who,c['身体信息']['阴茎']['插入位置'][who], eject_liquid_list)
+        add_eject_kojo(c['CharacterId'], who,c['身体信息']['阴茎']['插入位置'][who], eject_liquid_list)
     a.tmp()['射精处理中'] = False
 #被射
 def be_eject_semen(c,body_type,count,who_eject):
@@ -237,6 +271,7 @@ def orgasm_bouns():
                 p['待处理记忆']['A润'] += 500*ol[i][j]
                 #高潮对应部位奖励
                 p['待处理记忆']['高潮快{}'.format(j)] += 1000*ol[i][j]
+                p['待处理经验']['绝顶经验'] += ol[i][j]
                 add_orgasm_kojo(p,j,ol[i][j]) #记录高潮口上
     
     #多重绝顶bouns
@@ -271,7 +306,7 @@ def orgasm_bouns():
 
 def find_people(CharacterId):
     for i in a.tmp()['调教数据']['参与者']:
-        if i['CharacterId'] == CharacterId:
+        if i['CharacterId'] == int(CharacterId):
             return i
     return False
 
@@ -312,6 +347,12 @@ def chain_orgasm():
 def main_orgasm(cl):
     a.tmp()['被射名单'] = {}
     a.tmp()['高潮名单'] = {}
+    a.tmp()['高潮口上记录'] = {
+        '射精':[],#{谁射精(id),谁被射(id),射在哪，{射了什么}}
+        '绝顶':{},#{谁绝顶(id):{哪个部位:绝顶程度}}
+        '被射高潮':[],#{谁射精(id),谁被射(id),哪个部位}
+        '淫纹':[]
+    }
     for c in cl:
         check_orgasm(c)
     t = a.tmp()['高潮名单']
@@ -327,10 +368,10 @@ def main_orgasm(cl):
     for c in cl:
         comkojo(cl, c,  -1)
     a.tmp()['高潮口上记录'] = {
-        '射精':{},#{谁射精(id),谁被射(id),射在哪，{射了什么}}
+        '射精':[],#{谁射精(id),谁被射(id),射在哪，{射了什么}}
         '绝顶':{},#{谁绝顶(id):{哪个部位:绝顶程度}}
-        '被射高潮':{},#{谁射精(id),谁被射(id),哪个部位}
-        '淫纹':{}
+        '被射高潮':[],#{谁射精(id),谁被射(id),哪个部位}
+        '淫纹':[]
     }
 
 
@@ -343,7 +384,8 @@ def add_eject_kojo(whoeject, whoinject, place, liquid):
             flag = True
             break
     if flag == False:
-        l.append([whoeject,whoinject,place,liquid])
+        l.append({'whoeject':whoeject,'whoinject':whoinject,'place':place,'liquid':liquid})
+
 
 def add_orgasm_kojo(whoorgasm, place, count):
     l = a.tmp()['高潮口上记录']['绝顶']

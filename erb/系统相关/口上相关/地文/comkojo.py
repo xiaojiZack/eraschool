@@ -573,7 +573,7 @@ def describe_kojo(person, attenders, comnumber, information):
             push_text(atn+'把'+pn+'抱到自己身上，将'+yinjing(at)+'对准'+pn+'的'+yinbu(p)+'后,随即抓住腰侧和大腿根部即将其压入了'+yindao(p)+'深处')
             pt()
         elif comdoing(inf):
-            push_text(atn+'命令'+pn+'时而扭腰抽插时而套弄榨取着服侍自己肚内的'+yinjing(p))
+            push_text(atn+'命令'+pn+'时而扭腰抽插时而套弄榨取着服侍自己肚内的'+yinjing(at))
             pt()
         elif comfail(inf):
             push_text(pn+'推开了'+atn,{'color':'#f00'})
