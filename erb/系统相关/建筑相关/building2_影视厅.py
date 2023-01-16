@@ -15,8 +15,8 @@ def exec2(building):
 
     a.t('{}在影视厅观看了一部爱情动作片。'.format(student['名字']))
     a.t()
-    m['欲情'] += 8000
-    m['习得'] += 4000
+    m['欲情'] += 4000
+    m['习得'] += 2000
 
     choice_exp = random.choice(['腰技','舌技','指技','魔乳','足技'])
     e['{}经验'.format(choice_exp)] += 1
