@@ -20,7 +20,7 @@ def com65(active,passive):
     pe = passive['待处理经验']
     f = False
     if check_doing_list(active,passive,65):
-        am['快C'] += 50 * (1+passive['开发']['指技']*1)
+        am['快C'] += 400 * (1+passive['开发']['指技']*1)
         pm['羞耻'] += 500 * (1+passive['开发']['指技']*1)
         pm['屈服'] += 400 * (1+passive['开发']['指技']*1)
         pm['欲情'] += 100 * (1+passive['开发']['指技']*1)

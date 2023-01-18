@@ -60,4 +60,18 @@ def end_cal(c):
         a.goto(character_upgrade_page, c, enter_mode='after train')
     else:
         a.b('继续', unwait)
+    
+    init_character(c)
         
+
+def init_character(c):
+    #调教结束后重置角色状态
+    c['身体信息']['阴茎']['插入位置'] = {}
+    c['待处理体力变化'] = [0,0,0]
+    c['标志']['手占用'] = 0
+    c['标志']['口占用'] = 0
+    c['标志']['胸占用'] = 0
+    c['标志']['阴茎占用'] = 0
+    c['标志']['受缚类型'] = 0
+    c['标志']['口枷'] = False
+    c['调教状态'] = []

@@ -22,7 +22,7 @@ def com50(active,passive):
     decrease_p = []
     favor = []
     f = False
-    obey_challenge = -100
+    obey_challenge = 30
     
     check_result = insert_check(active,passive,'P','V',com_trait)
     if check_doing_list(active,passive,50) and check_result!=False:

@@ -1,5 +1,6 @@
 
 import erajs.api as a
+from erb.系统相关.调教相关.服装.服装 import creat_normal_cloth
 from ..人物相关.quaility_list import random_list
 from ..人物相关.random_name import random_name
 from ..人物相关.character_class import new_character_dict, search_quaility
@@ -238,6 +239,8 @@ def creat_normal_character(character=None):
     
     body_type_creat(c)
     updata_exp(c)
+    #衣物生成
+    creat_normal_cloth(c)
 
     return c
 

@@ -236,7 +236,7 @@ def end_train():
     for i in a.tmp()['调教数据']['参与者']:
         end_cal(i)
         f.wait()
-    a.tmp()['调教中'] = False
+    a.sav()['调教中'] = False
     a.back(3)
 
 def check_end_train():

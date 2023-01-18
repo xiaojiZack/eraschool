@@ -912,7 +912,7 @@ def remove_com_conflict(active,passive,conflict_list):
 def remove_body_type_occupy(c,body_type):
     com = c['标志'][body_type]
     for i in a.tmp()['执行列表']:
-        if c['CharacterId'] == i[0] and com == i[2]:
+        if (c['CharacterId'] == i[0] or c['CharacterId'] == i[1]) and com == i[2]:
             conflict_com = i
             active = find_people(conflict_com[0])
             passive = find_people(conflict_com[1])

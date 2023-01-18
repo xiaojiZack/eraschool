@@ -55,18 +55,21 @@ def inject_liquid(c,body_type,eject_liquid_list):
         save_body_type = '肠道'
     else:
         save_body_type = body_type
-    liquid_list = c['身体信息'][save_body_type]['内容液体']
-    liquid_sum = c['身体信息'][save_body_type]['内容总量']
-    liquid_limit = c['身体信息'][save_body_type]['容量']
-    for i in eject_liquid_list:
-        eject_liquid_list[i] = math.ceil(eject_liquid_list[i]*inject_leak(c,body_type))
-        add_dict(liquid_list,i,eject_liquid_list[i])
-        liquid_sum += eject_liquid_list[i]
-    if liquid_sum>liquid_limit:
-        overinject(c,save_body_type)
-    c['身体信息'][save_body_type]['内容总量'] = liquid_sum
-    c['身体信息'][save_body_type]['内容液体'] = liquid_list
-    liquid_updata(c)
+
+    if body_type in ['血液','肠道','胃','尿道','子宫','乳房','阴茎']:
+        #判断注入部分是可以储存液体的部分
+        liquid_list = c['身体信息'][save_body_type]['内容液体']
+        liquid_sum = c['身体信息'][save_body_type]['内容总量']
+        liquid_limit = c['身体信息'][save_body_type]['容量']
+        for i in eject_liquid_list:
+            eject_liquid_list[i] = math.ceil(eject_liquid_list[i]*inject_leak(c,body_type))
+            add_dict(liquid_list,i,eject_liquid_list[i])
+            liquid_sum += eject_liquid_list[i]
+        if liquid_sum>liquid_limit:
+            overinject(c,save_body_type)
+        c['身体信息'][save_body_type]['内容总量'] = liquid_sum
+        c['身体信息'][save_body_type]['内容液体'] = liquid_list
+        liquid_updata(c)
 
 #过度注入
 #考虑是溢出多余液体还是暂时扩张容量

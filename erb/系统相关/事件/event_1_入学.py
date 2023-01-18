@@ -2,6 +2,7 @@ import random
 import time
 import erajs.api as a
 from erb.系统相关.调教相关.教学.学业评级 import rate_study
+from erb.系统相关.调教相关.服装.服装 import cloth_rate_color
 from ..人物相关.character_creat import creat_normal_character
 from ..人物相关.character_class import new_character_dict
 
@@ -198,6 +199,18 @@ def detail_character(c,mode='一般'):
             a.t('{}:'.format(i))
             show_grade(grades[i],i)
             a.t()
+        a.divider('衣装')
+        a.mode('grid',4)
+        clothes = c['衣物']
+        for cloth_type in clothes:
+            a.t('{}:'.format(cloth_type))
+            if clothes[cloth_type] == {}: a.t('没穿')
+            else:a.t('{}'.format(clothes[cloth_type]['名称']))
+            a.t()
+        a.divider()
+        a.t('色情度:{}'.format(c['衣物效果']['色情度']), style=cloth_rate_color(c))
+        a.t()
+        a.t('羞耻度:{}'.format(c['衣物效果']['羞耻度']), style=cloth_rate_color(c))
         a.divider()
         a.mode('grid',3)
         a.b('第二页',page_2)

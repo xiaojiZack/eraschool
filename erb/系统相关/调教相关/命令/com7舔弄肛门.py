@@ -22,7 +22,7 @@ def com7(active,passive):
     if check_doing_list(active,passive,7):
         pm['快A'] += 20 * (1+active['开发']['舌技']*1)
         pm['A润'] += 20
-        pm['羞耻'] += 200 * (1+active['开发']['舌技']*1)
+        pm['羞耻'] += 100 * (1+active['开发']['舌技']*1)
         pm['欲情'] += 50 * (1+active['开发']['舌技']*1)
         pm['屈服'] += 250 * (1+active['开发']['舌技']*1)
         pm['习得'] += 5 * (1+active['开发']['舌技']*1)

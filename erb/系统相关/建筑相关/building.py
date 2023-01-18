@@ -5,8 +5,9 @@ from .building3_宿舍楼 import exec3,destory3, structure3
 from .building2_影视厅 import exec2,destory2,structure2
 from .building0_测试 import exec0,destory0
 from .building7_动物小屋 import exec7
+from .building21_图书馆 import exec21
 def exec_building():
-    exec_func = {0:exec0, 2:exec2, 3:exec3, 7:exec7, 9:exec9, 10:exec10}
+    exec_func = {0:exec0, 2:exec2, 3:exec3, 7:exec7, 9:exec9, 10:exec10, 21:exec21}
     building_dict = a.dat()['building_item']
     bl = a.sav()['校内建筑列表']
     for b in bl:
@@ -15,12 +16,12 @@ def exec_building():
             if building_dict[bname]['执行函数'] in exec_func.keys():
                 exec_func[building_dict[bname]['执行函数']](b)
     cost = a.sav()['维护总费用']
-    flag = True
+    flag = False
     for i in cost:
         if a.sav()['资源'][i]<cost[i]:
-            flag = False
+            flag = True
             a.sav()['资源'][i] = 0
-            a.msg('{}不足'.format(i))
+            a.msg('{}不足'.format(i), style={'color':'#f00'})
         else:
             a.sav()['资源'][i] -= cost[i]
     a.tmp()['资源短缺flag'] = flag

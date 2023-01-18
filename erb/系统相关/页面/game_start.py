@@ -7,10 +7,11 @@ def game_start():
     a.cls()
     a.page()
     a.mode('grid',1)
-    a.h('ERAschool')
+    a.h('ERAfacility')
     a.t()
     a.t('0.1')
     a.divider()
+    a.img('image.titile',inline=False, style={'width':'100px','height':'100px'})
     a.mode('grid',1)
     a.t("本游戏尚在开发中，许多功能尚未实装，尽情期待！")
     a.t()
@@ -45,7 +46,7 @@ def game_init():
     save['科技'] = []
     save['正在研发'] = {}
 
-    a.sav()['学院名'] = '测试学院名'
+    a.sav()['学院名'] = '肉便器学院'
     a.sav()['学院评级'] = 'D'
     a.sav()['学院名气度'] = 0
     a.sav()['可用教案'] = ['自由活动','单独授课',]
@@ -64,7 +65,7 @@ def game_init():
             a.sav()['学院名'] = name
     a.page()
     a.t('学院名为:')
-    a.input(input_school_name,'测试学院名')
+    a.input(input_school_name,'肉便器学院')
     a.t()
     a.b('[决定]',creat_leading_character,style = {'color':'#ff0'})
 
