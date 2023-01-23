@@ -3,7 +3,6 @@ from ..人物相关.character_class import search_quaility as sq
 
 def mark_get(c,memory):
     m = memory
-    a.divider()
     #反发刻印
     f = True
     l = ['相爱','亲爱','服从','隶属','烙印']

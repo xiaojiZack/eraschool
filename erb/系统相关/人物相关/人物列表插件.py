@@ -1,80 +1,55 @@
-import random
-import time
-import erajs.api as a
+from erajs import api as a
 from erb.系统相关.调教相关.教学.学业评级 import rate_study
 from erb.系统相关.调教相关.服装.服装 import cloth_rate_color
-from ..人物相关.character_creat import creat_normal_character
-from ..人物相关.character_class import new_character_dict
+from erb.系统相关.页面.arrange_clothes import arrange_clothes_page
+from erb.系统相关.页面.character_upgrade import character_upgrade_page
 
-def event1():
-    a.page()
-    a.mode()
-    num =number_of_new_student()
-    a.t('\"今年有')
-    a.t('{}'.format(num),style = {'color':'#f00'})
-    a.t('个入学名额\"',True)
-    a.t()
-    a.t('\"以下是申请文件，请仔细挑选未来的肉便,嗯哼,学生\"',True)
-    a.t()
-    for i in range(0,num):
-        a.tmp()['录取标志'] = False
-        a.tmp()['拒绝标志'] = False
-        c = {}
-        while a.tmp()['录取标志'] == False:
-            a.tmp()['录取标志'] = False
-            a.tmp()['拒绝标志'] = False
-            c = creat_new_student()
-            detail_character(c)
-            while a.tmp()['录取标志'] == False and a.tmp()['拒绝标志'] == False:
-                time.sleep(0.1)
-        roll(c)
-    a.page()
-    a.mode()
-    a.t('\"录取名单已经收到。直到他们毕业为止，请好好负起责任来\"')
-        
 
-def number_of_new_student():
-    fame = a.sav()['学院评级']
-    if fame == 'D': ex_number = 1
-    return ex_number+1
+def check_character(cl):
+    a.divider()
+    a.mode('grid',6)
+    #cl = a.sav()['character_list']['学生']
+    for i in cl:
+        c = cl[i]
+        a.b('{}'.format(c['名字']), a.goto, detail_character, c)
+        a.t()
+        if c['性别'] == '男性':
+            a.t('♂')
+        elif c['性别'] == '女性':
+            a.t('♀')
+        else:
+            a.t('♀♂')
+        a.t()
+        a.t('体')
+        a.progress(c['体力值'],c['最大体力值'], [{'width': '80px'}, {}])
+        a.t()
+        a.t('气:')
+        a.progress(c['气力值'],c['最大气力值'], [{'width': '80px'}, {}])
+        a.t()
+        a.t('智:')
+        a.progress(c['理智值'],c['最大理智值'], [{'width': '80px'}, {}])
+        a.t()
+        a.t('[{}]'.format(c['工作状态']))
 
-def creat_new_student():
-    c = new_character_dict()
-    c['性别'] = '女性'
-    c = creat_normal_character(c)
-    return c
-
-def roll(c):
-    word_list = [
-        '希望ta能在毕业时成为优秀的便器',
-        'ta还不知道前方有怎样的命运在等待',
-        '您打算对ta实施怎么样的教育方针呢？',
-        '入学工作都已安排妥当',
-        '宿舍的床位还有空的吗？',
-        '更喜欢这种类型的是吗？']
-    c['入学档案备份'] = c.copy()
-    a.sav()['character_list']['学生'][c['CharacterId']] = c
-    a.sav()['character_list']['character_number'] +=1
-    #a.msg('{}被录取了，{}'.format(c['名字'],random.choice(word_list)))
-
-def detail_character(c,mode='一般'):
+def detail_character(c):
     def page_1():
         a.cls()
         a.page()
         a.mode()
+        a.b('返回',a.back)
         a.divider()
         a.mode('grid',1)
         a.h(c['名字'])
         a.divider()
-        a.mode('grid', 3)
+        a.mode('grid', 4)
         a.t('性别:{}'.format(c['性别']))
         a.t()
         a.t('好感度:{}'.format(c['好感度']))
         a.t()
         a.t('侍奉快乐:{}'.format(c['侍奉快乐']))
         a.t()
-        # a.t('种族:{}'.format(c['种族']))
-        # a.t()
+        a.t('催眠:{}'.format(c['催眠']))
+        a.t()
         a.t('体力:')
         a.progress(c['体力值'],c['最大体力值'], [{'width': '100px'}, {}])
         a.t('({}/{})'.format(c['体力值'],c['最大体力值']))
@@ -123,11 +98,11 @@ def detail_character(c,mode='一般'):
             a.t()
         a.divider()
         a.mode('grid',3)
-        a.b('第二页',page_2)
+        a.b('第二页->',page_2)
         a.t()
-        a.b('录取',roll_in)
+        a.b('角色升级',a.goto,character_upgrade_page,c, 'check', style = {'color':'#778899'})
         a.t()
-        a.b('拒绝',reject)
+        a.b('返回',a.back)
     def page_2():
         a.cls()
         a.page()
@@ -146,14 +121,12 @@ def detail_character(c,mode='一般'):
             a.t('{}:{}'.format(i, q[i]))
             a.t()
         a.divider()
-        a.mode('grid',4)
-        a.b('第一页',page_1)
+        a.mode('grid',3)
+        a.b('<-第一页',page_1)
         a.t()
-        a.b('第三页',page_3)
+        a.b('第三页->',page_3)
         a.t()
-        a.b('录取',roll_in)
-        a.t()
-        a.b('拒绝',reject)
+        a.b('返回',a.back)
     def page_3():
         def show_detail(grade,name):
             a.page()
@@ -191,7 +164,7 @@ def detail_character(c,mode='一般'):
         rate_study(c)
         a.cls()
         a.page()
-        a.divider()
+        a.divider('评分')
         a.mode('grid',4)
         grades = c['学籍']['成绩']
         for i in grades:
@@ -200,19 +173,12 @@ def detail_character(c,mode='一般'):
             a.t()
         show_clothes(c)
         a.divider()
-        a.mode('grid',3)
-        a.b('第二页',page_2)
+        a.mode('grid',2)
+        a.b('<-第二页',page_2)
         a.t()
-        a.b('录取',roll_in)
-        a.t()
-        a.b('拒绝',reject)
+        a.b('返回',a.back)
     
     page_1()
-
-def roll_in():
-    a.tmp()['录取标志'] = True
-def reject():
-    a.tmp()['拒绝标志'] = True
 
 def show_clothes(c):
     a.divider('衣装')
@@ -232,7 +198,56 @@ def show_clothes(c):
                 a.t('{}'.format(clothes[cloth_type]['名称']))
         a.t()
     a.divider()
-    a.mode('grid',4)
+    a.mode('grid',5)
     a.t('色情度:{}'.format(c['衣物效果']['色情度']), style=cloth_rate_color(c))
     a.t()
     a.t('羞耻度:{}'.format(c['衣物效果']['羞耻度']), style=cloth_rate_color(c))
+    a.t()
+    for bt in ['阴部','胸部','肛门']:
+        a.t('{}:'.format(bt))
+        if c['衣物效果']['关键部位'][bt]: a.t('可见',style={'color':'#FFC1C1'})
+        else: a.t('不可见')
+        a.t()
+    a.mode('grid',1)
+    if allow_change_clothes(c): 
+        a.b('更换衣物', a.goto, arrange_clothes_page, c)
+    else:
+        a.b('{}现在还不允许你为其决定衣物'.format(c['名字']))
+
+def allow_change_clothes(c):
+    #判断是否允许玩家配置衣物
+    def search_quaility(c,target):
+        for i in c['属性']:
+            for j in c['属性'][i]:
+                if j == target:
+                    return True
+        return False
+    #允许阈值为100
+    allow_point = 0
+    now_point = 0
+    #服从贡献值
+    obey_point = [0,10,20,30,40,50]
+    now_point += obey_point[c['开发']['服从']]
+    #欲望贡献值
+    desire_point = [0,5,10,15,20,25]
+    now_point += desire_point[c['开发']['欲望']]
+    #露出癖贡献值
+    exhibtion_point = [0,15,30,45,75]
+    now_point += exhibtion_point[c['开发']['露出癖']]
+    #快乐刻印
+    happy_point = [0,10,20,30]
+    now_point += happy_point[c['刻印']['快乐刻印']]
+    #屈服刻印
+    knee_point = [0,10,20,30]
+    now_point += knee_point[c['刻印']['屈服刻印']]
+
+    if search_quaility(c,'顺从'): now_point+= 5
+    if search_quaility(c,'反抗'): now_point-= 5
+    if search_quaility(c,'不知耻'): now_point+=20
+    if search_quaility(c,'怕羞'): now_point -= 20
+    if search_quaility(c,'喜欢受人注目'): now_point += 10
+
+    if now_point>=allow_point:
+        return True
+    else:
+        return False

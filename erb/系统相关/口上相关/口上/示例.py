@@ -43,14 +43,14 @@ def kojosample(person, attenders, comnumber = 0, information = {}):
         res = check_eject(p)
         push_text('{}在{}的{}内射出了'.format(p['名字'],res['谁被射'],res['位置']))
         for liquid_type in res['液体']:
-            push_text('{}:{}ml,'.format(liquid_type,res['液体'][liquid_type]))
+            push_text('{}ml的{},'.format(res['液体'][liquid_type],liquid_type))
         pt()
     
     if (check_be_eject(p)):
         res = check_be_eject(p)
         push_text('{}在{}的{}内射出了'.format(res['谁射'],p['名字'],res['位置']))
         for liquid_type in res['液体']:
-            push_text('{}:{}ml,'.format(liquid_type,res['液体'][liquid_type]))
+            push_text('{}ml的{},'.format(res['液体'][liquid_type],liquid_type))
         pt()
     
     

@@ -13,6 +13,7 @@ def plan3():
         #TODO
         material_list = {}
         material_list['普通AV'] = {
+            '名称':'普通AV',
             '花费':{
                 '金钱':100,
             },
@@ -29,6 +30,7 @@ def plan3():
             '说明':'与学生共同观赏一些从市面上随便买的一些AV,有些看封面就知道没啥意思。'
         }
         material_list['热门AV'] = {
+            '名称':'热门AV',
             '花费':{
                 '金钱':1000,
             },
@@ -42,7 +44,7 @@ def plan3():
             },
             '难度':5,
             'tag':[],
-            '说明':'与学生共同观赏一些目前市面上流行的AV，至少封面看起来不错。'
+            '说明':'一些目前市面上流行的AV，至少封面看起来不错。'
         }
         material_index = a.tmp()['储存选择']
         material_determine = material_list[a.tmp()['选择对象']]

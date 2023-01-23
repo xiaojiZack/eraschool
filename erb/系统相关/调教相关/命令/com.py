@@ -850,7 +850,6 @@ def exec102(active,passive):
 
 def singal_step():
     a.page()
-    a.divider()
     a.mode()
     doing_list = a.tmp()['执行列表']
     a.tmp()['正在执行'] = True
@@ -863,8 +862,6 @@ def singal_step():
     for c in a.tmp()['调教数据']['参与者']:
         all_cal(c)
     main_orgasm(a.tmp()['调教数据']['参与者'])
-    a.divider()
-    a.mode()
     print_kojo()
     a.repeat()
 

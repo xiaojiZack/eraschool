@@ -83,7 +83,7 @@ def memory_cal(c):
     liquid_updata(c)
     dr = c['药物效果']
 
-    #根据开发程度产生的不同加成(待写)
+    #根据开发程度产生的不同加成
     sence_part = ['C','V','B','A','M','U','W']
     sence_level = [1,2,6,16,40,80]
     develop_info = c['开发']
@@ -179,6 +179,10 @@ def memory_cal(c):
                 else:
                     for k in ml:
                         m[k] = m[k]*l[q][j]
+    
+    #特殊奖励
+    special_bouns(c)
+
     #射精槽计算
     c['待处理记忆'] = m
     eject_semen_cal(c)
@@ -209,9 +213,9 @@ def memory_cal(c):
             cal_favor(c,[m['好感度'],m['侍奉快乐']])
             c['调教记忆'] = memory_list
             c['待处理记忆'] = m
-            a.t('',True)
         return c
     else:   #建筑事件计算
+        a.divider('{}获得调教记忆'.format(c['名字']))
         for i in m:
             temp = m[i]
             l = 0
@@ -229,13 +233,6 @@ def memory_cal(c):
                 a.t()
                 c['记忆'][i+'记忆'] += m[i]
             m[i] = 0
-        
-        #调教结束后射精槽位设为0
-        if c['性别'] != '女性':
-            try:
-                c['其他参数']['射精数值'] = 0
-            except:
-                pass
         
         e = c['待处理经验']
         for i in e:
@@ -318,37 +315,35 @@ def special_bouns(c):
         for i in bouns_list:
             c['待处理记忆'][i] = c['待处理记忆'][i] * pow(1.5,c['开发']['精液中毒']+max(c['待处理经验']['饮精经验'],c['待处理经验']['绝顶经验']))
     
-    if c['待处理记忆']['苦痛']>100:
+    if c['待处理记忆']['苦痛']>500:
         sumup=0
         sum_list = ['快C', '快V', '快B', '快A', '快M', '快U', '快W']
         c['待处理经验']['被虐快乐经验'] = 0
         for i in sum_list:
             sumup += c['待处理记忆'][i]
         while sumup > 0:
-            sumup -= 1000*2^c['待处理经验']['被虐快乐经验']
+            sumup -= 1000*pow(2,c['待处理经验']['被虐快乐经验'])
             c['待处理经验']['被虐快乐经验']+=1
     
-    if c['待处理记忆']['主导']>100:
+    if c['待处理记忆']['主导']>500:
         sumup=0
         sum_list = ['快C', '快V', '快B', '快A', '快M', '快U', '快W']
         c['待处理经验']['施虐快乐经验'] = 0
         for i in sum_list:
             sumup += c['待处理记忆'][i]
         while sumup > 0:
-            sumup -= 1000*2^c['待处理经验']['施虐快乐经验']
+            sumup -= 1000*pow(2,c['待处理经验']['施虐快乐经验'])
             c['待处理经验']['施虐快乐经验']+=1
     
-    if c['待处理记忆']['侍奉快乐'] >0:
+    if c['待处理记忆']['主导'] >500 and c['待处理记忆']['屈服'] >500 and c['待处理记忆']['恭顺'] >500:
         sumup=0
         sum_list = ['快C', '快V', '快B', '快A', '快M', '快U', '快W']
-        c['待处理经验']['施虐快乐经验'] = 0
+        c['待处理经验']['侍奉快乐'] = 0
         for i in sum_list:
             sumup += c['待处理记忆'][i]
         while sumup > 0:
-            sumup -= 1000*2^c['待处理经验']['施虐快乐经验']
+            sumup -= 1000*pow(2,c['待处理经验']['侍奉快乐'])
             c['待处理记忆']['侍奉快乐']+=1
-
-
 
 def all_cal(c):
     pp_cal(c)

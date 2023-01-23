@@ -18,6 +18,10 @@ def describe_kojo(person, attenders, comnumber, information):
     atn = at['名字']
     atns = atn+'的'
 
+    #绝顶、射精、被射高潮
+    if com == -1:
+        pass
+
     #爱抚
     if com == 1:
         if(comadd(inf)):

@@ -1,5 +1,9 @@
 import erajs.api as a
 import random
+from erb.系统相关.口上相关.地文.课程_侍奉练习地文 import class4_main_describe
+from erb.系统相关.口上相关.地文.课程_催眠洗脑地文 import class2_main_describe
+from erb.系统相关.口上相关.地文.课程_淫物鉴赏地文 import class3_main_describe
+from erb.系统相关.口上相关.地文.课程_耐力训练地文 import class5_main_describe
 
 from erb.系统相关.调教相关.memory_cal import all_cal
 from erb.系统相关.调教相关.记忆结算 import end_cal
@@ -7,11 +11,31 @@ from erb.系统相关.页面.check_character import detail_character
 from erb.系统相关.调教相关.教学.课程效果计算 import cal_course_effect
 from funcs import wait
 
-def determine(c, effect, effect_type):
+class_kojo_dict = {
+    '健身操':class5_main_describe,
+    '跑步':class5_main_describe,
+    '游泳':class5_main_describe,
+    '常识变更':class2_main_describe,
+    '性知识讲解':class2_main_describe,
+    '催眠':class2_main_describe,
+    '普通AV':class3_main_describe,
+    '热门AV':class3_main_describe,
+}
+
+#找到对应课程口上地文函数
+def find_kojo_func(material_name):
+    for name in ['手交','口交','足交','乳交','素股','骑乘']:
+        if name in material_name:
+            return class4_main_describe
+    return class_kojo_dict[material_name]
+
+def determine(c, effect, effect_rate,material_name):
+    #课程口上
+    find_kojo_func(material_name)(c,effect_rate,material_name)
     #结算效果
     dic = {'SSS':5,'SS':4,'S':3,'A':2,'B':1,'C':0}
-    el = dic[effect_type]
-    effect_type_level = [0.5, 1, 1.5, 2, 3, 5]
+    el = dic[effect_rate]
+    effect_type_level = [0.5, 1, 1.5, 2, 2.5, 3]
     for i in effect:
         if i == '随机技术':
             tech_list = ['腰技经验','舌技经验','指技经验','魔乳经验','足技经验']
@@ -28,7 +52,6 @@ def determine(c, effect, effect_type):
             c['待处理记忆'][i] += int(effect[i]*effect_type_level[el])
         else:
             c['待处理经验'][i] += int(effect[i]*effect_type_level[el])
-
     all_cal(c)
     end_cal(c)
     wait()
@@ -55,15 +78,12 @@ def determine_participants(course_tag, course_difficulity, material_determine):
         a.t()
         a.t('体力:')
         a.progress(c['体力值'],c['最大体力值'], [{'width': '30px'}, {}])
-        a.t('({}/{})'.format(c['体力值'],c['最大体力值']))
         a.t()
         a.t('气力:')
         a.progress(c['气力值'],c['最大气力值'], [{'width': '30px'}, {}])
-        a.t('({}/{})'.format(c['气力值'],c['最大气力值']))
         a.t()
         a.t('理智:')
         a.progress(c['理智值'],c['最大理智值'], [{'width': '30px'}, {}])
-        a.t('({}/{})'.format(c['理智值'],c['最大理智值']))
         a.t()
         course_effect = cal_course_effect(c, course_tag, course_difficulity)
         effect_type = {'color':'#000'}
@@ -83,7 +103,7 @@ def determine_participants(course_tag, course_difficulity, material_determine):
         a.t('{}'.format(course_effect), style = effect_type)
         a.t()
         if check_pp([c['体力值'],c['气力值'],c['理智值']],material_determine['效果']['体力变化']):
-            a.b('决定',determine,c, material_determine['效果'],course_effect)
+            a.b('决定',determine,c, material_determine['效果'],course_effect,material_determine['名称'])
         else:
             a.b('体力不足')
         a.t()
@@ -91,15 +111,20 @@ def determine_participants(course_tag, course_difficulity, material_determine):
     a.divider()
     a.b('取消',a.back)
 
-def check_tech(tech):
-    #检查是否持有科技
-    f = True
-    for i in tech:
-        if not i in a.sav()['科技']:
+def check_tech(require):
+    flag = True
+    for i in require:
+        if i == '无':f = True
+        elif '建筑:' in i:
             f = False
-            if i == '无':
-                return True
-    return f
+            for building in a.sav()['校内建筑列表']:
+                if building['名称'] in i:
+                    f = True
+        else: 
+            if i in a.sav()['科技']: f = True
+            else: f = False
+        flag = flag and f
+    return flag
 
 def check_pp(c_pp, effect_pp):
     #检查是否有充足体力

@@ -22,7 +22,11 @@ def init_cloth(cloth_name):
         "色情度":0,
         "羞耻度":0,
         "色情倍率":1,
-        "遮挡下层":False
+        "遮挡下层":False,
+        "前置":{
+            '道具':'',
+        },
+        '描述':''
     }
 
     cloth_data = {}
@@ -83,19 +87,34 @@ def cal_cloth_charm(cloth_list):
     }
 
     for cloth_type in cal_order:
-        cloth = cloth_list[cloth_type]
-        if cloth == {}: continue
-        #衣物可见，色情度全算，羞耻度全算,倍率全算
-        if cloth_type in visual_able:
-            cloth_charm += cloth['色情度']
-            charm_rate *= cloth['色情倍率']
-            cloth_unaccpection += cloth['羞耻度']
-        else: #不可见，色情度0，羞耻度半算，倍率0
-            cloth_unaccpection += cloth['羞耻度']*0.5
-        
-        #关键部位遮挡
-        for body_part in ['阴部','胸部','肛门']:
-            key_body_part[body_part] = key_body_part[body_part] and cloth['关键部位遮挡'][body_part]
+        if '配件' in cloth_type:
+            for cloth in cloth_list[cloth_type]:
+                if cloth_list[cloth_type] == []: continue
+                #衣物可见，色情度全算，羞耻度全算,倍率全算
+                if cloth_type in visual_able:
+                    cloth_charm += cloth['色情度']
+                    charm_rate *= cloth['色情倍率']
+                    cloth_unaccpection += cloth['羞耻度']
+                else: #不可见，色情度0，羞耻度半算，倍率0
+                    cloth_unaccpection += cloth['羞耻度']*0.5
+                
+                #关键部位遮挡
+                for body_part in ['阴部','胸部','肛门']:
+                    key_body_part[body_part] = key_body_part[body_part] and (not cloth['关键部位遮挡'][body_part])
+        else:
+            cloth = cloth_list[cloth_type]
+            if cloth == {}: continue
+            #衣物可见，色情度全算，羞耻度全算,倍率全算
+            if cloth_type in visual_able:
+                cloth_charm += cloth['色情度']
+                charm_rate *= cloth['色情倍率']
+                cloth_unaccpection += cloth['羞耻度']
+            else: #不可见，色情度0，羞耻度半算，倍率0
+                cloth_unaccpection += cloth['羞耻度']*0.5
+            
+            #关键部位遮挡
+            for body_part in ['阴部','胸部','肛门']:
+                key_body_part[body_part] = key_body_part[body_part] and (not cloth['关键部位遮挡'][body_part])
     
     #关键部位加成
     if key_body_part['阴部']:
@@ -116,7 +135,7 @@ def cal_cloth_charm(cloth_list):
     
     #贴身衣物可见
     for i in visual_able:
-        if '贴身上衣' in i or '贴身下衣' in i and not cloth_list['贴身全身'] == {}:
+        if ('贴身上衣' == i or '贴身下衣' == i) and cloth_list['贴身全身'] == {}:
             cloth_charm += 50
             cloth_unaccpection += 100
     
@@ -137,7 +156,12 @@ def cal_cloth_charm(cloth_list):
     else:
         rate = 'S'
 
-    return {'色情度':int(cloth_charm), '羞耻度':int(cloth_unaccpection), '评级':rate}
+    return {
+        '色情度':int(cloth_charm), 
+        '羞耻度':int(cloth_unaccpection), 
+        '评级':rate,
+        '关键部位':key_body_part
+        }
 
 def cal_accpection(c):
     #影响羞耻衣服接受能力的因素:服从、欲望、露出癖
@@ -158,7 +182,7 @@ def cal_accpection(c):
     accpection += exhibition_accp[c['开发']['露出癖']]
 
     if sq(c,'好色') or sq(c,'不知耻') or sq(c, '喜欢受人注目'):
-        accpection += 50
+        accpection += 30
 
     return accpection
 
@@ -171,15 +195,15 @@ def creat_normal_cloth(c):
             '颈部':{},
             '上衣':'制服',
             '贴身上衣':'胸罩',
-            '上部配件':{},
+            '上部配件':[],
             '下衣':'长裙',
             '贴身下衣':'三角内裤',
-            '下部配件':{},
+            '下部配件':[],
             '全身':{},
             '贴身全身':{},
             '腿袜':'短袜',
             '足部':'平板鞋',
-            '外部配件':{}
+            '外部配件':[]
         }
 
         #根据人物素质随机一部分衣物？
@@ -200,17 +224,24 @@ def creat_normal_cloth(c):
             '颈部':{},
             '上衣':'制服',
             '贴身上衣':{},
-            '上部配件':{},
+            '上部配件':[],
             '下衣':'长裤',
             '贴身下衣':'四角内裤',
-            '下部配件':{},
+            '下部配件':[],
             '全身':{},
             '贴身全身':{},
             '腿袜':'短袜',
             '足部':'平板鞋',
-            '外部配件':{}
+            '外部配件':[]
         }
     for cloth_type in cloth_list:
+        if '配件' in cloth_type:
+            new_cloth = []
+            for cloth_name in cloth_list[cloth_type]:
+                new_cloth.append(init_cloth(cloth_name))
+            cloth_list[cloth_type] = new_cloth
+            continue
+    
         if cloth_list[cloth_type] == {}: continue
         cloth_list[cloth_type] = init_cloth(cloth_list[cloth_type])
     
@@ -238,3 +269,22 @@ def cloth_rate_color(c):
 def updata_cloth(c):
     cloth_list = c['衣物']
     c['衣物效果'] = cal_cloth_charm(cloth_list)
+
+def check_cloth_allow(c, cloth):
+    #检查衣物条件
+    if cloth['前置']['道具'] == '':
+        return True
+    else:
+        if cloth['前置']['道具'] in list(a.sav()['物品'].keys()):
+            if cloth['前置']['道具']>=1:
+                return True
+        return False
+
+def cal_mean_beauty(cl):
+    #计算平均魅力值
+        total_beauty = 0
+        for student_id in cl:
+            student = cl[student_id]
+            total_beauty += student['衣物效果']['色情度']
+        mean_beauty = int(total_beauty/len(cl))
+        return mean_beauty

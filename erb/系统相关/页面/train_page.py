@@ -16,14 +16,14 @@ def train_page():
 
     a.page()
     a.mode('grid',2)
-    #time
-    season = ['春','夏','秋','冬']
-    week = ['上','下']
-    date = a.sav()['日期']
-    a.t('{}年{}季{}第{}周'.format(
-        date['年'],season[date['季']-1],
-        week[date['旬']-1],date['周']))
-    a.t()
+    # #time
+    # season = ['春','夏','秋','冬']
+    # week = ['上','下']
+    # date = a.sav()['日期']
+    # a.t('{}年{}季{}第{}周'.format(
+    #     date['年'],season[date['季']-1],
+    #     week[date['旬']-1],date['周']))
+    # a.t()
     #地点 todo
     #氛围
     data = a.tmp()['调教数据']
@@ -98,9 +98,10 @@ def train_page():
                 a.mode('grid',5)
                 for i in memory_list:
                     memory_progress(c['调教记忆'][i], i)
-                    a.t()
+                    if not i == '反感':
+                        a.t()
         a.divider()
-        a.mode('grid',5)
+        a.mode('grid',6)
         if (c['性别'] != '女性'):
             a.t('精巢存量:')
             a.progress(c['身体信息']['阴茎']['内容总量'],c['身体信息']['阴茎']['容量'],style=[{'width':'100px'},{}])
@@ -127,7 +128,7 @@ def train_page():
         if (c['CharacterId']!=0):
             a.t('排泄欲:')
             if (c['身体信息']['肠道']['内容总量']<c['身体信息']['肠道']['容量']):
-                a.progress(c['身体信息']['肠道']['内容总量'],c['身体信息']['肠道']['容量'])
+                a.progress(c['身体信息']['肠道']['内容总量'],c['身体信息']['肠道']['容量'],style=[{'width':'50px'}])
             elif (c['身体信息']['肠道']['内容总量']<c['身体信息']['肠道']['容量']*2):
                 a.t('[满满的♥]',style={'color':'#FFC1C1'})
             else:

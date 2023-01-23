@@ -6,9 +6,8 @@ def event3():
     #根据学校名气度生成游客列表
     visitor_list = cal_visitor_size()
 
-    #TODO
     #根据学生整体色情度生成额外倍率
-    cloth_bouns = 1
+    cloth_bouns = cloth_rate()
 
     #显示部分
     a.page()
@@ -22,8 +21,10 @@ def event3():
         a.t('-{}:{}人'.format(visitor,visitor_list[visitor]))
         a.t()
     a.t('',wait=True)
-    a.t('由于服装色情度产生的倍率为:{},'.format(cloth_bouns),wait=True)
-    a.t('今天是难得的日子，请好好努力吧。',wait=True)
+    color_level = ['#778899', '#7FFF00', '#FFFF00', '#FFC1C1', '#FF0000']
+    a.t('由于学生的平均服装色情度产生的倍率为:')
+    a.t('{}'.format(cloth_bouns['rate']),wait=True,style={'color':color_level[cloth_bouns['level']]})
+    a.t(',今天是难得的日子，请好好努力吧。',wait=True)
     a.t()
     
     #TODO
@@ -34,8 +35,8 @@ def event3():
     bb = building_bouns()
 
     bouns = {
-        'money_bouns':cloth_bouns*bb['money_bouns'],
-        'fame_bouns':cloth_bouns*bb['fame_bouns'],
+        'money_bouns':cloth_bouns['rate']*bb['money_bouns'],
+        'fame_bouns':cloth_bouns['rate']*bb['fame_bouns'],
         }
     reward = cal_reward(visitor_list,bouns)
     a.t('',wait=True)
@@ -63,17 +64,17 @@ def cal_reward(visitor_list, bouns):
     fame = 0
     for v in visitor_list:
         if v == '普通人':
-            money += visitor_list[v]*100
-            fame += visitor_list[v]*0.1
+            money += visitor_list[v]*500
+            fame += visitor_list[v]*0.5
         elif v == '慕名而来的人':
             money += visitor_list[v]*1000
-            fame += visitor_list[v]*0.5
+            fame += visitor_list[v]*1
         elif v == '来自全国各地的名流':
-            money += visitor_list[v]*10000
+            money += visitor_list[v]*5000
             fame += visitor_list[v]*2
         elif v == '显赫权贵':
-            money += visitor_list[v]*100000
-            fame += visitor_list[v]*10
+            money += visitor_list[v]*10000
+            fame += visitor_list[v]*5
     
     money = money*bouns['money_bouns']
     fame = fame*bouns['fame_bouns']
@@ -93,7 +94,7 @@ def building_bouns():
 
     building_list = a.sav()['校内建筑列表']
     for b in building_list:
-        bname = building_list[b]['名称']
+        bname = b['名称']
         if bname == '广播站':
             fame_bouns=fame_bouns*1.05
         elif bname == '舞台':
@@ -124,3 +125,22 @@ def event3_2():
     event3()
 def event3_3():
     event3()
+
+def cloth_rate():
+    #计算学生的色情度加成
+    student_list = a.sav()['character_list']['学生']
+    beauty = 0
+    mean_beauty = 0
+    max_beauty = 0
+    for student_id in student_list:
+        student = student_list[student_id]
+        beauty += student['衣物效果']['色情度']
+        max_beauty = max(max_beauty, beauty)
+    mean_beauty = int(beauty/len(student_list))
+
+    rate_bouns = [1,1.2,1.5,1.8,2,3]
+    rate_level = [150, 300, 500, 800, 1400]
+    level = 0
+    while rate_level[level]<mean_beauty and level<4:
+        level += 1
+    return {'rate':rate_bouns[level], 'level':level, 'max':max_beauty}

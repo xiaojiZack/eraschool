@@ -25,11 +25,13 @@ def day_pass():
     a.back(2)
 
 def character_recover():
-    #回复角色体力、气力
+    #回复角色体力、气力，仅有空闲状态才可回复
     cl = a.sav()['character_list']
     l = cl['学生']
     for j in l:
         i = l[j]
+        if not i['工作状态'] == '空闲':
+            continue
         recover_rate = [0.5,0.35,0.2]
         if search_quaility(i,'快速回复'):
             recover_rate[0] = 0.75

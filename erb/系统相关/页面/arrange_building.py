@@ -1,5 +1,5 @@
 import erajs.api as a
-from ..建筑相关.building import destory_building, structure_building
+from ..建筑相关.building import destory_building, setting_building, structure_building
 
 def arrange_building():
     #建筑管理主页面
@@ -129,6 +129,9 @@ def existing_building(building):
     for i in building['维护费用']:
         a.t('[{}:{}]'.format(i,building['维护费用'][i]))
     a.divider()
+    if building['可设置']:
+        a.b('进入{}'.format(building['名称']), setting_building, building)
+        a.t()
     a.b('拆除建筑',destory,building, style={'color': '#f00'})
     a.t()
     a.b('返回',a.back)

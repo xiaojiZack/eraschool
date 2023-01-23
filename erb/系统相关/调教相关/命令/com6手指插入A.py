@@ -27,7 +27,7 @@ def com6(active,passive):
         insert(active,passive,'F','A',check_result)
                 
         pm['快A'] += 15 * (1+active['开发']['指技']*1)
-        pm['羞耻'] += 150 * (1+active['开发']['指技']*1)
+        pm['羞耻'] += 100 * (1+active['开发']['指技']*1)
         pm['欲情'] += 50 * (1+active['开发']['指技']*1)
         pm['习得'] += 50 * (1+active['开发']['指技']*1)
         pm['苦痛'] += 40 * 2^(-active['开发']['指技']*1)

@@ -49,6 +49,8 @@ def inject_liquid(c,body_type,eject_liquid_list):
             d[key] += value
         else:
             d[key] = value
+    if body_type == '纸巾':
+        return True
     if body_type == '阴道':
         save_body_type = '子宫'
     elif body_type == '肛门':

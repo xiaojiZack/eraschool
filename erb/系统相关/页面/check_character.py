@@ -180,21 +180,7 @@ def detail_character(c):
             a.t('{}:'.format(i))
             show_grade(grades[i],i)
             a.t()
-        a.divider('衣装')
-        a.mode('line',1)
-        clothes = c['衣物']
-        for cloth_type in clothes:
-            a.t('{}:'.format(cloth_type))
-            if clothes[cloth_type] == {}: a.t('没穿',style={'color':'#778899'})
-            else:a.t('{}'.format(clothes[cloth_type]['名称']))
-            a.t()
-        a.divider()
-        a.mode('grid',2)
-        a.t('色情度:{}'.format(c['衣物效果']['色情度']), style=cloth_rate_color(c))
-        a.t()
-        a.t('羞耻度:{}'.format(c['衣物效果']['羞耻度']), style=cloth_rate_color(c))
-        a.t()
-        a.b('更换衣物', a.goto, arrange_clothes_page, c)
+        show_clothes(c)
         a.divider()
         a.mode('grid',2)
         a.b('<-第二页',page_2)
@@ -203,3 +189,74 @@ def detail_character(c):
     
     page_1()
 
+def show_clothes(c):
+    a.divider('衣装')
+    a.mode('line',1)
+    clothes = c['衣物']
+    for cloth_type in clothes:
+        a.t('{}:'.format(cloth_type))
+        if '配件' in cloth_type:
+            for cloth in clothes[cloth_type]:
+                a.t(cloth['名称'])
+                a.t(' ')
+            
+        else:
+            if clothes[cloth_type] == {}: 
+                pass
+            else:
+                a.t('{}'.format(clothes[cloth_type]['名称']))
+        a.t()
+    a.divider()
+    a.mode('grid',5)
+    a.t('色情度:{}'.format(c['衣物效果']['色情度']), style=cloth_rate_color(c))
+    a.t()
+    a.t('羞耻度:{}'.format(c['衣物效果']['羞耻度']), style=cloth_rate_color(c))
+    a.t()
+    for bt in ['阴部','胸部','肛门']:
+        a.t('{}:'.format(bt))
+        if c['衣物效果']['关键部位'][bt]: a.t('可见',style={'color':'#FFC1C1'})
+        else: a.t('不可见')
+        a.t()
+    a.mode('grid',1)
+    if allow_change_clothes(c): 
+        a.b('更换衣物', a.goto, arrange_clothes_page, c)
+    else:
+        a.b('{}现在还不允许你为其决定衣物'.format(c['名字']))
+
+def allow_change_clothes(c):
+    #判断是否允许玩家配置衣物
+    def search_quaility(c,target):
+        for i in c['属性']:
+            for j in c['属性'][i]:
+                if j == target:
+                    return True
+        return False
+    #允许阈值为100
+    allow_point = 100
+    now_point = 0
+    #服从贡献值
+    obey_point = [0,10,20,30,40,50]
+    now_point += obey_point[c['开发']['服从']]
+    #欲望贡献值
+    desire_point = [0,5,10,15,20,25]
+    now_point += desire_point[c['开发']['欲望']]
+    #露出癖贡献值
+    exhibtion_point = [0,15,30,45,75]
+    now_point += exhibtion_point[c['开发']['露出癖']]
+    #快乐刻印
+    happy_point = [0,10,20,30]
+    now_point += happy_point[c['刻印']['快乐刻印']]
+    #屈服刻印
+    knee_point = [0,10,20,30]
+    now_point += knee_point[c['刻印']['屈服刻印']]
+
+    if search_quaility(c,'顺从'): now_point+= 5
+    if search_quaility(c,'反抗'): now_point-= 5
+    if search_quaility(c,'不知耻'): now_point+=20
+    if search_quaility(c,'怕羞'): now_point -= 20
+    if search_quaility(c,'喜欢受人注目'): now_point += 10
+
+    if now_point>=allow_point:
+        return True
+    else:
+        return False

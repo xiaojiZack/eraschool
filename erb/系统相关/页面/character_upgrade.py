@@ -6,7 +6,7 @@ def character_upgrade_page(c, enter_mode):
     if enter_mode == 'check':
         a.page()
     else:
-        a.divider()
+        pass
     a.mode('grid',5)
     a.divider()
     for i in c['开发']:
@@ -45,16 +45,20 @@ def check_upgrade_requirement(c,subject):
                     if c['经验'][j]>=i[j]:pass
                     else:
                         f = False
-                if j+'记忆' in c['记忆']:#记忆类
+                elif j+'记忆' in c['记忆']:#记忆类
                     if c['记忆'][j+'记忆']>=i[j]:pass
                     else:
                         f = False
-                if j in c['刻印']:
+                elif j in c['刻印']:
                     if c['刻印'][j]>=i[j]:pass
                     else:
                         f = False
-                if j in c['开发']:
+                elif j in c['开发']:
                     if c['开发'][j]>=i[j]:pass
+                    else:
+                        f = False
+                else:
+                    if c[j]>=i[j]: pass
                     else:
                         f = False
             can_upgrade = can_upgrade or f
@@ -82,23 +86,29 @@ def show_requirement(c,subject):
                     else:
                         a.t('{}:当前{},需要{};'.format(j,c['经验'][j],i[j]), style = {'color':'#778899'})
                         f = False
-                if j+'记忆' in c['记忆']:#记忆类
+                elif j+'记忆' in c['记忆']:#记忆类
                     if c['记忆'][j+'记忆']>=i[j]:
                         a.t('{}:当前{},需要{};'.format(j+'记忆',c['记忆'][j+'记忆'],i[j]), style = {'color':'#0f0'})
                     else:
                         a.t('{}:当前{},需要{};'.format(j+'记忆',c['记忆'][j+'记忆'],i[j]), style = {'color':'#778899'})
                         f = False
-                if j in c['刻印']:
+                elif j in c['刻印']:
                     if c['刻印'][j]>=i[j]:
                         a.t('{}:当前{},需要{};'.format(j,c['刻印'][j],i[j]), style = {'color':'#0f0'})
                     else:
                         a.t('{}:当前{},需要{};'.format(j,c['刻印'][j],i[j]), style = {'color':'#778899'})
                         f = False
-                if j in c['开发']:
+                elif j in c['开发']:
                     if c['开发'][j]>=i[j]:
                         a.t('{}:当前{},需要{};'.format(j,c['开发'][j],i[j]), style = {'color':'#0f0'})
                     else:
                         a.t('{}:当前{},需要{};'.format(j,c['开发'][j],i[j]), style = {'color':'#778899'})
+                        f = False
+                else:
+                    if c[j]>=i[j]:
+                        a.t('{}:当前{},需要{};'.format(j,c[j],i[j]), style = {'color':'#0f0'})
+                    else:
+                        a.t('{}:当前{},需要{};'.format(j,c[j],i[j]), style = {'color':'#778899'})
                         f = False
                 a.t()
             can_upgrade = can_upgrade or f

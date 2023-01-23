@@ -4,7 +4,8 @@ from erb.系统相关.页面.character_upgrade import character_upgrade_page
 from funcs import unwait, wait
 
 def end_cal(c):
-    a.divider('{}本次所得记忆和经验'.format(c['名字']))
+    if a.sav()['调教中']:
+        a.divider('{}本次所得记忆和经验'.format(c['名字']))
 
     m = c['调教记忆']
     for i in m:
@@ -32,8 +33,9 @@ def end_cal(c):
         except:
             pass
     
-
-    a.divider('由高潮产生的额外记忆')
+    
+    if a.sav()['调教中']:
+        a.divider('由高潮产生的额外记忆')
     #高潮产生的补正
     wm = c['待处理记忆']
     for i in wm:
@@ -75,3 +77,10 @@ def init_character(c):
     c['标志']['受缚类型'] = 0
     c['标志']['口枷'] = False
     c['调教状态'] = []
+    
+    #调教结束后射精槽位设为0
+    if c['性别'] != '女性':
+        try:
+            c['其他参数']['射精数值'] = 0
+        except:
+            pass
