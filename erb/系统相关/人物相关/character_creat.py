@@ -231,7 +231,7 @@ def creat_normal_character(character=None):
     c['体力值'] = c['最大体力值']
     c['气力值'] = c['最大气力值']
     c['理智值'] = c['最大理智值']
-    c['CharacterId'] = a.sav()['character_list']['character_number']+1
+    #c['CharacterId'] = a.sav()['character_list']['character_number']+1
     if c['名字'] == '主人公':
         #if c['性别'] != '男性':
         s = random.randint(0,len(random_name['女性'])-1)

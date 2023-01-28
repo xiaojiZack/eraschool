@@ -112,7 +112,7 @@ def yinbu(p):
     return d+w
 
 def yindao(p):
-    words = ['阴道','肉腔','肉壶']
+    words = ['阴道','肉腔','肉壶','肉穴']
     describe = ['','','正在蠕动的']
     
     w = c(words)

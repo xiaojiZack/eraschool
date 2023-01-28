@@ -13,10 +13,12 @@ def describe_kojo(person, attenders, comnumber, information):
         at = attenders
     com = comnumber
     inf = information
-    pn = p['名字']
-    pns = pn+'的'
-    atn = at['名字']
-    atns = atn+'的'
+    if p!={}:
+        pn = p['名字']
+        pns = pn+'的'
+    if at != {}:
+        atn = at['名字']
+        atns = atn+'的'
 
     #绝顶、射精、被射高潮
     if com == -1:

@@ -1,12 +1,13 @@
 import erajs.api as a
-from erb.系统相关.口上相关.口上工具 import check_be_eject, check_eject, check_orgasm, check_special, comadd, comdoing, comundo, comfail, get_mark, pt, push_text
+from erb.系统相关.口上相关.口上工具 import check_be_eject, check_eject, check_orgasm, check_quaility, check_special, comadd, comdoing, comundo, comfail, get_mark, pt, push_text
+from erb.系统相关.口上相关.地文.语料 import *
 
 def kojosample(person, attenders, comnumber = 0, information = {}):
-    #创建新口上时修改函数名'kojosample'为你喜欢的名字，请注意不要与其他口上重名
-    #person 口上主角人物卡； attenders 发生口上时的伴随人物，一般为调教参与人员
-    #comnumber 口上发生时的指令， information：携带信息
     p = person
-    at = attenders
+    if type(attenders) == list:
+        at = attenders[0]
+    else:
+        at = attenders
     com = comnumber
     inf = information
     e = person['经验']
@@ -15,31 +16,135 @@ def kojosample(person, attenders, comnumber = 0, information = {}):
     d = person['开发']
     b = person['身体信息']
     fav = person['好感度']
+    if p != {}:
+        pname = p['名字']
+    if at != {}:
+        atname = at['名字']
     #_______创建新口上时请复制本注释以上部分_______________
+    #————————————————————————————————————————————————————
+    #——————请口上作者认真阅读以下信息！！！！——————————————
+    #————————————————————————————————————————————————————
+    # ‘#’之后的内容不会被视作代码执行，可以写下任何你想写的笔记，但不会产生任何效果
+    #可以只写具有某种性格特质的人物，基本上是自由的
+    #创建新口上时修改函数名'kojosample'为你喜欢的名字，请注意不要与其他口上重名
+    #口上文件的名字没什么限制，但最好也不要重名
+    #person 为口上主角人物卡，一般为被调教的人物，可以简写为p 
+    #attenders 为发生口上时的伴随人物卡，一般为调教参与人员，比如玩家，可以简写为at
+    #可以通过诸如p['开发']['经验']['口交经验']这样的格式查询人物卡数据,具体数据结构见对照表的人物卡模板
+    #先可以通过e,tm,d,b来快速对应相关信息部分，见上面的代码所示
+    #comnumber 口上发生时的指令，请参照指令表，可以简写为com
+    #information：携带的信息，可以不用管，可以简写为inf
+    #pname 为人物p的名字，atname为人物at的名字
+    
+    #if() 表示“如果（）括号里的内容是真的，也就是符合条件的话，那么执行【:】之后的东西
+    #注意！如果想让语句是在if后执行的话要注意缩进对齐，缩进表示上下级关系，被缩进的句子意味着被包含在上一级内
+    #()内的内容可以像数学算式一样编写，用()调整计算的优先级，and\or\not分别表示与或非，且注意这些与或非左右需要空格
+    #运算符： == 为两边完全相等的意思， A=B 为让A修改为B的值， >、<、>=、<=为大于、小于、大于等于、小于等于
+    #——————举个例子———————————
+    #if ((条件A and 条件B) or 条件C and (not 条件D)):
+    #（这里是空格）【如果满足条件A以及条件B 或者只满足条件C且不符合条件D就执行这个句子，因为缩进了就表示此句子包含在上一个if语句内】
+    #【因为没有在前面打空格，（一般用TAB快速缩进），所以即使满足条件A以及条件B 或者只满足条件C也不能执行这个句子】
+    
+    #—————————————————
+    #1.需要用到的函数:
+    #push_text('')是用来在游戏界面中打出''内文字的。注意'是英文字符，用中文的”或者’是不能同等替换的
+    #——————举个例子———————————
+    #push_text('我是A') 这句话可以显示出:
+    #我是A
+    #push_text('我说:“我是A！”') 这句话可以显示出:
+    #我说:“我是A！”
+    #—————————————————
+    
+    #2.如果想写入引号的话请在''内使用中文字符，不要使用英文的'或者"
+    #使用pt()来进行回车，如果不回车就会接着上一句继续写
+    #——————举个例子———————————
+    #push_text('我是A！') 
+    #push_text('我说:“我是A！”') 
+    #————这两行代码可以显示出:
+    #我是A！我说:“我是A！”
+    #——————举个例子———————————
+    #push_text('我是A！') 
+    #pt()
+    #push_text('我说:“我是A！”') 
+    #————这两行代码可以显示出:
+    #我是A！
+    #我说:“我是A！”
+    #—————————————————
+    
+    #push_text的进阶用法1:停在某一句话。
+    #——————举个例子———————————
+    #push_text('我是A！', wait = 'True')
+    #push_text('我说:“我是A！”')  
+    #————这两行代码可以显示出:
+    #我是A！（写出这句后就会暂停，不再显示下一句，必须让玩家点击后才能看到后面的句子）
+    #我是A！我说:“我是A！” （点击后可以看到后面的句子）
+    #—————————————————
+    #push_text的进阶用法2:修改颜色。
+    #——————举个例子———————————
+    #push_text('我是A！', style = {'color':'#f00'})
+    #这行代码可以显示出一个红色的'我是A！'
+    # 其中【'#f00'】这个是RGB参数，表示字体颜色，有兴趣可以自行搜索‘RGB’
+    #—————————————————
+    #_______以下来举例说明常用的条件使用方法_______________
 
     #爱抚
-    if (comnumber == 1 and comadd(inf) and fav<10 and d['C感觉']<1):
-        #示范：当情景为[添加][‘爱抚’指令，指令编号1]且[好感度低于10]且[C感觉低于1]时
+    if (com == 1 and comadd(inf) and fav<10 and d['C感觉']<1):
+        #示范：当条件符合[正在添加新指令][‘爱抚’指令，指令编号1]且[好感度低于10]且[C感觉低于1]时
+        #[正在添加新指令]：comadd(inf)
+        #[‘爱抚’指令，指令编号1]：com == 1
+        #[好感度低于10]：fav<10
+        #[C感觉低于1]：d['C感觉']<1
+
         push_text('此处为口上文本', style={'color':'#0f0'})
         #将口上'此处为口上文本'输出到口上输出序列，且颜色为绿色
 
         pt()
         #加入此函数以加入回车
 
-    if (comnumber == 1 and comdoing(inf) and (d['C感觉']>=3 or mark['快乐刻印']>=1)):
-        #示范：当情景为[持续执行][‘爱抚’指令，指令编号1]，且['C感觉'不小于3级]或['快乐刻印'不小于1]
-        push_text('\"嗯哼哼哼啊啊啊啊啊啊啊啊啊!\"')
-        #可以不携带style设定,用[\"]来在文本中输出"
+    if (check_quaility(p,'小恶魔')):
+        #当人物p有素质‘小恶魔’时执行以下代码
+        if (com == 1 and comdoing(inf) and (d['C感觉']>=3 or mark['快乐刻印']>=1)):
+            #当情景为[持续执行][‘爱抚’指令，指令编号1]，且[人物p的'C感觉'不小于3级]或[人物p的'快乐刻印'不小于1]
+            push_text(p['名字']+'大叫道：\"嗯哼哼哼啊啊啊啊啊啊啊啊啊!\"')
+            #可以不携带style设定,用[\"]来在文本中输出"
+            pt()
+
+    if (check_quaility(p,'反抗')):
+        #当人物p有素质‘反抗’时执行以下代码
+        if (com in [50,51,52,53,54,55] and comfail(inf)):
+            #当情景为[指令执行失败][指令编号为50-55之间，为V插入系指令]
+            push_text(p['名字']+'强烈地反抗着'+at['名字']+'的插入')
+            if not p['性别'] == '男性':
+                #p不是男性，not 后面表示“不符合”“不是”的意思，
+                push_text('她的')
+            push_text(yindao(p))
+            #yindao意思是“阴道”
+            #yindao(p)将会自动填充诸如“阴道”，“肉穴”之类的词汇，也会根据当前人物p的状态变更，比如塞入震动棒后就有可能填充为“塞入震动棒的肉穴”
+            #其余的类似的部位快捷描述请参照对照表内的“部位描述函数”部分
+            pt()
+
+
+    if (com in [50,51,52,53,54,55] and comundo(inf)):
+        #当情景为[取消持续执行][指令编号为50-55之间，为V插入系指令]
+        push_text(atname+'从'+pname+'体内拔出了'+yinjing(at))
+        #atname 等同于at['名字']， pname等同于p['名字']
+        #yinjing为阴茎
+        #yinjing(p)将会自动填充诸如“阴茎”，“肉棒”之类的词汇，也会根据当前人物at的状态变更，如“如马一般粗细的肉棒”
+        #其余的类似的部位快捷描述请参照对照表内的“部位描述函数”部分
         pt()
     
-    if (check_orgasm(p,'C')>=2):
-        #示范:当情景为[人物p，阴道‘V’绝顶不少于2次时]
+    
+    if (check_orgasm(p,'V')>=2):
+        #示范:当情景为[人物p，阴道‘V’绝顶等级不少于2时]
         #函数check_orgasm()在不指定检查位置时可以用于仅检查人物是否高潮
-        push_text('阴蒂绝顶了{}次'.format(check_orgasm(p,'C')))
+        push_text('阴蒂绝顶了{}次，强烈的去了'.format(check_orgasm(p,'C')))
         pt()
     
     if (check_eject(p)):
         #示范当情景为[人物p，射精时]
+        #check_eject(p)表示人物p射出液体
+        #下面的参数不予赘述
+        #.format()括号里的部分可以替换前面的{}的部分，两者是一一对应的
         res = check_eject(p)
         push_text('{}在{}的{}内射出了'.format(p['名字'],res['谁被射'],res['位置']))
         for liquid_type in res['液体']:
@@ -47,6 +152,7 @@ def kojosample(person, attenders, comnumber = 0, information = {}):
         pt()
     
     if (check_be_eject(p)):
+        #check_be_eject(p)表示人物p被射入液体
         res = check_be_eject(p)
         push_text('{}在{}的{}内射出了'.format(res['谁射'],p['名字'],res['位置']))
         for liquid_type in res['液体']:
@@ -56,23 +162,21 @@ def kojosample(person, attenders, comnumber = 0, information = {}):
     
     if (get_mark(inf,'反发刻印')==3):
         #示范当情景为[人物p获得反发刻印lv3]时
-        push_text('请好好反省你自己的所作所为')
+        push_text(p['名字']+'以锐利的目光瞪着'+atname)
         pt()
     
     if (check_special(inf,'开场')):
-        #示范：检查特殊事件示范包含‘开场’，可以替换为‘破处’‘结束调教’
-        push_text('调教开场')
+        #示范：检查特殊事件示范是否包含‘开场’，‘结束调教’
+        push_text('调教开场时显示的文本')
         pt()
     
-    #示例，添加（comadd）命令“爱抚”（命令序列号为1）时给出口上
-    if (comnumber == 1 and comadd(inf)):
-        push_text('此处为口上文本', style={'color':'#0f0'})
-        #将口上'此处为口上文本'输出到口上输出序列，且颜色为绿色
 
+    if (com == 1 and comadd(inf)):
+        push_text('此处为口上文本', style={'color':'#0f0'},wait = True)
+        #将口上'此处为口上文本'输出到口上输出序列，颜色为绿色,且到此处需要点击一次才能进行下一步
         pt()
         #加入此函数以加入回车
         push_text('此处为口上文本2', style={'color':'#0f0'})
         #将口上'此处为口上文本'输出到口上输出序列，且颜色为绿色
-
         pt()
         #加入此函数以加入回车

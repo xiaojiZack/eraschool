@@ -9,6 +9,12 @@ def comkojo(attenders, person, comnumber, information={}):
     kojoid = person['kojo']
     describe_kojo(person, attenders, comnumber, information)
     eval('{}(person, attenders, comnumber, information)'.format(kojoid))
-    
+
+def markkojo(person, attenders={}, comnumber=-1, information={}):
+    #获得刻印调用口上
+    kojoid = person['kojo']
+    eval('{}(person, attenders, comnumber, information)'.format(kojoid))
+    print_kojo()
+
 def print_kojo():
     show_kojo()

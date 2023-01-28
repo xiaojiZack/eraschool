@@ -210,3 +210,9 @@ def wait():
 
 def unwait():
     a.tmp()['等待挂起'] = False
+
+def get_student_list():
+    return a.sav()['character_list']['学生']
+
+def get_leading_character():
+    return a.sav()['character_list']['主角']

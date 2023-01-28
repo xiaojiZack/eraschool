@@ -4,6 +4,7 @@ from erb.系统相关.调教相关.服装.服装 import cal_accpection, check_cl
 def arrange_clothes_page(c):
     #更换衣物页面
     updata_cloth(c)
+    c['设定衣物'] = c['衣物']
     a.cls()
     a.page()
     a.mode('line',1)
@@ -85,13 +86,21 @@ def remove_conflict(cloth_list, new_cloth_type):
     if new_cloth_type == '贴身下衣':
         cloth_list['贴身全身'] = {}
 
+#移除冲突配件
+def remove_conflict_equipment(cloth_list, new_cloth_type,new_cloth):
+    anul_conflict = ['肛门震动棒','肛塞','兔尾肛塞','猫尾肛塞','肛门拉珠']
+    if new_cloth['名称'] in anul_conflict:
+        for equipment in cloth_list[new_cloth_type]:
+            if equipment['名称'] in anul_conflict:
+                cloth_list[new_cloth_type].remove(equipment)
+
 def add_equipment(c, cloth_type):
     #增加配件
     def add_button(cloth_name):
         new_cloth = init_cloth(cloth_name)
+        remove_conflict_equipment(c['衣物'],cloth_type,new_cloth)
         c['衣物'][cloth_type].append(new_cloth) 
         cost_item(new_cloth)
-        remove_conflict(c['衣物'],cloth_type)
         a.back()
     
     def check_repeat(cloth):

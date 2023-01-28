@@ -22,6 +22,7 @@ def com56(active,passive):
     decrease_p = []
     favor = []
     f = False
+    obey_challenge = 35
     
     check_result = insert_check(active,passive,'P','A',com_trait)
     if check_doing_list(active,passive,56) and check_result!=False:
@@ -58,15 +59,17 @@ def com56(active,passive):
         f = True
         
     else:
-        if  obey_check(35,active,passive,com_trait):
-            #此处可能需要处理替换的问题
-            active['标志']['阴茎占用'] = 56
-            append_doing_list(active,passive,56)
-            comkojo(active,passive,comid,{'com':'add'})
-        else:
-            pm['反感'] += 50
-            pm['好感度'] += -5
-            comkojo(active,passive,comid,{'com':'fail'})
+        if check_result!=False:
+            if  obey_check(obey_challenge,active,passive,com_trait):
+                #此处可能需要处理替换的问题
+                active['标志']['阴茎占用'] = comid
+                append_doing_list(active,passive,comid)
+                comkojo(active,passive,comid,{'com':'add'})
+                
+            else:
+                pm['反感'] += 50
+                pm['好感度'] += -5
+                comkojo(active,passive,comid,{'com':'fail'})
         
     return f
 

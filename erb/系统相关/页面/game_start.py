@@ -9,7 +9,7 @@ def game_start():
     a.mode('grid',1)
     a.h('ERAfacility')
     a.t()
-    a.t('0.1')
+    a.t('0.14')
     a.divider()
     a.img('image.titile',inline=False, style={'width':'100px','height':'100px'})
     a.mode('grid',1)

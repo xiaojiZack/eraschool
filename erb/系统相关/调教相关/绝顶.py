@@ -321,7 +321,7 @@ def orgasm_bouns():
 
 def find_people(CharacterId):
     for i in a.tmp()['调教数据']['参与者']:
-        if i['CharacterId'] == int(CharacterId):
+        if i['CharacterId'] == CharacterId:
             return i
     return False
 

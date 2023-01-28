@@ -18,10 +18,10 @@ def decrease_pp(c,d):
         mp = mp *1.5
     m = c['待处理记忆']
     if m['苦痛']>100:
-        pp = pp*(1+5*len(str(int(m['苦痛']/10))))
-        ep = ep*(1+5*len(str(int(m['苦痛']/10))))
+        pp = pp+int(m['苦痛']/10)#*(1+5*len(str(int(m['苦痛']/10))))
+        ep = ep+int(m['苦痛']/10)
     if m['恐惧']+m['反感']>100:
-        mp = mp*(1+5*len(str(int((m['恐惧']+m['反感'])/10))))
+        mp = mp+int((m['恐惧']+m['反感'])/10)
 
     
     pp = int(pp)

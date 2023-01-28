@@ -22,6 +22,7 @@ def push_text(text, style = {}):
 
 def pc(person,quaility):
     #快速查询人物特质，存在返回True，不存在返回false
+    if person=={}: return False
     for i in person['属性']:
         for j in person['属性'][i]:
             if j == quaility:
@@ -29,24 +30,28 @@ def pc(person,quaility):
     return False
 
 def comadd(information):
+    if not 'com' in information: return False
     if information['com'] == 'add':
         return True
     else:
         return False
 
 def comdoing(information):
+    if not 'com' in information: return False
     if information['com'] == 'doing':
         return True
     else:
         return False
 
 def comundo(information):
+    if not 'com' in information: return False
     if information['com'] == 'undo':
         return True
     else:
         return False
 
 def comfail(information):
+    if not 'com' in information: return False
     if information['com'] == 'fail':
         return True
     else:
@@ -58,6 +63,7 @@ def pt():
 
 def check_orgasm(person, place='any'):
     #place = V/A/C/M/B/U/W
+    if person == {}: return False
     ol = a.tmp()['高潮口上记录']['绝顶']
     result = {}
     for i in ol:
@@ -74,6 +80,7 @@ def check_orgasm(person, place='any'):
         return False
 
 def check_eject(person):
+    if person == {}: return False
     ol = a.tmp()['高潮口上记录']['射精']
     result = []
     for i in ol:
@@ -85,6 +92,7 @@ def check_eject(person):
             return {'谁被射':find_people(i['whoinject'])['名字'],'位置':i['place'],'液体':i['liquid']}
 
 def check_be_eject(person):
+    if person == {}: return False
     ol = a.tmp()['高潮口上记录']['射精']
     result = []
     for i in ol:
@@ -96,9 +104,9 @@ def check_be_eject(person):
         return {'谁射':find_people(i['whoeject'])['名字'],'位置':i['place'],'液体':i['liquid']}
 
 def get_mark(inf, mark):
-    if '获得刻印' in inf:
-        if (inf['获得刻印'][0] == mark):
-            return inf['获得刻印'][1]
+    if not '获得刻印' in inf: return False
+    if (mark in inf['获得刻印']):
+        return inf['获得刻印'][mark]
     else:
         return False
 
@@ -118,4 +126,14 @@ def check_special(inf,type):
     if '特殊事件' in inf.keys():
         if type in inf['特殊事件']:
             return True
+    return False
+
+def check_quaility(p,quaility):
+    #检查素质
+    if p == {}:return False
+    if quaility in p['属性']['个性']: return True
+    if quaility in p['属性']['体质']: return True
+    if quaility in p['属性']['技能']: return True
+    if quaility in p['属性']['性癖']: return True
+    if quaility in p['属性']['其他']: return True
     return False

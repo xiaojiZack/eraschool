@@ -137,7 +137,7 @@ def graduate(c):
     a.t('{}成功毕业了。从某处获得了{}G作为毕业奖金。'.format(c['名字'],bouns), wait=True)
 
     id = c['CharacterId']
-    a.sav()['character_list']['学生'].pop(id)
+    a.sav()['character_list']['学生'].pop('{}'.format(id))
     a.sav()['character_list']['character_number'] -=1
     a.sav()['历史毕业人数'] += 1
     

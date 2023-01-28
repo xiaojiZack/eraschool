@@ -1,6 +1,8 @@
 import erajs.api as a
 import random
 
+from funcs import get_leading_character
+
 def search_quaility(c,target):
     for i in c['属性']:
         for j in c['属性'][i]:
@@ -246,6 +248,7 @@ def creat_normal_cloth(c):
         cloth_list[cloth_type] = init_cloth(cloth_list[cloth_type])
     
     c['衣物'] = cloth_list
+    c['设定衣物'] = cloth_list
     c['衣物效果'] = cal_cloth_charm(cloth_list)
 
     return c
@@ -268,17 +271,31 @@ def cloth_rate_color(c):
 
 def updata_cloth(c):
     cloth_list = c['衣物']
+    make_equipment_effect(c,cloth_list)
     c['衣物效果'] = cal_cloth_charm(cloth_list)
+    check_suit(c)
 
 def check_cloth_allow(c, cloth):
     #检查衣物条件
+    f = True
+    if "体质" in cloth['前置']:
+        if cloth['前置']['体质'] == '非处女':
+            if ['处女'] in c['属性']['体质'] or c['性别'] == '男性':
+                f = f and False
+    if "开发" in cloth['前置']:
+        for i in cloth['前置']['开发']:
+            if c['开发'][i]>= cloth['前置']['开发'][i]:
+                f = f and False
+            else:
+                f = f and True
     if cloth['前置']['道具'] == '':
-        return True
+        f = f and True
     else:
         if cloth['前置']['道具'] in list(a.sav()['物品'].keys()):
             if cloth['前置']['道具']>=1:
-                return True
-        return False
+                f = f and True
+        f = f and False
+    return f
 
 def cal_mean_beauty(cl):
     #计算平均魅力值
@@ -288,3 +305,79 @@ def cal_mean_beauty(cl):
             total_beauty += student['衣物效果']['色情度']
         mean_beauty = int(total_beauty/len(cl))
         return mean_beauty
+
+#检查套装效果
+def check_suit(c):
+    clothes = c['衣物']
+    c['衣物效果']['套装效果'] = ''
+    #女仆装+女仆头饰：侍奉加成+咖啡厅收入加成
+    if check_is_cloth(clothes['全身'],'女仆装') and check_is_cloth(clothes['头部'],'女仆头饰'):
+        c['衣物效果']['套装效果'] = '女仆装'
+    #体操服上衣+体操服下衣+运动鞋: 长跑、健美操加成
+    if check_is_cloth(clothes['上衣'],'体操服上衣') and check_is_cloth(clothes['下衣'],'体操服下衣') and check_is_cloth(clothes['足部'],'运动鞋'):
+        c['衣物效果']['套装效果'] = '体操服'
+    #泳衣胸罩+泳衣裙：游泳效果上升
+    if check_is_cloth(clothes['贴身上衣'],'泳衣胸罩') and check_is_cloth(clothes['贴身下衣'],'泳衣裙'):
+        c['衣物效果']['套装效果'] = '泳装'
+    #婚纱+婚礼头纱：好感度上升、恭顺上升、爱情
+    if check_is_cloth(clothes['全身'],'婚纱') and check_is_cloth(clothes['头部'],'婚礼头纱'):
+        c['衣物效果']['套装效果'] = '婚纱'
+    #兔女郎/逆兔女郎+兔耳+兔尾肛塞
+    if ((check_is_cloth(clothes['贴身全身'],'兔女郎') or check_is_cloth(clothes['贴身全身'],'逆兔女郎')) 
+        and check_is_cloth(clothes['头部'],'兔耳') and check_is_cloth(clothes['下部配件'],'兔尾肛塞',True)):
+        c['衣物效果']['套装效果'] = '兔女郎'
+    #大衣+龟甲缚：露出癖上升
+    if check_is_cloth(clothes['全身'],'大衣') and check_is_cloth(clothes['贴身全身'],'龟甲缚'):
+        c['衣物效果']['套装效果'] = '露出狂'
+    #怪兽头罩+怪兽套装+精液+配件：精液成瘾上升、反感上升、露出癖
+    #TODO
+    if check_is_cloth(clothes['全身'],'') and check_is_cloth(clothes['贴身全身'],'') and check_is_cloth(clothes['上衣'],'') and check_is_cloth(clothes['下衣'],'') and check_is_cloth(clothes['贴身上衣'],'') and check_is_cloth(clothes['贴身下衣'],''):
+        c['衣物效果']['套装效果'] = '裸体'
+    #裸体围裙
+    if c['衣物效果']['套装效果'] =='裸体' and check_is_cloth(clothes['外部配件'],'围裙',True):
+        c['衣物效果']['套装效果'] = '裸体围裙'
+    
+def check_is_cloth(cloth,target_cloth,multipe=False):
+    #检查对应部位也没有穿目标衣物,multipe用于处理多配件情况
+    if multipe == False:
+        if target_cloth == '':
+            if cloth == {}: return True
+            else: return False
+        else: 
+            if cloth == {}: return False
+            elif cloth['名称'] == target_cloth: return True
+            else: return False
+    else:
+        if target_cloth == '':
+            if cloth == []:return True
+            else:return False
+        else:
+            if cloth == []:return False
+            else:
+                for c in cloth:
+                    if c['名称'] == target_cloth: return True
+                return False
+
+def make_equipment_effect(c,cloth_list):
+    #根据装备的配件效果，更新身体装具信息
+    for cloth in cloth_list['外部配件']:
+        pass
+    for cloth in cloth_list['上部配件']:
+        pass
+    for cloth in cloth_list['上部配件']:
+        if cloth['名称'] in ['震动棒','阴道跳蛋']:
+            c['身体信息']['阴道']['内容固体'][cloth['名称']] = cloth['名称']
+        if cloth['名称'] in ['肛门震动棒','肛塞','兔尾肛塞','猫尾肛塞','肛门拉珠','肛门跳蛋']:
+            c['身体信息']['肛门']['内容固体'][cloth['名称']] = cloth['名称']
+
+def reinit_cloth(c):
+    #调教后重置衣物
+    body = c['身体信息']
+    body['肛门']['内容固体'] = {}
+    body['尿道']['内容固体'] = {}
+    body['口喉']['内容固体'] = {}
+    body['子宫']['内容固体'] = {}
+    body['阴道']['内容固体'] = {}
+    c['衣物'] = c['设定衣物']
+    if not c == get_leading_character():
+        updata_cloth(c)

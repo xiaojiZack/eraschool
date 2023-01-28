@@ -3,6 +3,7 @@ import erajs.api as a
 import math
 
 from erb.系统相关.调教相关.药液.药液 import update_drug
+from funcs import get_leading_character, get_student_list
 
 def count_level(count):
     if count == 1:
@@ -55,10 +56,12 @@ def inject_liquid(c,body_type,eject_liquid_list):
         save_body_type = '子宫'
     elif body_type == '肛门':
         save_body_type = '肠道'
+    elif body_type == '口':
+        save_body_type = '胃'
     else:
         save_body_type = body_type
 
-    if body_type in ['血液','肠道','胃','尿道','子宫','乳房','阴茎']:
+    if body_type in ['血液','肠道','胃','尿道','子宫','乳房','阴茎','阴道','肛门']:
         #判断注入部分是可以储存液体的部分
         liquid_list = c['身体信息'][save_body_type]['内容液体']
         liquid_sum = c['身体信息'][save_body_type]['内容总量']
@@ -119,3 +122,34 @@ def inject_leak(c,body_type):
         return 0.75
     elif body_type == '尿道':
         return 0.5
+
+def transform_liquid_list(liquid_list):
+    #转换liquid_list,主要是找到精液的主人
+    liquid_component = {}
+    for liquid in liquid_list:
+        if '精液' in liquid and not liquid == '拟似精液':
+            semen_owner = find_semen_owner(liquid)
+            [semen_type, owner] =liquid.split('_')
+            if semen_owner == 'unknown':
+                name = '陌生人的'
+            else:
+                name = semen_owner['名字']
+            liquid_component[name+'的'+semen_type] = liquid_list[liquid]
+        else:
+            liquid_component[liquid] = liquid_list[liquid]
+    return liquid_component
+        
+
+def find_semen_owner(semen):
+    [semen_type, owner] =semen.split('_')
+    if owner == '0':
+        return get_leading_character()
+    elif owner == 'unknown':
+        return 'unknown'
+    else:
+        for student_id in get_student_list():
+            student = get_student_list()[student_id]
+            if student_id == owner:
+                return student
+    
+    

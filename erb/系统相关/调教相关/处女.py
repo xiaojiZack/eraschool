@@ -51,8 +51,10 @@ def check_pure(c,body_type):
         return True#无需考虑处女问题
 
 def pure_punish(c,body_type):
-    c['待处理记忆']['恐惧'] += 200
-    c['待处理记忆']['苦痛'] += 300
+    if body_type == 'V':
+        c['待处理记忆']['苦痛'] += 1000
+    if body_type in ['V','A']:
+        c['待处理记忆']['恐惧'] += 200
     c['待处理记忆']['反感'] += 500
     text = ''
     if (body_type) == 'V': text = '处女'

@@ -1,5 +1,6 @@
 from math import pow
 import erajs.api as a
+from erb.系统相关.调教相关.服装.服装 import reinit_cloth
 from erb.系统相关.页面.character_upgrade import character_upgrade_page
 from funcs import unwait, wait
 
@@ -77,6 +78,7 @@ def init_character(c):
     c['标志']['受缚类型'] = 0
     c['标志']['口枷'] = False
     c['调教状态'] = []
+    reinit_cloth(c)
     
     #调教结束后射精槽位设为0
     if c['性别'] != '女性':

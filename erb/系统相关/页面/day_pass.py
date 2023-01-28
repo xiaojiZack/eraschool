@@ -14,6 +14,7 @@ def day_pass():
     exec_building()
     a.t('',True)
     a.divider('日常事件')
+    a.mode()
     a.t('',True)
     daily_event()
     a.divider('大型事件')
@@ -53,6 +54,7 @@ def character_recover():
         if i['气力值']>i['最大气力值']:i['气力值'] = i['最大气力值']
         i['理智值'] += int(i['最大理智值'] * recover_rate[2])
         if i['理智值']>i['最大理智值']:i['理智值'] = i['最大理智值']
+        if i['体力值']<0: i['体力值'] = 0
         #液体流失
         drain_drugs(i)
         #体液回复

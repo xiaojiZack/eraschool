@@ -2,7 +2,7 @@ import erajs.api as a
 from erb.系统相关.调教相关.处女 import check_pure, pure_punish
 from erb.系统相关.调教相关.插入尺寸计算 import check_maintain_size, check_size, size_punish
 from erb.系统相关.调教相关.润滑 import is_enough_oiling, not_oil_warning, not_oiling_punish
-insertdist = {'P':"阴茎",'F':'手指'}
+insertdist = {'P':"阴茎",'F':'手指','VV':'震动棒'}
 beinsertdist = {'V':'阴道','A':'肛门','U':'尿道','M':'口'}
 oilneed = {'P':3,'F':1}
 def insert_check(ac,pa,insertproject,place,com_trait):
@@ -23,8 +23,8 @@ def insert_check(ac,pa,insertproject,place,com_trait):
         have_inserted = pa['身体信息'][beinsertdist[place]]['内容固体']
         size_flag = check_size(expand_size,size,have_inserted)
         if ac['名字'] in have_inserted:
-            if have_inserted[ac['名字']] == size:
-                size_flag = check_maintain_size(expand_size,have_inserted)
+            #if have_inserted[ac['名字']] == size:
+            size_flag = check_maintain_size(expand_size,have_inserted)
         if size_flag  == False:
             com_trait.append('尺寸过大')
             com_trait.append('疼痛')
@@ -38,6 +38,12 @@ def insert_check(ac,pa,insertproject,place,com_trait):
                 if(pure_flag or a.tmp()['调教数据']['破处警告标志']==False):
                     #返回判断结果
                     return {'size_flag':size_flag,'oil_require':oil_require,'pure_flag':pure_flag}
+                else: #破处取消操作
+                    return False
+            else: #润滑取消操作
+                return False
+        else: #尺寸取消操作
+            return False
     return False
 
 def insert(ac,pa,insertproject,place,check_result):
